@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import * as THREE from 'three';
 
 @Component({
@@ -7,44 +7,72 @@ import * as THREE from 'three';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
+title = 'Martynas App';
 
-  camera: THREE.PerspectiveCamera;
-  scene: THREE.Scene;
-  renderer: THREE.WebGLRenderer;
-  geometry: THREE.BoxGeometry;
-  material: THREE.MeshNormalMaterial;
-  mesh: THREE.Mesh;
+  // create the scene
+let scene = new THREE.Scene();
 
-  ngOnInit() {
+// create the camera
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
-    this.camera.position.z = 1;
+let renderer = new THREE.WebGLRenderer();
 
-    this.scene = new THREE.Scene();
+// set size
+renderer.setSize(window.innerWidth, window.innerHeight);
 
-    this.geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    this.material = new THREE.MeshNormalMaterial();
+// add canvas to dom
+document.body.appendChild(renderer.domElement);
 
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.scene.add(this.mesh);
+// add axis to the scene
+let axis = new THREE.AxisHelper(10);
 
-    this.renderer = new THREE.WebGLRenderer({antialias: true});
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(this.renderer.domElement);
-    this.animate();
-  }
+scene.add(axis);
 
-  animate() {
+// add lights
+let light = new THREE.DirectionalLight(0xffffff, 1.0);
 
-    requestAnimationFrame(this.animate);
+light.position.set(100, 100, 100);
 
-    this.mesh.rotation.x += 0.01;
-    this.mesh.rotation.y += 0.02;
+scene.add(light);
 
-    this.renderer.render(this.scene, this.camera);
+let light2 = new THREE.DirectionalLight(0xffffff, 1.0);
 
-  }
+light2.position.set(-100, 100, -100);
+
+scene.add(light2);
+
+let material = new THREE.MeshBasicMaterial({
+  color: 0xaaaaaa,
+  wireframe: true
+});
+
+// create a box and add it to the scene
+let box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
+
+scene.add(box);
+
+box.position.x = 0.5;
+box.rotation.y = 0.5;
+
+camera.position.x = 5;
+camera.position.y = 5;
+camera.position.z = 5;
+
+camera.lookAt(scene.position);
+
+function animate(): void {
+  requestAnimationFrame(animate);
+  render();
+}
+
+function render(): void {
+  let timer = 0.002 * Date.now();
+  box.position.y = 0.5 + 0.5 * Math.sin(timer);
+  box.rotation.x += 0.1;
+  renderer.render(scene, camera);
+}
+
+animate();
 
 
 }
