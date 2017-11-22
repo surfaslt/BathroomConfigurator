@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as THREE from 'three';
 
 @Component({
@@ -7,72 +7,88 @@ import * as THREE from 'three';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-title = 'Martynas App';
+  title = 'Martynas App';
+  box: any;
+  scene: any;
+  camera: any;
+  renderer: any;
 
-  // create the scene
-let scene = new THREE.Scene();
+  ngOnInit() {
+    // create the scene
+    let scene: THREE.Scene = new THREE.Scene();
+    debugger;
+    this.scene = scene;
 
-// create the camera
-let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // create the camera
+    let camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-let renderer = new THREE.WebGLRenderer();
+    this.camera = camera;
 
-// set size
-renderer.setSize(window.innerWidth, window.innerHeight);
+    let renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer();
 
-// add canvas to dom
-document.body.appendChild(renderer.domElement);
+    this.renderer = renderer;
 
-// add axis to the scene
-let axis = new THREE.AxisHelper(10);
+    // set size
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-scene.add(axis);
+    // add canvas to dom
+    document.body.appendChild(renderer.domElement);
 
-// add lights
-let light = new THREE.DirectionalLight(0xffffff, 1.0);
+    // add axis to the scene
+    let axis = new THREE.AxisHelper(10);
 
-light.position.set(100, 100, 100);
+    scene.add(axis);
 
-scene.add(light);
+    // add lights
+    let light = new THREE.DirectionalLight(0xffffff, 1.0);
 
-let light2 = new THREE.DirectionalLight(0xffffff, 1.0);
+    light.position.set(100, 100, 100);
 
-light2.position.set(-100, 100, -100);
+    scene.add(light);
 
-scene.add(light2);
+    let light2 = new THREE.DirectionalLight(0xffffff, 1.0);
 
-let material = new THREE.MeshBasicMaterial({
-  color: 0xaaaaaa,
-  wireframe: true
-});
+    light2.position.set(-100, 100, -100);
 
-// create a box and add it to the scene
-let box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
+    scene.add(light2);
 
-scene.add(box);
+    let material = new THREE.MeshBasicMaterial({
+      color: 0xaaaaaa,
+      wireframe: true
+    });
 
-box.position.x = 0.5;
-box.rotation.y = 0.5;
+    // create a box and add it to the scene
+    let box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
 
-camera.position.x = 5;
-camera.position.y = 5;
-camera.position.z = 5;
+    this.box = box;
 
-camera.lookAt(scene.position);
+    scene.add(box);
 
-function animate(): void {
-  requestAnimationFrame(animate);
-  render();
-}
+    box.position.x = 0.5;
+    box.rotation.y = 0.5;
 
-function render(): void {
-  let timer = 0.002 * Date.now();
-  box.position.y = 0.5 + 0.5 * Math.sin(timer);
-  box.rotation.x += 0.1;
-  renderer.render(scene, camera);
-}
+    camera.position.x = 5;
+    camera.position.y = 5;
+    camera.position.z = 5;
 
-animate();
+    camera.lookAt(scene.position);
+
+    this.animate();
+  }
+
+  animate(): void {
+    debugger;
+    requestAnimationFrame(animate);
+    this.render();
+  }
+
+  render(): void {
+    debugger;
+    let timer = 0.002 * Date.now();
+    this.box.position.y = 0.5 + 0.5 * Math.sin(timer);
+    this.box.rotation.x += 0.1;
+    this.renderer.render(this.scene, this.camera);
+  }
 
 
 }
