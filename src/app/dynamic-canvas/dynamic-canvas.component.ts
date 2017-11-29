@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import * as THREE from 'three';
 
 @Component({
-  selector: 'app-dynamic3-d-component',
-  templateUrl: './dynamic3-d-component.component.html',
-  styleUrls: ['./dynamic3-d-component.component.css']
+  selector: 'app-dynamic-canvas',
+  templateUrl: './dynamic-canvas.component.html',
+  styleUrls: ['./dynamic-canvas.component.css']
 })
-export class Dynamic3DComponentComponent implements OnInit {
+export class DynamicCanvasComponent implements OnInit {
+
 
   box: any;
   scene: any;
@@ -92,4 +93,5 @@ export class Dynamic3DComponentComponent implements OnInit {
     this.box.rotation.x += 0.05;
     this.renderer.render(this.scene, this.camera);
   }
+
 }

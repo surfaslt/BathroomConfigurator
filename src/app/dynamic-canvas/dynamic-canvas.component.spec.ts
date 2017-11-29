@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Dynamic3DComponentComponent } from './dynamic3-d-component.component';
+import { DynamicCanvasComponent } from './dynamic-canvas.component';
 
-describe('Dynamic3DComponentComponent', () => {
-  let component: Dynamic3DComponentComponent;
-  let fixture: ComponentFixture<Dynamic3DComponentComponent>;
+describe('DynamicCanvasComponent', () => {
+  let component: DynamicCanvasComponent;
+  let fixture: ComponentFixture<DynamicCanvasComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ Dynamic3DComponentComponent ]
+      declarations: [ DynamicCanvasComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(Dynamic3DComponentComponent);
+    fixture = TestBed.createComponent(DynamicCanvasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

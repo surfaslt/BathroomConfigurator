@@ -3,13 +3,13 @@ import {NgModule} from '@angular/core';
 import { AlertModule } from 'ngx-bootstrap';
 
 import {AppComponent} from './app.component';
-import { Dynamic3DComponentComponent } from './dynamic3-d-component/dynamic3-d-component.component';
+import { DynamicCanvasComponent } from './dynamic-canvas/dynamic-canvas.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    Dynamic3DComponentComponent
+    DynamicCanvasComponent
   ],
   imports: [
     BrowserModule,
