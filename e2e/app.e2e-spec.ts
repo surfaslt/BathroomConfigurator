@@ -1,4 +1,4 @@
-import { AppPage } from './app.po';
+import {AppPage} from './app.po';
 
 describe('test160-b2890551 App', () => {
   let page: AppPage;
