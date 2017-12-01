@@ -57,7 +57,7 @@ export class DynamicCanvasComponent implements OnInit {
     let material = new THREE.MeshBasicMaterial({
       //color: 0xaaaaaa,
       color: 0xffffff,
-      wireframe: false
+      wireframe: true
     });
 
     // create a box and add it to the scene
@@ -75,7 +75,6 @@ export class DynamicCanvasComponent implements OnInit {
     camera.position.z = 5;
 
     camera.lookAt(scene.position);
-
     this.animate();
   }
 

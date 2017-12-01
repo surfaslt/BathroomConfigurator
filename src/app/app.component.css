@@ -4,3 +4,8 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+div.container {
+  width: 100%;
+  max-width: 100%;
+}
