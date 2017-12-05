@@ -7,12 +7,6 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AppComponent implements OnInit {
   title = 'Martynas App';
-  boxToggled = false;
-  optionTwoToggled = false;
-
-  valueFunction = function(box) {
-    console.log(box);
-  }
 
   constructor() {
 

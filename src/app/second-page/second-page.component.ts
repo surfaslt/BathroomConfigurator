@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SelectionsMadeService } from './../selections-made.service';
 
 @Component({
   selector: 'app-second-page',
@@ -7,18 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SecondPageComponent implements OnInit {
 
-  obj = {
-    id: 1,
-    name: "Umair"
-  }
-
-  arr = [0, 1, 2, 3, 'blah', 'meh', 6];
-
-  showMessage = false;
-
-  constructor() { }
+  constructor(private selectionsMadeService: SelectionsMadeService) { }
 
   ngOnInit() {
+    console.log(this.selectionsMadeService);
   }
 
 }

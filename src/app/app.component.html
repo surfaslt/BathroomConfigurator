@@ -15,25 +15,13 @@
   <a routerLink="/secondPage">SecondPage</a>
   <a routerLink="/thirdPage">ThirdPage</a>
 
-  <router-outlet></router-outlet>
-
   <div class="row">
     <div class="col- col-sm col-md">
-      <h2>Options: </h2>
-      <div class="form-check">
-        <label class="form-check-label">
-          <input [(ngModel)] = "boxToggled" class="form-check-input" type="checkbox" (click) = "valueFunction()">
-          Toggle the box
-        </label>
-      </div>
-      <div class="form-check">
-        <label class="form-check-label">
-          <input class="form-check-input" type="checkbox" value="">
-          Option two is disabled
-        </label>
-      </div>
+      <router-outlet></router-outlet>
     </div>
-    <app-dynamic-canvas></app-dynamic-canvas>
+    <div class="col- col-sm col-md">
+      <app-dynamic-canvas></app-dynamic-canvas>
+    </div>
   </div>
 
   <!--<div class="row">

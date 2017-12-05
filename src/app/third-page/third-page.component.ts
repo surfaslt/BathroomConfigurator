@@ -7,6 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThirdPageComponent implements OnInit {
 
+  obj = {
+    id: 1,
+    name: "Umair"
+  }
+
+  arr = [0, 1, 2, 3, 'blah', 'meh', 6];
+
+  showMessage = false;
+
   constructor() { }
 
   ngOnInit() {
