@@ -21,7 +21,8 @@ export class DynamicCanvasComponent implements OnInit {
     this.scene = scene;
 
     // create the camera
-    let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // first attribute zooms in/zooms out the view
+    let camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 1000);
 
     this.camera = camera;
 
@@ -59,6 +60,59 @@ export class DynamicCanvasComponent implements OnInit {
       color: 0xffffff,
       wireframe: true
     });
+
+    //===========================================================================
+    //create a blue LineBasicMaterial
+    let lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
+
+    // create a 2 - line geometry
+    let lineGeometry = new THREE.Geometry();
+    lineGeometry.vertices.push(new THREE.Vector3(-5, 0, 0));
+    lineGeometry.vertices.push(new THREE.Vector3(0, 5, 0));
+    lineGeometry.vertices.push(new THREE.Vector3(5, 0, 0));
+
+    let line = new THREE.Line(lineGeometry, lineMaterial);
+
+    scene.add(line);
+
+    // TODO: figure out why text is not getting added to the scene
+
+    /*
+    // Create text
+    let textGeometry;
+
+    var loader = new THREE.FontLoader();
+
+    loader.load( 'assets/fonts/helvetiker_regular.typeface.json', function ( font ) {
+
+      textGeometry = new THREE.TextGeometry( 'Hello three.js!', {
+        font: font,
+        size: 80,
+        height: 5,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 10,
+        bevelSize: 8,
+        bevelSegments: 5
+      } );
+
+      textGeometry.computeBoundingBox();
+      textGeometry.computeVertexNormals();
+
+      // Create text material
+      let textMaterial = new THREE.MeshPhongMaterial( { color: 0x0000ff, flatShading: true } );
+
+      let text = new THREE.Mesh( textGeometry, textMaterial );
+
+      text.position.x = 0;
+      text.position.y = 5;
+      text.position.z = 0;
+
+      scene.add(text);
+
+    } );
+    */
+    //===========================================================================
 
     // create a box and add it to the scene
     let box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);

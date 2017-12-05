@@ -1,3 +1,9 @@
 <p>
   second-page works!
 </p>
+{{obj.name}}
+<li *ngFor="let i of arr">{{i}}</li>
+<p *ngIf="showMessage; then firstTemp else secondTemp">Boolean value is set to true!</p>
+<ng-template #firstTemp>showMessage is set to true</ng-template>
+<ng-template #secondTemp>showMessage is set to false</ng-template>
+<p *ngIf="obj.name == 'Umair'">The name of tutorial guy is Umair!</p>

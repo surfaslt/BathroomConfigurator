@@ -11,12 +11,18 @@
     </div>
   </div>
 
+  <a routerLink="/firstPage">FirstPage</a>
+  <a routerLink="/secondPage">SecondPage</a>
+  <a routerLink="/thirdPage">ThirdPage</a>
+
+  <router-outlet></router-outlet>
+
   <div class="row">
     <div class="col- col-sm col-md">
       <h2>Options: </h2>
       <div class="form-check">
         <label class="form-check-label">
-          <input class="form-check-input" type="checkbox" value="" >
+          <input [(ngModel)] = "boxToggled" class="form-check-input" type="checkbox" (click) = "valueFunction()">
           Toggle the box
         </label>
       </div>

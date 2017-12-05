@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import * as THREE from 'three';
-import {asElementData} from "@angular/core/src/view";
 
 @Component({
   selector: 'app-root',
@@ -9,6 +7,12 @@ import {asElementData} from "@angular/core/src/view";
 })
 export class AppComponent implements OnInit {
   title = 'Martynas App';
+  boxToggled = false;
+  optionTwoToggled = false;
+
+  valueFunction = function(box) {
+    console.log(box);
+  }
 
   constructor() {
 

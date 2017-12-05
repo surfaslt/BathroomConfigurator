@@ -1,6 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import { AlertModule } from 'ngx-bootstrap';
+import { RouterModule } from '@angular/router'
+import { FormsModule } from "@angular/forms";
+import { ReactiveFormsModule} from "@angular/forms";
 
 import {AppComponent} from './app.component';
 import { DynamicCanvasComponent } from './dynamic-canvas/dynamic-canvas.component';
@@ -19,7 +22,23 @@ import { ThirdPageComponent } from './third-page/third-page.component';
   ],
   imports: [
     BrowserModule,
-    AlertModule.forRoot()
+    FormsModule,
+    ReactiveFormsModule,
+    AlertModule.forRoot(),
+    RouterModule.forRoot([
+      {
+        path: 'firstPage',
+        component: FirstPageComponent
+      },
+      {
+        path: 'secondPage',
+        component: SecondPageComponent
+      },
+      {
+        path: 'thirdPage',
+        component: ThirdPageComponent
+      }
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
