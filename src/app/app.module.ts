@@ -8,18 +8,26 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { AppComponent } from './app.component';
 import { SelectionsMadeService } from "./selections-made.service";
 import { DynamicCanvasComponent } from './dynamic-canvas/dynamic-canvas.component';
-import { FirstPageComponent } from './first-page/first-page.component';
-import { SecondPageComponent } from './second-page/second-page.component';
-import { ThirdPageComponent } from './third-page/third-page.component';
+import { FirstQuestionPageComponent } from './question/first-question-page/first-question-page.component';
+import { SecondQuestionPageComponent } from './question/second-question-page/second-question-page.component';
+import { ThirdQuestionPageComponent } from './question/third-question-page/third-question-page.component';
+import { SplashPageComponent } from './splash-page/splash-page.component';
+import { QuestionComponent } from './question/question.component';
+import { ParametersPageComponent } from './question/parameters-page/parameters-page.component';
+import { SummaryPageComponent } from './summary-page/summary-page.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    SplashPageComponent,
     DynamicCanvasComponent,
-    FirstPageComponent,
-    SecondPageComponent,
-    ThirdPageComponent
+    QuestionComponent,
+    ParametersPageComponent,
+    FirstQuestionPageComponent,
+    SecondQuestionPageComponent,
+    ThirdQuestionPageComponent,
+    SummaryPageComponent
   ],
   imports: [
     BrowserModule,
@@ -28,16 +36,32 @@ import { ThirdPageComponent } from './third-page/third-page.component';
     AlertModule.forRoot(),
     RouterModule.forRoot([
       {
+        path: '',
+        component: SplashPageComponent
+      },
+      {
+        path: 'splashPage',
+        component: SplashPageComponent
+      },
+      {
+        path: 'parametersPage',
+        component: ParametersPageComponent
+      },
+      {
         path: 'firstPage',
-        component: FirstPageComponent
+        component: FirstQuestionPageComponent
       },
       {
         path: 'secondPage',
-        component: SecondPageComponent
+        component: SecondQuestionPageComponent
       },
       {
         path: 'thirdPage',
-        component: ThirdPageComponent
+        component: ThirdQuestionPageComponent
+      },
+      {
+        path: 'summaryPage',
+        component: SummaryPageComponent
       }
     ])
   ],

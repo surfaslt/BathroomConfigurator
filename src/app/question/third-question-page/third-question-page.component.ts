@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-third-page',
-  templateUrl: './third-page.component.html',
-  styleUrls: ['./third-page.component.css']
+  templateUrl: './third-question-page.component.html',
+  styleUrls: ['./third-question-page.component.css']
 })
-export class ThirdPageComponent implements OnInit {
+export class ThirdQuestionPageComponent implements OnInit {
 
   obj = {
     id: 1,
