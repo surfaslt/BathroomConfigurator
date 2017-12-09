@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, OnChanges} from '@angular/core';
 import * as THREE from 'three';
-import { SelectionsMadeService } from './../selections-made.service';
 
 @Component({
   selector: 'app-dynamic-canvas',
@@ -9,57 +8,17 @@ import { SelectionsMadeService } from './../selections-made.service';
 })
 export class DynamicCanvasComponent implements OnInit {
 
+  @Input() selectionsMade: any;
 
   private box: any;
   private scene: any;
   private camera: any;
   private renderer: any;
 
-  private selectionsMade: any;
+  constructor() {}
 
-  private subscriptions: any[];
-
-  constructor(private selectionsMadeService: SelectionsMadeService) {
-    this.selectionsMade = selectionsMadeService.getData();
-
-    /*
-    this.subscriptions.push(
-      selectionsMadeService.hasToiletChange.subscribe((value) => {
-        this.selectionsMade.hasToilet = value;
-        if(value == true && scene.remove)
-      })
-    );
-
-    this.subscriptions.push(
-      selectionsMadeService.hasBathChange.subscribe((value) => {
-        this.selectionsMade.hasToilet = value;
-      })
-    );
-
-    this.subscriptions.push(
-      selectionsMadeService.hasShowerChange.subscribe((value) => {
-        this.selectionsMade.hasToilet = value;
-      })
-    );
-
-    this.subscriptions.push(
-      selectionsMadeService.toiletTypeChange.subscribe((value) => {
-        this.selectionsMade.hasToilet = value;
-      })
-    );
-
-    this.subscriptions.push(
-      selectionsMadeService.bathTypeChange.subscribe((value) => {
-        this.selectionsMade.hasToilet = value;
-      })
-    );
-
-    this.subscriptions.push(
-      selectionsMadeService.showerTypeChange.subscribe((value) => {
-        this.selectionsMade.hasToilet = value;
-      })
-    );
-  */
+  ngOnChanges() {
+    console.log("Changed!");
   }
 
   ngOnInit() {

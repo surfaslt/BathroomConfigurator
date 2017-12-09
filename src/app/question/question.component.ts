@@ -10,7 +10,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   currentQuestionNo: number = 1;
   totalQuestionNo: number = 3;
-  selectionsService: any;
 
   nextQuestion(){
     this.currentQuestionNo++;
@@ -20,15 +19,14 @@ export class QuestionComponent implements OnInit, OnDestroy {
     this.currentQuestionNo--;
   }
 
-  constructor(selectionsMadeService: SelectionsMadeService) {
-    this.selectionsService = selectionsMadeService;
+  constructor(private selectionsMadeService: SelectionsMadeService) {
     this.currentQuestionNo = selectionsMadeService.getCurrentQuestionNo();
   }
 
   ngOnInit(){ }
 
   ngOnDestroy(): void {
-    this.selectionsService.setCurrentQuestionNumber(this.currentQuestionNo);
+    this.selectionsMadeService.setCurrentQuestionNumber(this.currentQuestionNo);
   }
 
 }
