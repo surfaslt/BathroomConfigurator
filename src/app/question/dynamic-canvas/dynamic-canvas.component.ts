@@ -22,30 +22,38 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
   ngOnChanges() {
-    let changeName = this.changeMade.indexOf('1') == -1 ? this.changeMade : this.changeMade.slice(0, -1);
+    if(this.scene !== undefined) {
 
-    switch (changeName) {
-      case 'hasToilet':
-        console.log('hasToilet: ' + this.selectionsMadeService.getHasToilet());
-        if( this.selectionsMadeService.getHasToilet() ){
-          this.scene.add(this.toilet);
-        } else {
-          this.scene.remove(this.toilet);
-        }
-        break;
-      case 'hasShower':
-        console.log('hasShower: ' + this.selectionsMadeService.getHasShower());
-        if( this.selectionsMadeService.getHasShower() ){
-          this.scene.add(this.shower);
-        } else {
-          this.scene.remove(this.shower);
-        }
-        break;
-      default:
-        console.log('unrecognised change happened');
-        break;
+      let changeName = this.changeMade.indexOf('1') == -1 ? this.changeMade : this.changeMade.slice(0, -1);
+
+      switch (changeName) {
+        case 'hasToilet':
+          console.log('hasToilet: ' + this.selectionsMadeService.getHasToilet());
+          if( this.selectionsMadeService.getHasToilet() ){
+            this.scene.add(this.toilet);
+          } else {
+            this.scene.remove(this.toilet);
+          }
+          break;
+        case 'hasShower':
+          console.log('hasShower: ' + this.selectionsMadeService.getHasShower());
+          if( this.selectionsMadeService.getHasShower() ){
+            this.scene.add(this.shower);
+          } else {
+            this.scene.remove(this.shower);
+          }
+          break;
+        default:
+          console.log('unrecognised change happened');
+          if (this.selectionsMadeService.getHasToilet()) {
+            this.scene.add(this.toilet);
+          } else this.scene.remove(this.toilet);
+          if (this.selectionsMadeService.getHasShower()) {
+            this.scene.add(this.shower);
+          } else this.scene.remove(this.shower);
+          break;
+      }
     }
-
   }
 
   ngOnInit() {
@@ -180,6 +188,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.camera.position.z = 5;
 
     this.camera.lookAt(scene.position);
+
+    this.ngOnChanges();
     this.animate();
   }
 
