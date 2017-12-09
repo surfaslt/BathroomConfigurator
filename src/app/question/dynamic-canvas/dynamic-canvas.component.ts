@@ -17,6 +17,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private scene: any;
   private camera: any;
   private renderer: any;
+  private controls: any;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
@@ -55,19 +56,25 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     // create the camera
     // first attribute zooms in/zooms out the view
-    let camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    this.camera = camera;
+    /* TODO fix looking around with camera
+    // camera
+    this.camera.position.set( 0, 0, 0.01 ); // OrbitControls target is the origin
 
-    let renderer = new THREE.WebGLRenderer();
+    // controls
+    this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
+    this.controls.enableZoom = false;
+    this.controls.enablePan = false;
+    */
 
-    this.renderer = renderer;
+    this.renderer = new THREE.WebGLRenderer();
 
     // set size
-    renderer.setSize(window.innerWidth/2, window.innerHeight/2);
+    this.renderer.setSize(window.innerWidth/2, window.innerHeight/2);
 
     // add canvas to dom
-    document.getElementById('canvasContainer').appendChild(renderer.domElement);
+    document.getElementById('canvasContainer').appendChild(this.renderer.domElement);
     //document.getElementsByClassName('canvasContainer')[0].appendChild(renderer.domElement);
 
     // add axis to the scene
@@ -148,8 +155,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     this.toilet = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
 
-    this.toilet.position.x = -1;
-    this.toilet.position.y = -1;
+    this.toilet.position.x = 0;
+    this.toilet.position.y = 0;
     this.toilet.position.z = 5;
 
     this.shower = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
@@ -168,11 +175,11 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.box.position.x = 0.5;
     this.box.rotation.y = 0.5;
 
-    camera.position.x = 5;
-    camera.position.y = 5;
-    camera.position.z = 5;
+    this.camera.position.x = 5;
+    this.camera.position.y = 5;
+    this.camera.position.z = 5;
 
-    camera.lookAt(scene.position);
+    this.camera.lookAt(scene.position);
     this.animate();
   }
 

@@ -1,13 +1,13 @@
 <h2>Choose from the first set of options: </h2>
 <div class="form-check">
   <label class="form-check-label">
-    <input value="selectionsMadeService.getHasToilet()" (click)="changeHasToilet($event.target.checked)" class="form-check-input" type="checkbox">
+    <input [checked]="selectionsMadeService.getHasToilet()" (click)="changeHasToilet($event.target.checked)" class="form-check-input" type="checkbox">
     Toilet
   </label>
 </div>
 <div class="form-check">
   <label class="form-check-label">
-    <input value="selectionsMadeService.getHasToilet()" (click)="changeHasShower($event.target.checked)" class="form-check-input" type="checkbox">
+    <input [checked]="selectionsMadeService.getHasShower()" (click)="changeHasShower($event.target.checked)" class="form-check-input" type="checkbox">
     Shower
   </label>
 </div>
