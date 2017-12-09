@@ -13,6 +13,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   private box: any;
   private toilet: any;
+  private shower: any;
   private scene: any;
   private camera: any;
   private renderer: any;
@@ -25,9 +26,19 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     switch (changeName) {
       case 'hasToilet':
         console.log('hasToilet: ' + this.selectionsMadeService.getHasToilet());
+        if( this.selectionsMadeService.getHasToilet() ){
+          this.scene.add(this.toilet);
+        } else {
+          this.scene.remove(this.toilet);
+        }
         break;
       case 'hasShower':
         console.log('hasShower: ' + this.selectionsMadeService.getHasShower());
+        if( this.selectionsMadeService.getHasShower() ){
+          this.scene.add(this.shower);
+        } else {
+          this.scene.remove(this.shower);
+        }
         break;
       default:
         console.log('unrecognised change happened');
@@ -137,11 +148,15 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     this.toilet = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
 
-    scene.add(this.toilet);
-
     this.toilet.position.x = -1;
     this.toilet.position.y = -1;
     this.toilet.position.z = 5;
+
+    this.shower = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
+
+    this.shower.position.x = 3;
+    this.shower.position.y = 0;
+    this.shower.position.z = 0;
 
     //===========================================================================
 
