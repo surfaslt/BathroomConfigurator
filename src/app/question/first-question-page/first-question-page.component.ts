@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { SelectionsMadeService } from "../../selections-made.service";
 
 @Component({
   selector: 'app-first-question-page',
@@ -7,11 +8,21 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class FirstQuestionPageComponent implements OnInit {
 
-  @Output() onVoted = new EventEmitter<boolean>();
+  @Output() onSelectionChanged = new EventEmitter<string>();
 
-  constructor() { }
+  constructor(private selectionsMadeService: SelectionsMadeService) { }
 
   ngOnInit() {
+  }
+
+  changeHasToilet(toiletStatus: boolean):void {
+    this.selectionsMadeService.setHasToilet(toiletStatus);
+    this.onSelectionChanged.emit('hasToilet');
+  }
+
+  changeHasShower(showerStatus: boolean):void {
+    this.selectionsMadeService.setHasShower(showerStatus);
+    this.onSelectionChanged.emit('hasShower');
   }
 
 }

@@ -32,7 +32,6 @@ export class SelectionsMadeService {
   }
 
   setHasToilet( has: boolean ):void {
-    debugger;
     this.data.hasToilet = has;
     this.hasToiletChange.next(this.data.hasToilet);
   }

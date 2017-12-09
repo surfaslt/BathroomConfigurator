@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 
 import { AppComponent } from './app.component';
 import { SelectionsMadeService } from "./selections-made.service";
-import { DynamicCanvasComponent } from './dynamic-canvas/dynamic-canvas.component';
+import { DynamicCanvasComponent } from './question/dynamic-canvas/dynamic-canvas.component';
 import { FirstQuestionPageComponent } from './question/first-question-page/first-question-page.component';
 import { SecondQuestionPageComponent } from './question/second-question-page/second-question-page.component';
 import { ThirdQuestionPageComponent } from './question/third-question-page/third-question-page.component';

@@ -1,24 +1,39 @@
 import {Component, Input, OnInit, OnChanges} from '@angular/core';
 import * as THREE from 'three';
+import { SelectionsMadeService } from "../../selections-made.service";
 
 @Component({
   selector: 'app-dynamic-canvas',
   templateUrl: './dynamic-canvas.component.html',
   styleUrls: ['./dynamic-canvas.component.css']
 })
-export class DynamicCanvasComponent implements OnInit {
+export class DynamicCanvasComponent implements OnInit, OnChanges {
 
-  @Input() selectionsMade: any;
+  @Input() changeMade: string;
 
   private box: any;
+  private toilet: any;
   private scene: any;
   private camera: any;
   private renderer: any;
 
-  constructor() {}
+  constructor(private selectionsMadeService: SelectionsMadeService) {}
 
   ngOnChanges() {
-    console.log("Changed!");
+    let changeName = this.changeMade.indexOf('1') == -1 ? this.changeMade : this.changeMade.slice(0, -1);
+
+    switch (changeName) {
+      case 'hasToilet':
+        console.log('hasToilet: ' + this.selectionsMadeService.getHasToilet());
+        break;
+      case 'hasShower':
+        console.log('hasShower: ' + this.selectionsMadeService.getHasShower());
+        break;
+      default:
+        console.log('unrecognised change happened');
+        break;
+    }
+
   }
 
   ngOnInit() {
@@ -119,17 +134,24 @@ export class DynamicCanvasComponent implements OnInit {
 
     } );
     */
+
+    this.toilet = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
+
+    scene.add(this.toilet);
+
+    this.toilet.position.x = -1;
+    this.toilet.position.y = -1;
+    this.toilet.position.z = 5;
+
     //===========================================================================
 
     // create a box and add it to the scene
-    let box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
+    this.box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
 
-    this.box = box;
+    scene.add(this.box);
 
-    scene.add(box);
-
-    box.position.x = 0.5;
-    box.rotation.y = 0.5;
+    this.box.position.x = 0.5;
+    this.box.rotation.y = 0.5;
 
     camera.position.x = 5;
     camera.position.y = 5;
