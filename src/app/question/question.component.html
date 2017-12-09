@@ -5,7 +5,7 @@
     <app-third-question-page *ngIf="currentQuestionNo == 3">Loading...</app-third-question-page>
   </div>
   <div class="col- col-sm col-md">
-    <app-dynamic-canvas [selectionsMade]="selectionsService.getData()" ></app-dynamic-canvas>
+    <app-dynamic-canvas [selectionsMade]="selectionsMadeService.getData()" ></app-dynamic-canvas>
   </div>
 </div>
 

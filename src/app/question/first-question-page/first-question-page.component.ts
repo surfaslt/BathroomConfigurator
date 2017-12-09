@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-first-question-page',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./first-question-page.component.css']
 })
 export class FirstQuestionPageComponent implements OnInit {
+
+  @Output() onVoted = new EventEmitter<boolean>();
 
   constructor() { }
 
