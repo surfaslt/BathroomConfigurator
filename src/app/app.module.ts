@@ -13,8 +13,9 @@ import { SecondQuestionPageComponent } from './question/second-question-page/sec
 import { ThirdQuestionPageComponent } from './question/third-question-page/third-question-page.component';
 import { SplashPageComponent } from './splash-page/splash-page.component';
 import { QuestionComponent } from './question/question.component';
-import { ParametersPageComponent } from './question/parameters-page/parameters-page.component';
+import { ParametersPageComponent } from './parameters-page/parameters-page.component';
 import { SummaryPageComponent } from './summary-page/summary-page.component';
+import { NavigationComponent } from './navigation/navigation.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { SummaryPageComponent } from './summary-page/summary-page.component';
     FirstQuestionPageComponent,
     SecondQuestionPageComponent,
     ThirdQuestionPageComponent,
-    SummaryPageComponent
+    SummaryPageComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
@@ -48,16 +50,8 @@ import { SummaryPageComponent } from './summary-page/summary-page.component';
         component: ParametersPageComponent
       },
       {
-        path: 'firstPage',
-        component: FirstQuestionPageComponent
-      },
-      {
-        path: 'secondPage',
-        component: SecondQuestionPageComponent
-      },
-      {
-        path: 'thirdPage',
-        component: ThirdQuestionPageComponent
+        path: 'questionPage',
+        component: QuestionComponent
       },
       {
         path: 'summaryPage',

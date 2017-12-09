@@ -1,3 +1,36 @@
-<p>
-  question works!
-</p>
+<div class="row">
+  <div class="col- col-sm col-md">
+    <app-first-question-page *ngIf="currentQuestionNo == 1">Loading...</app-first-question-page>
+    <app-second-question-page *ngIf="currentQuestionNo == 2">Loading...</app-second-question-page>
+    <app-third-question-page *ngIf="currentQuestionNo == 3">Loading...</app-third-question-page>
+  </div>
+  <div class="col- col-sm col-md">
+    <app-dynamic-canvas></app-dynamic-canvas>
+  </div>
+</div>
+
+<!-- custom navigation required-->
+<div class="row" *ngIf="currentQuestionNo == 1">
+  <div class="col-6">
+    <a class="float-left" routerLink="/parametersPage">Previous Page</a>
+  </div>
+  <div class="col-6">
+    <p class="float-right clickable" (click)="nextQuestion()">Next Page</p>
+  </div>
+</div>
+<div class="row" *ngIf="currentQuestionNo > 1 && currentQuestionNo < totalQuestionNo">
+  <div class="col-6">
+    <p class="float-left clickable" (click)="previousQuestion()">Previous Page</p>
+  </div>
+  <div class="col-6">
+    <p class="float-right clickable" (click)="nextQuestion()">Next Page</p>
+  </div>
+</div>
+<div class="row" *ngIf="currentQuestionNo == totalQuestionNo">
+  <div class="col-6">
+    <p class="float-left clickable" (click)="previousQuestion()">Previous Page</p>
+  </div>
+  <div class="col-6">
+    <a class="float-right" routerLink="/summaryPage">Next Page</a>
+  </div>
+</div>

@@ -2,3 +2,21 @@
 app-root {
   width: 100%;
 }
+
+@media (min-width: 576px) { }
+
+@media (min-width: 768px) { }
+
+@media (min-width: 992px) { }
+
+@media (min-width: 1200px) { }
+
+.clickable{
+  cursor: pointer;
+  color: #007bff;;
+}
+
+.clickable:hover{
+  color: #0056b3;
+  text-decoration: underline;
+}

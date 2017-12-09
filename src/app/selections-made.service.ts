@@ -4,6 +4,7 @@ import {Subject} from "rxjs/Subject";
 @Injectable()
 export class SelectionsMadeService {
 
+  private currentQuestion: number = 1;
   private data = {
     hasToilet: false,
     hasBath: false,
@@ -22,39 +23,47 @@ export class SelectionsMadeService {
 
   constructor() { }
 
-  setData( data ) {
+  setCurrentQuestionNumber( questionNo:number ){
+    this.currentQuestion = questionNo;
+  }
+
+  setData( data ):void {
     this.data = data;
   }
 
-  setHasToilet( has: boolean ){
+  setHasToilet( has: boolean ):void {
     debugger;
     this.data.hasToilet = has;
     this.hasToiletChange.next(this.data.hasToilet);
   }
 
-  setHasBath( has: boolean ){
+  setHasBath( has: boolean ):void {
     this.data.hasBath = has;
     this.hasBathChange.next(this.data.hasBath);
   }
 
-  setHasShower( has: boolean ){
+  setHasShower( has: boolean ):void {
     this.data.hasShower = has;
     this.hasShowerChange.next(this.data.hasShower);
   }
 
-  setToiletType( type: string ){
+  setToiletType( type: string ):void {
     this.data.toiletType = type;
     this.toiletTypeChange.next(this.data.toiletType);
   }
 
-  setBathType( type: string ){
+  setBathType( type: string ):void {
     this.data.bathType = type;
     this.bathTypeChange.next(this.data.bathType);
   }
 
-  setShowerType( type: string ){
+  setShowerType( type: string ):void {
     this.data.showerType = type;
     this.showerTypeChange.next(this.data.showerType);
+  }
+
+  getCurrentQuestionNo():number {
+    return this.currentQuestion;
   }
 
   getData(): object{

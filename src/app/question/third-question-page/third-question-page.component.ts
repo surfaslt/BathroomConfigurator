@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-third-page',
+  selector: 'app-third-question-page',
   templateUrl: './third-question-page.component.html',
   styleUrls: ['./third-question-page.component.css']
 })
