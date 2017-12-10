@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SelectionsMadeService } from "../selections-made.service";
 
 @Component({
   selector: 'app-parameters-page',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ParametersPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private selectionsMadeService: SelectionsMadeService) {
+    selectionsMadeService.setProgress(2);
+  }
 
   ngOnInit() {
+  }
+
+  setRoomWidth(event):void {
+    this.selectionsMadeService.setRoomWidth(event.target.value);
+  }
+
+  setRoomHeight(event):void {
+    this.selectionsMadeService.setRoomHeight(event.target.value)
   }
 
 }

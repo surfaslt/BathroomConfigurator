@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SelectionsMadeService } from "../selections-made.service";
 
 @Component({
   selector: 'app-splash-page',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SplashPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private selectionsMadeService: SelectionsMadeService) {
+    selectionsMadeService.setProgress(1);
+  }
 
   ngOnInit() {
   }

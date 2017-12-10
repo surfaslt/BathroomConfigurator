@@ -5,7 +5,12 @@ import {Subject} from "rxjs/Subject";
 export class SelectionsMadeService {
 
   private currentQuestion: number = 1;
+  private progress: number = 25;
+  private numberOfPages: number = 6;
+
   private data = {
+    roomWidth: 2000,
+    roomHeight: 2000,
     hasToilet: false,
     hasBath: false,
     hasShower: false,
@@ -14,59 +19,70 @@ export class SelectionsMadeService {
     showerType: ''
   }
 
-  hasToiletChange: Subject<boolean> = new Subject<boolean>();
-  hasBathChange: Subject<boolean> = new Subject<boolean>();
-  hasShowerChange: Subject<boolean> = new Subject<boolean>();
-  toiletTypeChange: Subject<string> = new Subject<string>();
-  bathTypeChange: Subject<string> = new Subject<string>();
-  showerTypeChange: Subject<string> = new Subject<string>();
-
   constructor() { }
 
   setCurrentQuestionNumber( questionNo:number ){
     this.currentQuestion = questionNo;
   }
 
+  setProgress( pageNo:number ){
+    this.progress = pageNo / this.numberOfPages * 100;
+  }
+
   setData( data ):void {
     this.data = data;
   }
 
+  setRoomWidth(width: number):void {
+    this.data.roomWidth = width;
+  }
+
+  setRoomHeight(height: number):void {
+    this.data.roomHeight = height;
+  }
+
   setHasToilet( has: boolean ):void {
     this.data.hasToilet = has;
-    this.hasToiletChange.next(this.data.hasToilet);
   }
 
   setHasBath( has: boolean ):void {
     this.data.hasBath = has;
-    this.hasBathChange.next(this.data.hasBath);
   }
 
   setHasShower( has: boolean ):void {
     this.data.hasShower = has;
-    this.hasShowerChange.next(this.data.hasShower);
   }
 
   setToiletType( type: string ):void {
     this.data.toiletType = type;
-    this.toiletTypeChange.next(this.data.toiletType);
   }
 
   setBathType( type: string ):void {
     this.data.bathType = type;
-    this.bathTypeChange.next(this.data.bathType);
   }
 
   setShowerType( type: string ):void {
     this.data.showerType = type;
-    this.showerTypeChange.next(this.data.showerType);
   }
 
   getCurrentQuestionNo():number {
     return this.currentQuestion;
   }
 
+  getProgress(): number {
+    return Math.round(this.progress);
+  }
+
   getData(): object{
     return this.data;
+  }
+
+  getRoomWidth():number {
+    return this.data.roomWidth;
+  }
+
+  getRoomHeight():number {
+    return this.data.roomHeight;
   }
 
   getHasToilet(): boolean {

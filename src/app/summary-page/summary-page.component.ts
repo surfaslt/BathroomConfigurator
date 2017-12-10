@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {SelectionsMadeService} from "../selections-made.service";
 
 @Component({
   selector: 'app-summary-page',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SummaryPageComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  private data: object;
+  constructor(private selectionsMadeService: SelectionsMadeService) {
+    this.selectionsMadeService.setProgress(6);
+    this.data = this.selectionsMadeService.getData();
   }
+
+  ngOnInit() {  }
 
 }

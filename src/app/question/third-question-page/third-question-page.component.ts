@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SelectionsMadeService} from "../../selections-made.service";
 
 @Component({
   selector: 'app-third-question-page',
@@ -7,16 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThirdQuestionPageComponent implements OnInit {
 
-  obj = {
-    id: 1,
-    name: "Umair"
+  constructor(private selectionsMadeService: SelectionsMadeService) {
+    selectionsMadeService.setProgress(5);
   }
-
-  arr = [0, 1, 2, 3, 'blah', 'meh', 6];
-
-  showMessage = false;
-
-  constructor() { }
 
   ngOnInit() {
   }

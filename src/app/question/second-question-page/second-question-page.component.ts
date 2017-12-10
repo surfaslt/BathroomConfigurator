@@ -8,7 +8,9 @@ import { SelectionsMadeService } from '../../selections-made.service';
 })
 export class SecondQuestionPageComponent implements OnInit {
 
-  constructor(private selectionsMadeService: SelectionsMadeService) { }
+  constructor(private selectionsMadeService: SelectionsMadeService) {
+    selectionsMadeService.setProgress(4);
+  }
 
   ngOnInit() {
     console.log(this.selectionsMadeService);
