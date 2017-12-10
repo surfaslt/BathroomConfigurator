@@ -1,7 +1,6 @@
 <h1>Summary</h1>
 <p>Users choises:</p>
-<li>{{data}}</li>
-
+<li *ngFor="let item of generateArray(data)">{{item.key}}: {{item.value}}</li>
 
 
 <app-navigation previousPage="/questionPage">Loading...</app-navigation>

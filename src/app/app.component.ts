@@ -16,9 +16,7 @@ export class AppComponent implements OnInit, AfterViewChecked{
 
   }
 
-  ngAfterViewChecked()
-  {
-    this.cdRef.detectChanges();
-  }
+  // gets rid of "Expression changed after it was checked" error.
+  ngAfterViewChecked() {this.cdRef.detectChanges();}
 
 }

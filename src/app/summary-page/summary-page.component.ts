@@ -16,4 +16,9 @@ export class SummaryPageComponent implements OnInit {
 
   ngOnInit() {  }
 
+  // turns object into array
+  generateArray(obj){
+    return Object.keys(obj).map((key)=>{ return {key:key, value:obj[key]}});
+  }
+
 }

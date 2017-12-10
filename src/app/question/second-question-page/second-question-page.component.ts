@@ -12,8 +12,6 @@ export class SecondQuestionPageComponent implements OnInit {
     selectionsMadeService.setProgress(4);
   }
 
-  ngOnInit() {
-    console.log(this.selectionsMadeService);
-  }
+  ngOnInit() { }
 
 }
