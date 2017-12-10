@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { SelectionsMadeService } from './selections-made.service';
 
-describe('SelectionsMadeServiceService', () => {
+describe('SelectionsMadeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [SelectionsMadeService]
