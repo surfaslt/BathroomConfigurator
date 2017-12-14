@@ -21,11 +21,11 @@ export class SelectionsMadeService {
 
   constructor() { }
 
-  setCurrentQuestionNumber( questionNo:number ){
+  setCurrentQuestionNumber( questionNo:number ):void {
     this.currentQuestion = questionNo;
   }
 
-  setProgress( pageNo:number ){
+  setProgress( pageNo:number ):void {
     this.progress = pageNo / this.numberOfPages * 100;
   }
 

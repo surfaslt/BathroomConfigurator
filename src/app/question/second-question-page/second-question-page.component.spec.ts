@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SecondQuestionPageComponent } from './second-question-page.component';
 
+/*
 describe('SecondQuestionPageComponent', () => {
   let component: SecondQuestionPageComponent;
   let fixture: ComponentFixture<SecondQuestionPageComponent>;
@@ -23,3 +24,4 @@ describe('SecondQuestionPageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+*/
