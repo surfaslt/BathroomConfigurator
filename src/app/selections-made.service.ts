@@ -10,7 +10,7 @@ export class SelectionsMadeService {
 
   private data = {
     roomWidth: 2000,
-    roomHeight: 2000,
+    roomLength: 2000,
     hasToilet: false,
     hasBath: false,
     hasShower: false,
@@ -37,8 +37,8 @@ export class SelectionsMadeService {
     this.data.roomWidth = width;
   }
 
-  setRoomHeight(height: number):void {
-    this.data.roomHeight = height;
+  setRoomLength(length: number):void {
+    this.data.roomLength = length;
   }
 
   setHasToilet( has: boolean ):void {
@@ -81,8 +81,8 @@ export class SelectionsMadeService {
     return this.data.roomWidth;
   }
 
-  getRoomHeight():number {
-    return this.data.roomHeight;
+  getRoomLength():number {
+    return this.data.roomLength;
   }
 
   getHasToilet(): boolean {

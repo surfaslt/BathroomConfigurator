@@ -19,8 +19,8 @@ export class ParametersPageComponent implements OnInit {
     this.selectionsMadeService.setRoomWidth(event.target.value);
   }
 
-  setRoomHeight(event):void {
-    this.selectionsMadeService.setRoomHeight(event.target.value)
+  setRoomLength(event):void {
+    this.selectionsMadeService.setRoomLength(event.target.value)
   }
 
 }
