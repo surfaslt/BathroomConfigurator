@@ -66,8 +66,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     // first attribute zooms in/zooms out the view
     this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    /* TODO fix looking around with camera
-    // camera
+    /* TODO fix looking around with camera (might not be needed at all)
     this.camera.position.set( 0, 0, 0.01 ); // OrbitControls target is the origin
 
     // controls

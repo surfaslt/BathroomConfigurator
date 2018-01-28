@@ -1,14 +1,8 @@
 <div class="row">
-  <div class="col-0 col-sm-0 col-lg-0"></div>
-  <div class="col-12 col-sm-7 col-lg-6">
-    <img class="img-responsive maxWidth" src="../../../assets/images/rectangularFullyFittedParam.png">
-  </div>
-  <div class="col-12 col-sm-5 col-lg-6 d-flex flex-row">
-    <div class="align-self-center">
-      <p>Room width: <br>
-        <input (change)="setRoomWidth($event)" [value]="selectionsMadeService.getRoomWidth()" type="text" name="roomWidth"> mm</p>
-      <p>Room length: <br>
-        <input (change)="setRoomLength($event)" [value]="selectionsMadeService.getRoomLength()" type="text" name="roomLength"> mm</p>
-    </div>
+  <div class="col-12">
+    <p>Room width: <br>
+      <input (change)="setRoomWidth($event)" [value]="selectionsMadeService.getRoomWidth()" type="text" name="roomWidth"> mm</p>
+    <p>Room length: <br>
+      <input (change)="setRoomLength($event)" [value]="selectionsMadeService.getRoomLength()" type="text" name="roomLength"> mm</p>
   </div>
 </div>
