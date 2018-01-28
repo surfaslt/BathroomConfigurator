@@ -57,50 +57,25 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // create the scene
+
+    // RENDERER
+    let renderer = new THREE.WebGLRenderer({canvas: document.getElementById('myCanvas'), antialias:true});
+    renderer.setClearColor(0x00ff00);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth/2, window.innerHeight/2);
+
+    // CAMERA
+    let camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 3000);
+
+    // SCENE
     let scene = new THREE.Scene();
 
-    this.scene = scene;
-
-    // create the camera
-    // first attribute zooms in/zooms out the view
-    this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-    /* TODO fix looking around with camera (might not be needed at all)
-    this.camera.position.set( 0, 0, 0.01 ); // OrbitControls target is the origin
-
-    // controls
-    this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
-    this.controls.enableZoom = false;
-    this.controls.enablePan = false;
-    */
-
-    this.renderer = new THREE.WebGLRenderer();
-
-    // set size
-    this.renderer.setSize(window.innerWidth/2, window.innerHeight/2);
-
-    // add canvas to dom
-    document.getElementById('canvasContainer').appendChild(this.renderer.domElement);
-    //document.getElementsByClassName('canvasContainer')[0].appendChild(renderer.domElement);
-
-    // add axis to the scene
-    let axis = new THREE.AxesHelper(10);
-
-    scene.add(axis);
-
-    // add lights
-    let light = new THREE.DirectionalLight(0xffffff, 1.0);
-
-    light.position.set(100, 100, 100);
-
+    // LIGHTS
+    let light = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(light);
+    let light1 = new THREE.PointLight(0xffffff, 0.5);
+    scene.add(light1);
 
-    let light2 = new THREE.DirectionalLight(0xffffff, 1.0);
-
-    light2.position.set(-100, 100, -100);
-
-    scene.add(light2);
 
     let material = new THREE.MeshBasicMaterial({
       //color: 0xaaaaaa,
@@ -108,35 +83,41 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       wireframe: true
     });
 
-    //===========================================================================
-
-    this.toilet = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
-
-    this.toilet.position.x = 0;
-    this.toilet.position.y = 0;
-    this.toilet.position.z = 5;
-
-    this.shower = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
-
-    this.shower.position.x = 3;
-    this.shower.position.y = 0;
-    this.shower.position.z = 0;
-
-    //===========================================================================
 
     // create a box and add it to the scene
-    this.box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
+    let boxGeometry = new THREE.BoxGeometry(1,1,1);
+    let boxMaterial = new THREE.MeshLambertMaterial({color:0xF3FFE2});
+    let box = new THREE.Mesh(boxGeometry, boxMaterial);
+    box.position.x = 0.5;
+    box.rotation.y = 0.5;
+    box.position.z = -5;
+    scene.add(box);
 
-    scene.add(this.box);
 
-    this.box.position.x = 0.5;
-    this.box.rotation.y = 0.5;
+    let floorGeometry = new THREE.PlaneGeometry(100,100,100);
+    let floorMaterial = new THREE.MeshBasicMaterial({
+      color: 0xeeeeee,
+      //wireframe: true
+    });
+    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    floor.position.x = 0.5;
+    floor.rotation.x = -0.5;
+    floor.position.z = -100;
+    scene.add(floor);
 
-    this.camera.position.x = 5;
-    this.camera.position.y = 5;
-    this.camera.position.z = 5;
 
-    this.camera.lookAt(scene.position);
+    /*
+    camera.position.x = 5;
+    camera.position.y = 5;
+    camera.position.z = 5;
+
+    camera.lookAt(scene.position);
+*/
+    this.renderer = renderer;
+    this.camera = camera;
+    this.scene = scene;
+    this.box = box;
+
 
     this.ngOnChanges();
     this.animate();
