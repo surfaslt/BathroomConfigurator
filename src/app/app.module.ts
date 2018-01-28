@@ -13,9 +13,11 @@ import { SecondQuestionPageComponent } from './question/second-question-page/sec
 import { ThirdQuestionPageComponent } from './question/third-question-page/third-question-page.component';
 import { SplashPageComponent } from './splash-page/splash-page.component';
 import { QuestionComponent } from './question/question.component';
-import { ParametersPageComponent } from './parameters-page/parameters-page.component';
+import { ParametersPageComponent } from './question/parameters-page/parameters-page.component';
 import { SummaryPageComponent } from './summary-page/summary-page.component';
 import { NavigationComponent } from './navigation/navigation.component';
+import { TubParametersPageComponent } from './question/tub-parameters-page/tub-parameters-page.component';
+import { DoorPositionPageComponent } from './question/door-position-page/door-position-page.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { NavigationComponent } from './navigation/navigation.component';
     SecondQuestionPageComponent,
     ThirdQuestionPageComponent,
     SummaryPageComponent,
-    NavigationComponent
+    NavigationComponent,
+    DoorPositionPageComponent,
+    TubParametersPageComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +52,14 @@ import { NavigationComponent } from './navigation/navigation.component';
       {
         path: 'parametersPage',
         component: ParametersPageComponent
+      },
+      {
+        path: 'doorPositionPage',
+        component: DoorPositionPageComponent
+      },
+      {
+        path: 'tubParametersPage',
+        component: TubParametersPageComponent
       },
       {
         path: 'questionPage',

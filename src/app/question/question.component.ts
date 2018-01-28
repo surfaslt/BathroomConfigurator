@@ -9,7 +9,7 @@ import { SelectionsMadeService } from './../selections-made.service';
 export class QuestionComponent implements OnInit, OnDestroy {
 
   currentQuestionNo: number = 1;
-  totalQuestionNo: number = 3;
+  totalQuestionNo: number = 6;
   userChangeMade: string = '';
 
   constructor(private selectionsMadeService: SelectionsMadeService) {

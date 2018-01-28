@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectionsMadeService } from "../selections-made.service";
+import { SelectionsMadeService } from "../../selections-made.service";
 
 @Component({
   selector: 'app-parameters-page',

@@ -11,7 +11,7 @@ export class FirstQuestionPageComponent implements OnInit {
   @Output() onSelectionChanged = new EventEmitter<string>();
 
   constructor(private selectionsMadeService: SelectionsMadeService) {
-    selectionsMadeService.setProgress(3);
+    selectionsMadeService.setProgress(5);
   }
 
   ngOnInit() {
