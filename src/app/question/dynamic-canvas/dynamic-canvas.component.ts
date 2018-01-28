@@ -11,12 +11,14 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   @Input() changeMade: string;
 
+  private renderer: any;
+  private camera: any;
+  private scene: any;
+  private roomWidthText: any;
+  private roomLengthText: any;
   private box: any;
   private toilet: any;
   private shower: any;
-  private scene: any;
-  private camera: any;
-  private renderer: any;
   private controls: any;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
@@ -60,7 +62,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     // RENDERER
     let renderer = new THREE.WebGLRenderer({canvas: document.getElementById('myCanvas'), antialias:true});
-    renderer.setClearColor(0x00ff00);
+    renderer.setClearColor(0xffffff);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth/2, window.innerHeight/2);
 
@@ -105,6 +107,50 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     floor.position.z = -100;
     scene.add(floor);
 
+    let loader = new THREE.FontLoader();
+    loader.load( './../../../assets/fonts/optimer_regular.typeface.json', ( font ) => {
+      let textMaterial = new THREE.MeshLambertMaterial({color:0x444444});
+      let roomWidthTextGeometry = new THREE.TextGeometry( 'Room width', {
+        font: font,
+        size: 8,
+        height: 3,
+        curveSegments: 10,
+        bevelEnabled: false,
+        bevelThickness: 1,
+        bevelSize: 1,
+        bevelSegments: 1
+      });
+      let roomWidthText = new THREE.Mesh(roomWidthTextGeometry, textMaterial);
+      scene.add(roomWidthText);
+      roomWidthText.position.x = -30;
+      roomWidthText.position.y = -52;
+      roomWidthText.position.z = -70;
+      roomWidthText.rotation.x = -0.2;
+      roomWidthText.rotation.y = 0;
+      roomWidthText.rotation.z = 0;
+      this.roomWidthText = roomWidthText;
+
+      let roomLengthTextGeometry = new THREE.TextGeometry( 'Room length', {
+        font: font,
+        size: 8,
+        height: 3,
+        curveSegments: 12,
+        bevelEnabled: false,
+        bevelThickness: 1,
+        bevelSize: 1,
+        bevelSegments: 1
+      });
+
+      let roomLengthText = new THREE.Mesh(roomLengthTextGeometry, textMaterial);
+      scene.add(roomLengthText);
+      roomLengthText.position.x = -50;
+      roomLengthText.position.y = -35;
+      roomLengthText.position.z = -70;
+      roomLengthText.rotation.x = -0.2;
+      roomLengthText.rotation.y = 0.0;
+      roomLengthText.rotation.z = 1.4;
+      this.roomLengthText = roomLengthText;
+    });
 
     /*
     camera.position.x = 5;
@@ -112,7 +158,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     camera.position.z = 5;
 
     camera.lookAt(scene.position);
-*/
+    */
+
+    // Assign local variables to globals so the shapes become accessible in other methods
     this.renderer = renderer;
     this.camera = camera;
     this.scene = scene;
