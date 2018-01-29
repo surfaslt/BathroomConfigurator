@@ -5483,9 +5483,9 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-protractor-cucumber-framework@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/protractor-cucumber-framework/-/protractor-cucumber-framework-4.1.1.tgz#c77e197b99c8c212754665aabbdd81991e85305a"
+protractor-cucumber-framework@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/protractor-cucumber-framework/-/protractor-cucumber-framework-4.2.0.tgz#e44f6d33e6c4dc103a9b4b5dc91023b474530dbe"
   dependencies:
     debug "^3.1.0"
     glob "^7.0.3"
