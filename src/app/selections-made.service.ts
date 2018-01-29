@@ -11,12 +11,10 @@ export class SelectionsMadeService {
   private data = {
     roomWidth: 2000,
     roomLength: 2000,
+    tubWidth: 700,
+    tubLength: 1700,
     hasToilet: false,
-    hasBath: false,
-    hasShower: false,
-    toiletType: '',
-    bathType: '',
-    showerType: ''
+    toiletType: ''
   }
 
   constructor() { }
@@ -41,28 +39,20 @@ export class SelectionsMadeService {
     this.data.roomLength = length;
   }
 
+  setTubWidth(width: number):void {
+    this.data.tubWidth = width;
+  }
+
+  setTubLength(length: number):void {
+    this.data.tubLength = length;
+  }
+
   setHasToilet( has: boolean ):void {
     this.data.hasToilet = has;
   }
 
-  setHasBath( has: boolean ):void {
-    this.data.hasBath = has;
-  }
-
-  setHasShower( has: boolean ):void {
-    this.data.hasShower = has;
-  }
-
   setToiletType( type: string ):void {
     this.data.toiletType = type;
-  }
-
-  setBathType( type: string ):void {
-    this.data.bathType = type;
-  }
-
-  setShowerType( type: string ):void {
-    this.data.showerType = type;
   }
 
   getCurrentQuestionNo():number {
@@ -85,28 +75,20 @@ export class SelectionsMadeService {
     return this.data.roomLength;
   }
 
+  getTubWidth():number {
+    return this.data.tubWidth;
+  }
+
+  getTubLength():number {
+    return this.data.tubLength;
+  }
+
   getHasToilet(): boolean {
     return this.data.hasToilet;
   }
 
-  getHasBath(): boolean {
-    return this.data.hasBath;
-  }
-
-  getHasShower(): boolean {
-    return this.data.hasShower;
-  }
-
   getToiletType(): string {
     return this.data.toiletType;
-  }
-
-  getBathType(): string {
-    return this.data.bathType;
-  }
-
-  getShowerType(): string {
-    return this.data.showerType;
   }
 
 }

@@ -15,4 +15,12 @@ export class TubParametersPageComponent implements OnInit {
   ngOnInit() {
   }
 
+  setTubWidth(event):void {
+    this.selectionsMadeService.setTubWidth(event.target.value);
+  }
+
+  setTubLength(event):void {
+    this.selectionsMadeService.setTubLength(event.target.value)
+  }
+
 }

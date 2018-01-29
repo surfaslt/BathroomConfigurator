@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col- col-sm col-md">
-    <app-parameters-page *ngIf="currentQuestionNo == 1">Loading...</app-parameters-page>
-    <app-door-position-page *ngIf="currentQuestionNo == 2">Loading...</app-door-position-page>
-    <app-tub-parameters-page *ngIf="currentQuestionNo == 3">Loading...</app-tub-parameters-page>
-    <app-first-question-page *ngIf="currentQuestionNo == 4" (onSelectionChanged)="onSelectionChanged($event)">Loading...</app-first-question-page>
+    <app-parameters-page *ngIf="currentQuestionNo == 1" (onChangeMade)="onChangeMade($event)">Loading...</app-parameters-page>
+    <app-door-position-page *ngIf="currentQuestionNo == 2" (onChangeMade)="onChangeMade($event)">Loading...</app-door-position-page>
+    <app-tub-parameters-page *ngIf="currentQuestionNo == 3" (onChangeMade)="onChangeMade($event)">Loading...</app-tub-parameters-page>
+    <app-first-question-page *ngIf="currentQuestionNo == 4" (onChangeMade)="onChangeMade($event)">Loading...</app-first-question-page>
     <app-second-question-page *ngIf="currentQuestionNo == 5">Loading...</app-second-question-page>
     <app-third-question-page *ngIf="currentQuestionNo == 6">Loading...</app-third-question-page>
   </div>

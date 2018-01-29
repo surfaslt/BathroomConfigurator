@@ -16,43 +16,44 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private scene: any;
   private roomWidthText: any;
   private roomLengthText: any;
+  private doors: any;
   private box: any;
   private toilet: any;
-  private shower: any;
+  private bathTub: any;
   private controls: any;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
   ngOnChanges() {
     if(this.scene !== undefined) {
-
       let changeName = this.changeMade.indexOf('1') == -1 ? this.changeMade : this.changeMade.slice(0, -1);
 
+      console.log("hello from dynamic-canvas switch!");
       switch (changeName) {
-        case 'hasToilet':
-          console.log('hasToilet: ' + this.selectionsMadeService.getHasToilet());
-          if( this.selectionsMadeService.getHasToilet() ){
-            this.scene.add(this.toilet);
-          } else {
-            this.scene.remove(this.toilet);
-          }
+        case 'showRoomDimensionsElements':
+          this.scene.add(this.roomWidthText);
+          this.scene.add(this.roomLengthText);
+          console.log("Switch went to showRoomDimensionsElements!");
           break;
-        case 'hasShower':
-          console.log('hasShower: ' + this.selectionsMadeService.getHasShower());
-          if( this.selectionsMadeService.getHasShower() ){
-            this.scene.add(this.shower);
-          } else {
-            this.scene.remove(this.shower);
-          }
+        case 'hideRoomDimensionsElements':
+          this.scene.remove(this.roomWidthText);
+          this.scene.remove(this.roomLengthText);
+          console.log("Switch went to hideRoomDimensionsElements!");
+          break;
+        case 'showDoorPositionElements':
+          this.scene.add(this.doors);
+          console.log("Switch went to showDoorPositionElements!");
+          break;
+        case 'hideDoorPositionElements':
+          this.scene.remove(this.doors);
+          console.log("Switch went to hideDoorPositionElements!");
           break;
         default:
-          console.log('unrecognised change happened');
-          if (this.selectionsMadeService.getHasToilet()) {
-            this.scene.add(this.toilet);
-          } else this.scene.remove(this.toilet);
-          if (this.selectionsMadeService.getHasShower()) {
-            this.scene.add(this.shower);
-          } else this.scene.remove(this.shower);
+          /*this.scene.remove(this.roomWidthText);
+          this.scene.remove(this.roomLengthText);
+          this.scene.remove(this.doors);
+          */
+          console.log("Switch went to default!");
           break;
       }
     }

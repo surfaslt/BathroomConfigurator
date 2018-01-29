@@ -8,7 +8,7 @@ import { SelectionsMadeService } from "../../selections-made.service";
 })
 export class FirstQuestionPageComponent implements OnInit {
 
-  @Output() onSelectionChanged = new EventEmitter<string>();
+  @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private selectionsMadeService: SelectionsMadeService) {
     selectionsMadeService.setProgress(5);
@@ -19,12 +19,7 @@ export class FirstQuestionPageComponent implements OnInit {
 
   changeHasToilet(toiletStatus: boolean):void {
     this.selectionsMadeService.setHasToilet(toiletStatus);
-    this.onSelectionChanged.emit('hasToilet');
-  }
-
-  changeHasShower(showerStatus: boolean):void {
-    this.selectionsMadeService.setHasShower(showerStatus);
-    this.onSelectionChanged.emit('hasShower');
+    this.onChangeMade.emit('hasToilet');
   }
 
 }

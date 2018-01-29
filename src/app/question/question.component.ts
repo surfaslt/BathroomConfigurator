@@ -18,20 +18,18 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
   ngOnInit(){ }
 
-  onSelectionChanged(changedName: string){
+  onChangeMade(changedName: string): void{
+    console.log("question component has received the emit!");
     this.userChangeMade = this.userChangeMade == changedName ? changedName + '1' : changedName; // triggers ngOnChanges() in dynamic-canvas component
   }
 
-  nextQuestion(){
+  nextQuestion(): void{
     this.currentQuestionNo++;
   }
 
-  previousQuestion(){
+  previousQuestion():void {
     this.currentQuestionNo--;
   }
-
-
-
 
   ngOnDestroy(): void {
     this.selectionsMadeService.setCurrentQuestionNumber(this.currentQuestionNo);
