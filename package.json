@@ -37,7 +37,7 @@
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",
     "@types/chai": "^4.0.8",
-    "@types/cucumber": "3.2.1",
+    "@types/cucumber": "3.2.2",
     "@types/jasmine": "2.8.6",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "9.4.0",
