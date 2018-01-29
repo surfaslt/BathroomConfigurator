@@ -46,7 +46,7 @@
     "codelyzer": "^4.1.0",
     "css-loader": "^0.28.8",
     "cucumber": "^3.2.0",
-    "jasmine-core": "~2.6.2",
+    "jasmine-core": "2.9.1",
     "jasmine-spec-reporter": "4.2.1",
     "karma": "~1.7.0",
     "karma-chrome-launcher": "~2.1.1",
