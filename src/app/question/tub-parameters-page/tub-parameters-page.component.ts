@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {SelectionsMadeService} from "../../selections-made.service";
 
 @Component({
@@ -8,8 +8,12 @@ import {SelectionsMadeService} from "../../selections-made.service";
 })
 export class TubParametersPageComponent implements OnInit {
 
+  @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
+
   constructor(private selectionsMadeService: SelectionsMadeService) {
     selectionsMadeService.setProgress(4);
+    this.onChangeMade.emit('hasToilet');
+    console.log("Tub-parameters-page: onChangeMade emitted");
   }
 
   ngOnInit() {

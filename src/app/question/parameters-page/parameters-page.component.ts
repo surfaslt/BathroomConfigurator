@@ -12,7 +12,6 @@ export class ParametersPageComponent implements OnInit {
 
   constructor(private selectionsMadeService: SelectionsMadeService) {
     selectionsMadeService.setProgress(2);
-    this.onChangeMade.emit('showRoomDimensionsElements');
   }
 
   ngOnInit() {
