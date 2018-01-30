@@ -11,9 +11,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   @Input() changeMade: string;
 
-  private renderer: any;
-  private camera: any;
-  private scene: any;
+  private renderer: THREE.Object3D;
+  private camera: THREE.Object3D;
+  private scene: THREE.Object3D;
+  private floor: THREE.Object3D;
   private roomWidthText: THREE.Object3D;
   private roomLengthText: THREE.Object3D;
   private doors: THREE.Object3D;
@@ -21,32 +22,33 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private toilet: THREE.Object3D;
   private bathTub: THREE.Object3D;
   private controls: any; // might not be needded
+  private currentPage: string ='';
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
   ngOnChanges() {
     if(this.scene !== undefined) {
-      let changeName = this.changeMade.indexOf('1') == -1 ? this.changeMade : this.changeMade.slice(0, -1);
-
+      let changeName: string = this.changeMade.indexOf('1') == -1 ? this.changeMade : this.changeMade.slice(0, -1);
+      // ngOnChanges by default happens before ngOnInit, so I need to check for null pointers and add
+      // the correct elements to my scene according to the page user is on.
+      this.currentPage = changeName;
       console.log("hello from dynamic-canvas switch!");
       switch (changeName) {
         case 'showRoomDimensionsElements':
-          this.scene.add(this.roomWidthText);
-          this.scene.add(this.roomLengthText);
+          if(this.roomWidthText != null || this.roomLengthText != null || this.doors != null) {
+            this.scene.add(this.roomWidthText);
+            this.scene.add(this.roomLengthText);
+            this.scene.remove(this.doors);
+          }
           console.log("Switch went to showRoomDimensionsElements!");
-          break;
-        case 'hideRoomDimensionsElements':
-          this.scene.remove(this.roomWidthText);
-          this.scene.remove(this.roomLengthText);
-          console.log("Switch went to hideRoomDimensionsElements!");
           break;
         case 'showDoorPositionElements':
           this.scene.add(this.doors);
           console.log("Switch went to showDoorPositionElements!");
           break;
-        case 'hideDoorPositionElements':
-          this.scene.remove(this.doors);
-          console.log("Switch went to hideDoorPositionElements!");
+        case 'showTubParametersElements':
+          this.scene.add(this.doors);
+          console.log("Switch went to showDoorPositionElements!");
           break;
         default:
           /*this.scene.remove(this.roomWidthText);
@@ -94,8 +96,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     box.position.x = 0.5;
     box.rotation.y = 0.5;
     box.position.z = -5;
-    scene.add(box);
-
 
     let floorGeometry = new THREE.PlaneGeometry(100,100,100);
     let floorMaterial = new THREE.MeshBasicMaterial({
@@ -106,7 +106,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     floor.position.x = 0.5;
     floor.rotation.x = -0.5;
     floor.position.z = -100;
-    scene.add(floor);
 
     let loader = new THREE.FontLoader();
     loader.load( './../../../assets/fonts/optimer_regular.typeface.json', ( font ) => {
@@ -165,11 +164,30 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.renderer = renderer;
     this.camera = camera;
     this.scene = scene;
+    this.floor =  floor;
     this.box = box;
 
 
     this.ngOnChanges();
     this.animate();
+  }
+
+  ngAfterViewInit(){
+    this.scene.add(this.floor);
+    console.log("DynamicCanvas onInit:", this.currentPage);
+    switch(this.currentPage) {
+      case "showRoomDimensionsElements":
+        break;
+      case "showDoorPositionElements":
+        this.scene.add(this.box);
+        break;
+      case "showDoorPositionElements":
+        break;
+      case "showTubParametersElements":
+        break;
+      default:
+        break;
+    }
   }
 
   animate = () => {
