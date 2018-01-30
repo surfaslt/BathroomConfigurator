@@ -14,13 +14,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private renderer: any;
   private camera: any;
   private scene: any;
-  private roomWidthText: any;
-  private roomLengthText: any;
-  private doors: any;
-  private box: any;
-  private toilet: any;
-  private bathTub: any;
-  private controls: any;
+  private roomWidthText: THREE.Object3D;
+  private roomLengthText: THREE.Object3D;
+  private doors: THREE.Object3D;
+  private box: THREE.Object3D;
+  private toilet: THREE.Object3D;
+  private bathTub: THREE.Object3D;
+  private controls: any; // might not be needded
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 

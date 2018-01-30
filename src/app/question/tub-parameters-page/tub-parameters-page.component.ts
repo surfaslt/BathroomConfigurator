@@ -12,8 +12,6 @@ export class TubParametersPageComponent implements OnInit {
 
   constructor(private selectionsMadeService: SelectionsMadeService) {
     selectionsMadeService.setProgress(4);
-    this.onChangeMade.emit('hasToilet');
-    console.log("Tub-parameters-page: onChangeMade emitted");
   }
 
   ngOnInit() {
