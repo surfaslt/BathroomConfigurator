@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, OnChanges} from '@angular/core';
 import * as THREE from 'three';
 import { SelectionsMadeService } from "../../selections-made.service";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-dynamic-canvas',
@@ -25,41 +26,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private currentPage: string ='';
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
-
-  ngOnChanges() {
-    if(this.scene !== undefined) {
-      let changeName: string = this.changeMade.indexOf('1') == -1 ? this.changeMade : this.changeMade.slice(0, -1);
-      // ngOnChanges by default happens before ngOnInit, so I need to check for null pointers and add
-      // the correct elements to my scene according to the page user is on.
-      this.currentPage = changeName;
-      console.log("hello from dynamic-canvas switch!");
-      switch (changeName) {
-        case 'showRoomDimensionsElements':
-          if(this.roomWidthText != null || this.roomLengthText != null || this.doors != null) {
-            this.scene.add(this.roomWidthText);
-            this.scene.add(this.roomLengthText);
-            this.scene.remove(this.doors);
-          }
-          console.log("Switch went to showRoomDimensionsElements!");
-          break;
-        case 'showDoorPositionElements':
-          this.scene.add(this.doors);
-          console.log("Switch went to showDoorPositionElements!");
-          break;
-        case 'showTubParametersElements':
-          this.scene.add(this.doors);
-          console.log("Switch went to showDoorPositionElements!");
-          break;
-        default:
-          /*this.scene.remove(this.roomWidthText);
-          this.scene.remove(this.roomLengthText);
-          this.scene.remove(this.doors);
-          */
-          console.log("Switch went to default!");
-          break;
-      }
-    }
-  }
 
   ngOnInit() {
 
@@ -102,6 +68,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       color: 0xeeeeee,
       //wireframe: true
     });
+
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.position.x = 0.5;
     floor.rotation.x = -0.5;
@@ -121,7 +88,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         bevelSegments: 1
       });
       let roomWidthText = new THREE.Mesh(roomWidthTextGeometry, textMaterial);
-      scene.add(roomWidthText);
       roomWidthText.position.x = -30;
       roomWidthText.position.y = -52;
       roomWidthText.position.z = -70;
@@ -142,7 +108,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       });
 
       let roomLengthText = new THREE.Mesh(roomLengthTextGeometry, textMaterial);
-      scene.add(roomLengthText);
       roomLengthText.position.x = -50;
       roomLengthText.position.y = -35;
       roomLengthText.position.z = -70;
@@ -150,7 +115,22 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       roomLengthText.rotation.y = 0.0;
       roomLengthText.rotation.z = 1.4;
       this.roomLengthText = roomLengthText;
+
+      // loader is asynchronous so the only way to add the elements into the scene is after they load
+      if(this.currentPage == 'showRoomDimensionsElements') {
+        scene.add(roomWidthText);
+        scene.add(roomLengthText);
+      }
     });
+
+    // create a door and add it to the scene
+    let doorsGeometry = new THREE.BoxGeometry(50,50,500);
+    let doorsMaterial = new THREE.MeshLambertMaterial({color:0xF3FFE2});
+    let doors = new THREE.Mesh(boxGeometry, boxMaterial);
+    doors.position.x = 0.5;
+    doors.rotation.y = 0.5;
+    doors.position.z = -5;
+
 
     /*
     camera.position.x = 5;
@@ -166,28 +146,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.scene = scene;
     this.floor =  floor;
     this.box = box;
-
-
-    this.ngOnChanges();
+    this.doors = doors;
     this.animate();
-  }
-
-  ngAfterViewInit(){
-    this.scene.add(this.floor);
-    console.log("DynamicCanvas onInit:", this.currentPage);
-    switch(this.currentPage) {
-      case "showRoomDimensionsElements":
-        break;
-      case "showDoorPositionElements":
-        this.scene.add(this.box);
-        break;
-      case "showDoorPositionElements":
-        break;
-      case "showTubParametersElements":
-        break;
-      default:
-        break;
-    }
   }
 
   animate = () => {
@@ -198,11 +158,63 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   render = () => {
     //debugger;
-
     let timer = 0.002 * Date.now();
     this.box.position.y = 0.5 + 3 * Math.sin(timer);
     this.box.rotation.x += 0.05;
     this.renderer.render(this.scene, this.camera);
   }
 
+  ngOnChanges() {
+    if(this.scene !== undefined) {
+      let changeName: string = this.changeMade.indexOf('1') == -1 ? this.changeMade : this.changeMade.slice(0, -1);
+      // ngOnChanges by default happens before ngOnInit, so I need to check for null pointers and add
+      // the correct elements to my scene according to the page user is on.
+      console.log('ngOnChanges, changeName: ', changeName);
+      this.currentPage = changeName;
+      this.updateView(changeName);
+    }
+  }
+
+  ngAfterViewInit(){
+    this.scene.add(this.floor);
+    console.log("DynamicCanvas afterViewInit:", this.currentPage);
+    this.updateView(this.currentPage);
+  }
+
+  updateView(stageName:string):void {
+    console.log("hello from dynamic-canvas switch! stageName: ", stageName);
+    switch (stageName) {
+      case 'showRoomDimensionsElements':
+        if(!isNullOrUndefined(this.roomWidthText)  && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors)) {
+          this.scene.add(this.roomWidthText);
+          this.scene.add(this.roomLengthText);
+          this.scene.remove(this.doors);
+        }
+        console.log("Switch went to showRoomDimensionsElements!");
+        break;
+      case 'showDoorPositionElements':
+        console.log("Switch went to showDoorPositionElements!");
+        if(!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.box)) {
+          this.scene.add(this.doors);
+          this.scene.remove(this.roomWidthText);
+          this.scene.remove(this.roomLengthText);
+          this.scene.remove(this.box);
+        }
+        break;
+      case 'showTubParametersElements':
+        console.log("Switch went to showTubParametersElements!");
+        if(!isNullOrUndefined(this.box) && !isNullOrUndefined(this.doors)) {
+          this.scene.remove(this.doors);
+          this.scene.add(this.box);
+        }
+        break;
+      default:
+        /*this.scene.remove(this.roomWidthText);
+        this.scene.remove(this.roomLengthText);
+        this.scene.remove(this.doors);
+        */
+        console.log("Switch went to default!");
+        break;
+    }
+  }
 }
