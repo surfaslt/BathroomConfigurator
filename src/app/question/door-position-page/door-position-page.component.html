@@ -1,3 +1,15 @@
-<p>
-  door-position-page works!
-</p>
+<form>
+  Where are the doors to your bathroom placed?
+  <span *ngIf="doorPositionAvailableOptions >= 1">
+    <input type="radio" name="doorRadio" id="doorRadio1" (ng-model)="doorPositionChosen" (value)="doorPositionOptions[0]">
+    <label for="doorRadio1">{{doorPositionOptions[0]}}</label>
+  </span>
+  <span *ngIf="doorPositionAvailableOptions >= 3">
+  <input type="radio" name="doorRadio" id="doorRadio2" (ng-model)="doorPositionChosen" (value)="doorPositionOptions[1]">
+    <label for="doorRadio2">{{doorPositionOptions[1]}}</label>
+  </span>
+  <span *ngIf="doorPositionAvailableOptions >= 2">
+    <input type="radio" name="doorRadio" id="doorRadio3" (ng-model)="doorPositionChosen" (value)="doorPositionOptions[2]">
+    <label for="doorRadio3">{{doorPositionOptions[2]}}</label>
+  </span>
+</form>

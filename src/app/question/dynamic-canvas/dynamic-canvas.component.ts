@@ -24,6 +24,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private bathTub: THREE.Object3D;
   private controls: any; // might not be needded
   private currentPage: string ='';
+  private assetsFolderPath: string ='./../../../assets/';
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
@@ -63,7 +64,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     box.rotation.y = 0.5;
     box.position.z = -5;
 
-    let floorGeometry = new THREE.PlaneGeometry(100,100,100);
+    let floorGeometry = new THREE.PlaneGeometry(10,10,10);
     let floorMaterial = new THREE.MeshBasicMaterial({
       color: 0xeeeeee,
       //wireframe: true
@@ -72,10 +73,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.position.x = 0.5;
     floor.rotation.x = -0.5;
-    floor.position.z = -100;
+    floor.position.z = -10;
 
     let loader = new THREE.FontLoader();
-    loader.load( './../../../assets/fonts/optimer_regular.typeface.json', ( font ) => {
+    loader.load( this.assetsFolderPath + 'fonts/optimer_regular.typeface.json', ( font ) => {
       let textMaterial = new THREE.MeshLambertMaterial({color:0x444444});
       let roomWidthTextGeometry = new THREE.TextGeometry( 'Room width', {
         font: font,
@@ -124,13 +125,16 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     });
 
     // create a door and add it to the scene
-    let doorsGeometry = new THREE.BoxGeometry(50,50,500);
-    let doorsMaterial = new THREE.MeshLambertMaterial({color:0xF3FFE2});
-    let doors = new THREE.Mesh(boxGeometry, boxMaterial);
-    doors.position.x = 0.5;
-    doors.rotation.y = 0.5;
-    doors.position.z = -5;
-
+    let doorsGeometry = new THREE.PlaneGeometry(2,4,2);
+    let doorsMaterial = new THREE.MeshLambertMaterial({
+      color:0xFFFFFF,
+      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg')
+    });
+    let doors = new THREE.Mesh(doorsGeometry, doorsMaterial);
+    doors.position.x = -1;
+    doors.position.y = -1;
+    doors.position.z = -4;
+    doors.rotation.x = 0.5;
 
     /*
     camera.position.x = 5;
