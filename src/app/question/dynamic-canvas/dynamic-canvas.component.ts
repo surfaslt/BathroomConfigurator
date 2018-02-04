@@ -196,16 +196,12 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         console.log(this.doors);
         if(this.selectionsMadeService.getDoorPosition() == 'Left') {
           this.doors.position.x = this.floor.position.x - this.floor.geometry.parameters.width / 2 + this.doors.geometry.parameters.width / 2;
-          debugger;
         } else if(this.selectionsMadeService.getDoorPosition() == 'Right') {
           this.doors.position.x = this.floor.position.x + this.doors.geometry.parameters.width / 2;
-          debugger;
         } else if(this.selectionsMadeService.getDoorPosition() == 'Middle'){
           this.doors.position.x = this.floor.position.x;
-          debugger;
         } else {
           console.log('Door position was not recognized!');
-          debugger;
         }
         break;
       case 'showTubParametersElements':
@@ -244,8 +240,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let floorMaterial = new THREE.MeshBasicMaterial({
       color: 0xeeeeee
     });
-
-    debugger;
 
     this.floor = new THREE.Mesh(floorGeometry, floorMaterial);
   }
