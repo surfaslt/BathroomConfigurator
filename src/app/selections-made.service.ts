@@ -11,6 +11,7 @@ export class SelectionsMadeService {
   private data = {
     roomWidth: 2000,
     roomLength: 2000,
+    doorPosition: 'Left',
     tubWidth: 700,
     tubLength: 1700,
     hasToilet: false,
@@ -37,6 +38,10 @@ export class SelectionsMadeService {
 
   setRoomLength(length: number):void {
     this.data.roomLength = length;
+  }
+
+  setDoorPosition(doorPosition: string):void {
+    this.data.doorPosition = doorPosition;
   }
 
   setTubWidth(width: number):void {
@@ -73,6 +78,10 @@ export class SelectionsMadeService {
 
   getRoomLength():number {
     return this.data.roomLength;
+  }
+
+  getDoorPosition():string {
+    return this.data.doorPosition;
   }
 
   getTubWidth():number {

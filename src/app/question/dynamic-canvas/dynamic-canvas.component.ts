@@ -25,6 +25,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private controls: any; // might not be needded
   private currentPage: string ='';
   private assetsFolderPath: string ='./../../../assets/';
+  private degree = Math.PI / 180;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
@@ -48,14 +49,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let light1 = new THREE.PointLight(0xffffff, 0.5);
     scene.add(light1);
 
-
-    let material = new THREE.MeshBasicMaterial({
-      //color: 0xaaaaaa,
-      color: 0xffffff,
-      wireframe: true
-    });
-
-
     // create a box and add it to the scene
     let boxGeometry = new THREE.BoxGeometry(1,1,1);
     let boxMaterial = new THREE.MeshLambertMaterial({color:0xF3FFE2});
@@ -64,16 +57,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     box.rotation.y = 0.5;
     box.position.z = -5;
 
-    let floorGeometry = new THREE.PlaneGeometry(10,10,10);
+    let floorGeometry = new THREE.PlaneGeometry(100,100);
     let floorMaterial = new THREE.MeshBasicMaterial({
       color: 0xeeeeee,
       //wireframe: true
     });
 
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);
-    floor.position.x = 0.5;
-    floor.rotation.x = -0.5;
-    floor.position.z = -10;
 
     let loader = new THREE.FontLoader();
     loader.load( this.assetsFolderPath + 'fonts/optimer_regular.typeface.json', ( font ) => {
@@ -89,10 +79,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         bevelSegments: 1
       });
       let roomWidthText = new THREE.Mesh(roomWidthTextGeometry, textMaterial);
-      roomWidthText.position.x = -30;
-      roomWidthText.position.y = -52;
-      roomWidthText.position.z = -70;
-      roomWidthText.rotation.x = -0.2;
+      roomWidthText.position.x = floor.position.y - floor.geometry.parameters.width / 3.5;
+      roomWidthText.position.y = floor.position.y - floor.geometry.parameters.height / 2 - 10;
+      roomWidthText.position.z = floor.position.z + 10;
+      roomWidthText.rotation.x = 0;
       roomWidthText.rotation.y = 0;
       roomWidthText.rotation.z = 0;
       this.roomWidthText = roomWidthText;
@@ -109,12 +99,12 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       });
 
       let roomLengthText = new THREE.Mesh(roomLengthTextGeometry, textMaterial);
-      roomLengthText.position.x = -50;
-      roomLengthText.position.y = -35;
-      roomLengthText.position.z = -70;
-      roomLengthText.rotation.x = -0.2;
-      roomLengthText.rotation.y = 0.0;
-      roomLengthText.rotation.z = 1.4;
+      roomLengthText.position.x = floor.position.x - floor.geometry.parameters.width / 2 - 10;
+      roomLengthText.position.y = floor.position.y - 40;
+      roomLengthText.position.z = floor.position.z + 10;
+      roomLengthText.rotation.x = 0.7;
+      roomLengthText.rotation.y = 0.7;
+      roomLengthText.rotation.z = 1.2;
       this.roomLengthText = roomLengthText;
 
       // loader is asynchronous so the only way to add the elements into the scene is after they load
@@ -125,24 +115,22 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     });
 
     // create a door and add it to the scene
-    let doorsGeometry = new THREE.PlaneGeometry(2,4,2);
+    let doorsGeometry = new THREE.PlaneGeometry(30,60);
     let doorsMaterial = new THREE.MeshLambertMaterial({
       color:0xFFFFFF,
       map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg')
     });
     let doors = new THREE.Mesh(doorsGeometry, doorsMaterial);
-    doors.position.x = -1;
-    doors.position.y = -1;
-    doors.position.z = -4;
-    doors.rotation.x = 0.5;
+    doors.position.x = floor.position.x - floorGeometry.parameters.width / 2 + doorsGeometry.parameters.width / 2;
+    doors.position.y = floor.position.y - floorGeometry.parameters.height / 2 + doorsGeometry.parameters.height / 4;
+    doors.position.z = floor.position.z + doorsGeometry.parameters.height / 2;
+    doors.rotation.x = 1;
 
-    /*
-    camera.position.x = 5;
-    camera.position.y = 5;
-    camera.position.z = 5;
+    camera.position.x = 0;
+    camera.position.y = -50;
+    camera.position.z = 100;
 
     camera.lookAt(scene.position);
-    */
 
     // Assign local variables to globals so the shapes become accessible in other methods
     this.renderer = renderer;
@@ -155,13 +143,11 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   animate = () => {
-    //debugger;
     requestAnimationFrame( this.animate );
     this.render();
   }
 
   render = () => {
-    //debugger;
     let timer = 0.002 * Date.now();
     this.box.position.y = 0.5 + 3 * Math.sin(timer);
     this.box.rotation.x += 0.05;
@@ -199,10 +185,27 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       case 'showDoorPositionElements':
         console.log("Switch went to showDoorPositionElements!");
         if(!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.box)) {
+          //this.updateFloorSize();
           this.scene.add(this.doors);
           this.scene.remove(this.roomWidthText);
           this.scene.remove(this.roomLengthText);
           this.scene.remove(this.box);
+        }
+        break;
+      case 'doorPositionChanged':
+        console.log(this.doors);
+        if(this.selectionsMadeService.getDoorPosition() == 'Left') {
+          this.doors.position.x = this.floor.position.x - this.floor.geometry.parameters.width / 2 + this.doors.geometry.parameters.width / 2;
+          debugger;
+        } else if(this.selectionsMadeService.getDoorPosition() == 'Right') {
+          this.doors.position.x = this.floor.position.x + this.doors.geometry.parameters.width / 2;
+          debugger;
+        } else if(this.selectionsMadeService.getDoorPosition() == 'Middle'){
+          this.doors.position.x = this.floor.position.x;
+          debugger;
+        } else {
+          console.log('Door position was not recognized!');
+          debugger;
         }
         break;
       case 'showTubParametersElements':
@@ -213,12 +216,37 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         }
         break;
       default:
-        /*this.scene.remove(this.roomWidthText);
-        this.scene.remove(this.roomLengthText);
-        this.scene.remove(this.doors);
-        */
         console.log("Switch went to default!");
         break;
     }
+  }
+
+  updateFloorSize(){
+    let roomW: number = this.selectionsMadeService.getRoomWidth();
+    let roomL: number = this.selectionsMadeService.getRoomLength();
+
+    let sceneBoundingBox = new THREE.Box3().setFromObject(this.scene);
+    let sceneHeight: number = sceneBoundingBox.max.z - sceneBoundingBox.min.z;
+    let sceneLength: number = sceneBoundingBox.max.x - sceneBoundingBox.min.x;
+    let sceneWidth: number = sceneBoundingBox.max.y - sceneBoundingBox.min.y;
+
+    /* tried to update width and height without recreating the object
+    this.floor.geometry.parameters.width = sceneWidth * 0.8 / 10;
+    let ratioRealVSDrawn = roomW / this.floor.geometry.parameters.width;
+    this.floor.geometry.parameters.height = roomL / ratioRealVSDrawn;
+    */
+
+    let floorWidth = sceneWidth * 0.8 / 10;
+    let ratioRealVSDrawn = roomW / this.floor.geometry.parameters.width;
+    let floorHeight = roomL / ratioRealVSDrawn;
+
+    let floorGeometry = new THREE.PlaneGeometry(floorWidth, floorHeight);
+    let floorMaterial = new THREE.MeshBasicMaterial({
+      color: 0xeeeeee
+    });
+
+    debugger;
+
+    this.floor = new THREE.Mesh(floorGeometry, floorMaterial);
   }
 }

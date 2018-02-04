@@ -23,4 +23,10 @@ export class DoorPositionPageComponent implements OnInit {
   ngOnInit() {
   }
 
+  doorPositionChanged():void {
+    this.selectionsMadeService.setDoorPosition(this.doorPositionChosen);
+    debugger;
+    this.onChangeMade.emit('doorPositionChanged');
+  }
+
 }
