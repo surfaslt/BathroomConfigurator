@@ -9,8 +9,6 @@ import { AppComponent } from './app.component';
 import { SelectionsMadeService } from "./selections-made.service";
 import { DynamicCanvasComponent } from './question/dynamic-canvas/dynamic-canvas.component';
 import { FirstQuestionPageComponent } from './question/first-question-page/first-question-page.component';
-import { SecondQuestionPageComponent } from './question/second-question-page/second-question-page.component';
-import { ThirdQuestionPageComponent } from './question/third-question-page/third-question-page.component';
 import { SplashPageComponent } from './splash-page/splash-page.component';
 import { QuestionComponent } from './question/question.component';
 import { ParametersPageComponent } from './question/parameters-page/parameters-page.component';
@@ -28,8 +26,6 @@ import { DoorPositionPageComponent } from './question/door-position-page/door-po
     QuestionComponent,
     ParametersPageComponent,
     FirstQuestionPageComponent,
-    SecondQuestionPageComponent,
-    ThirdQuestionPageComponent,
     SummaryPageComponent,
     NavigationComponent,
     DoorPositionPageComponent,

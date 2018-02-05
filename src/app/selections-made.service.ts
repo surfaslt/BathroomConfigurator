@@ -6,7 +6,7 @@ export class SelectionsMadeService {
 
   private currentQuestion: number = 1;
   private progress: number = 25;
-  private numberOfPages: number = 8;
+  private numberOfPages: number = 6;
 
   private data = {
     roomWidth: 2000,

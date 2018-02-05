@@ -9,7 +9,7 @@ import { SelectionsMadeService } from './../selections-made.service';
 export class QuestionComponent implements AfterViewInit, OnDestroy {
 
   currentQuestionNo: number = 1;
-  totalQuestionNo: number = 6;
+  totalQuestionNo: number = 4;
   userChangeMade: string = '';
   messagesToDynamicCanvasComponent: string[] = ['showRoomDimensionsElements','showDoorPositionElements','showTubParametersElements','','',''];
 
