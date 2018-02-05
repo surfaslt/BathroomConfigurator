@@ -19,10 +19,12 @@ export class ParametersPageComponent implements OnInit {
 
   setRoomWidth(event):void {
     this.selectionsMadeService.setRoomWidth(event.target.value);
+    this.onChangeMade.emit('roomParametersChanged');
   }
 
   setRoomLength(event):void {
-    this.selectionsMadeService.setRoomLength(event.target.value)
+    this.selectionsMadeService.setRoomLength(event.target.value);
+    this.onChangeMade.emit('roomParametersChanged');
   }
 
 }

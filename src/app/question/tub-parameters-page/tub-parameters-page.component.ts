@@ -9,9 +9,13 @@ import {SelectionsMadeService} from "../../selections-made.service";
 export class TubParametersPageComponent implements OnInit {
 
   @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
+  tubPositionAvailableOptions: number = 3;
+  tubPositionOptions: string[] = ['Left Bottom','Left Top','Top Left','Top Right','Right Top', 'Right Bottom'];
+  tubPositionChosen: string;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {
     selectionsMadeService.setProgress(4);
+    this.tubPositionChosen = selectionsMadeService.getTubPosition();
   }
 
   ngOnInit() {
@@ -19,10 +23,17 @@ export class TubParametersPageComponent implements OnInit {
 
   setTubWidth(event):void {
     this.selectionsMadeService.setTubWidth(event.target.value);
+    this.onChangeMade.emit('tubParametersChanged');
   }
 
   setTubLength(event):void {
     this.selectionsMadeService.setTubLength(event.target.value)
+    this.onChangeMade.emit('tubParametersChanged');
+  }
+
+  tubPositionChanged():void {
+    this.selectionsMadeService.setTubPosition(this.tubPositionChosen);
+    this.onChangeMade.emit('tubPositionChanged');
   }
 
 }

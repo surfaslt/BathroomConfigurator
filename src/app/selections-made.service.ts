@@ -14,6 +14,7 @@ export class SelectionsMadeService {
     doorPosition: 'Left',
     tubWidth: 700,
     tubLength: 1700,
+    tubPosition: 'Left Bottom',
     hasToilet: false,
     toiletType: ''
   }
@@ -52,6 +53,10 @@ export class SelectionsMadeService {
     this.data.tubLength = length;
   }
 
+  setTubPosition(tubPosition: string):void {
+    this.data.tubPosition = tubPosition;
+  }
+
   setHasToilet( has: boolean ):void {
     this.data.hasToilet = has;
   }
@@ -64,11 +69,11 @@ export class SelectionsMadeService {
     return this.currentQuestion;
   }
 
-  getProgress(): number {
+  getProgress():number {
     return Math.round(this.progress);
   }
 
-  getData(): object{
+  getData():object {
     return this.data;
   }
 
@@ -92,11 +97,15 @@ export class SelectionsMadeService {
     return this.data.tubLength;
   }
 
-  getHasToilet(): boolean {
+  getTubPosition():string {
+    return this.data.tubPosition;
+  }
+
+  getHasToilet():boolean {
     return this.data.hasToilet;
   }
 
-  getToiletType(): string {
+  getToiletType():string {
     return this.data.toiletType;
   }
 

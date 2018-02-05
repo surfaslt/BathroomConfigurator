@@ -1,17 +1,21 @@
-<form>
-  Where are the doors to your bathroom placed?
-  <br />
-  <span *ngIf="doorPositionAvailableOptions >= 1">
+<div class="row">
+  <div class="col-12">
+    <form>
+      Where are the doors to your bathroom placed?
+      <br />
+      <span *ngIf="doorPositionAvailableOptions >= 1">
     <input type="radio" name="doorRadio" id="doorRadio1" [(ngModel)]="doorPositionChosen" [value]="doorPositionOptions[0]" (ngModelChange)="doorPositionChanged()">
     <label for="doorRadio1">{{doorPositionOptions[0]}}</label>
   </span>
-  <span *ngIf="doorPositionAvailableOptions >= 3">
+      <span *ngIf="doorPositionAvailableOptions >= 3">
   <input type="radio" name="doorRadio" id="doorRadio2" [(ngModel)]="doorPositionChosen" [value]="doorPositionOptions[1]" (ngModelChange)="doorPositionChanged()">
     <label for="doorRadio2">{{doorPositionOptions[1]}}</label>
   </span>
-  <span *ngIf="doorPositionAvailableOptions >= 2">
+      <span *ngIf="doorPositionAvailableOptions >= 2">
     <input type="radio" name="doorRadio" id="doorRadio3" [(ngModel)]="doorPositionChosen" [value]="doorPositionOptions[2]" (ngModelChange)="doorPositionChanged()">
     <label for="doorRadio3">{{doorPositionOptions[2]}}</label>
   </span>
-</form>
-<p>{{doorPositionChosen}}</p>
+    </form>
+    <p>{{doorPositionChosen}}</p>
+  </div>
+</div>

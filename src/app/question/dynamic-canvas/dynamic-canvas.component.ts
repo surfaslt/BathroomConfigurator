@@ -49,22 +49,15 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let light1 = new THREE.PointLight(0xffffff, 0.5);
     scene.add(light1);
 
-    // create a box and add it to the scene
-    let boxGeometry = new THREE.BoxGeometry(1,1,1);
-    let boxMaterial = new THREE.MeshLambertMaterial({color:0xF3FFE2});
-    let box = new THREE.Mesh(boxGeometry, boxMaterial);
-    box.position.x = 0.5;
-    box.rotation.y = 0.5;
-    box.position.z = -5;
-
+    // Floors
     let floorGeometry = new THREE.PlaneGeometry(100,100);
     let floorMaterial = new THREE.MeshBasicMaterial({
       color: 0xeeeeee,
       //wireframe: true
     });
-
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);
 
+    // Texts
     let loader = new THREE.FontLoader();
     loader.load( this.assetsFolderPath + 'fonts/optimer_regular.typeface.json', ( font ) => {
       let textMaterial = new THREE.MeshLambertMaterial({color:0x444444});
@@ -114,7 +107,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       }
     });
 
-    // create a door and add it to the scene
+    // create Doors and add it to the scene
     let doorsGeometry = new THREE.PlaneGeometry(30,60);
     let doorsMaterial = new THREE.MeshLambertMaterial({
       color:0xFFFFFF,
@@ -126,10 +119,51 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     doors.position.z = floor.position.z + doorsGeometry.parameters.height / 2;
     doors.rotation.x = 1;
 
+    // create a box and add it to the scene
+    /*
+    let bathTubMaterials = [
+      new THREE.MeshLambertMaterial({
+        color:0xFFFFFF
+      }),        // Left side
+      new THREE.MeshLambertMaterial({
+        color:0xFFFFFF
+      }),       // Right side
+      new THREE.MeshLambertMaterial({
+        color:0xFFFFFF,
+        map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png')
+      }),         // Top side
+      null,      // Bottom side
+      new THREE.MeshLambertMaterial({
+        color:0xFFFFFF
+      }),       // Front side
+      new THREE.MeshLambertMaterial({
+        color:0xFFFFFF
+      })         // Back side
+    ];
+    */
+    //let bathTubGeometry = new THREE.BoxGeometry(30,60,30,1,1,1,bathTubMaterials);
+    //let bathTub = new THREE.Mesh(bathTubGeometry, new THREE.MeshFaceMaterial());
+
+    let bathTubGeometry = new THREE.BoxGeometry(30,60,30);
+    let bathTubMaterial = new THREE.MeshLambertMaterial({
+      color:0xFFFFFF,
+      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png')
+    });
+    let bathTub = new THREE.Mesh(bathTubGeometry, bathTubMaterial);
+    bathTub.position.z = floor.position.z + bathTubGeometry.parameters.height / 2;
+
+    // create a box and add it to the scene
+    let boxGeometry = new THREE.BoxGeometry(1,1,1);
+    let boxMaterial = new THREE.MeshLambertMaterial({color:0xF3FFE2});
+    let box = new THREE.Mesh(boxGeometry, boxMaterial);
+    box.position.x = 0.5;
+    box.rotation.y = 0.5;
+    box.position.z = -5;
+
+    // Adjust camera position so that view would not be from above.
     camera.position.x = 0;
     camera.position.y = -50;
     camera.position.z = 100;
-
     camera.lookAt(scene.position);
 
     // Assign local variables to globals so the shapes become accessible in other methods
@@ -137,8 +171,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.camera = camera;
     this.scene = scene;
     this.floor =  floor;
-    this.box = box;
     this.doors = doors;
+    this.bathTub = bathTub;
+    this.box = box;
     this.animate();
   }
 
@@ -182,22 +217,24 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         }
         console.log("Switch went to showRoomDimensionsElements!");
         break;
+      case 'roomParametersChanged':
+        //this.updateFloorSize();
+        console.log('Switch went to roomParametersChanged!');
+        break;
       case 'showDoorPositionElements':
         console.log("Switch went to showDoorPositionElements!");
-        if(!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.box)) {
-          //this.updateFloorSize();
+        if(!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub)) {
           this.scene.add(this.doors);
           this.scene.remove(this.roomWidthText);
           this.scene.remove(this.roomLengthText);
-          this.scene.remove(this.box);
+          this.scene.remove(this.bathTub);
         }
         break;
       case 'doorPositionChanged':
-        console.log(this.doors);
         if(this.selectionsMadeService.getDoorPosition() == 'Left') {
           this.doors.position.x = this.floor.position.x - this.floor.geometry.parameters.width / 2 + this.doors.geometry.parameters.width / 2;
         } else if(this.selectionsMadeService.getDoorPosition() == 'Right') {
-          this.doors.position.x = this.floor.position.x + this.doors.geometry.parameters.width / 2;
+          this.doors.position.x = this.floor.position.x + this.doors.geometry.parameters.width;
         } else if(this.selectionsMadeService.getDoorPosition() == 'Middle'){
           this.doors.position.x = this.floor.position.x;
         } else {
@@ -206,10 +243,16 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         break;
       case 'showTubParametersElements':
         console.log("Switch went to showTubParametersElements!");
-        if(!isNullOrUndefined(this.box) && !isNullOrUndefined(this.doors)) {
+        if(!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub)) {
           this.scene.remove(this.doors);
-          this.scene.add(this.box);
+          this.scene.add(this.bathTub);
         }
+        break;
+      case 'tubParametersChanged':
+        console.log('Switch went to tubParametersChanged!');
+        break;
+      case 'tubPositionChanged':
+        console.log('Switch went to tubPositionChanged!');
         break;
       default:
         console.log("Switch went to default!");
