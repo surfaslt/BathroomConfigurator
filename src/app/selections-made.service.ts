@@ -7,6 +7,10 @@ export class SelectionsMadeService {
   private currentQuestion: number = 1;
   private progress: number = 25;
   private numberOfPages: number = 6;
+  private doorWidth: number = 762;
+  private doorHeight: number = 1981;
+  private placeholderMinWidth: number = 400;
+  private placeholderMinLength: number = 400;
 
   private data = {
     roomWidth: 2000,
@@ -14,9 +18,7 @@ export class SelectionsMadeService {
     doorPosition: 'Left',
     tubWidth: 700,
     tubLength: 1700,
-    tubPosition: 'Left Bottom',
-    hasToilet: false,
-    toiletType: ''
+    tubPosition: 'Left Bottom'
   }
 
   constructor() { }
@@ -57,14 +59,6 @@ export class SelectionsMadeService {
     this.data.tubPosition = tubPosition;
   }
 
-  setHasToilet( has: boolean ):void {
-    this.data.hasToilet = has;
-  }
-
-  setToiletType( type: string ):void {
-    this.data.toiletType = type;
-  }
-
   getCurrentQuestionNo():number {
     return this.currentQuestion;
   }
@@ -101,12 +95,20 @@ export class SelectionsMadeService {
     return this.data.tubPosition;
   }
 
-  getHasToilet():boolean {
-    return this.data.hasToilet;
+  getDoorWidth():number {
+    return this.doorWidth;
   }
 
-  getToiletType():string {
-    return this.data.toiletType;
+  getDoorHeight():number {
+    return this.doorHeight;
+  }
+
+  getPlaceholderMinWidth():number {
+    return this.placeholderMinWidth;
+  }
+
+  getPlaceholderMinLength():number {
+    return this.placeholderMinLength;
   }
 
 }

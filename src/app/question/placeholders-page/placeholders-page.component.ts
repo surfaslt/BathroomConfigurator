@@ -17,9 +17,5 @@ export class FirstQuestionPageComponent implements OnInit {
   ngOnInit() {
   }
 
-  changeHasToilet(toiletStatus: boolean):void {
-    this.selectionsMadeService.setHasToilet(toiletStatus);
-    this.onChangeMade.emit('hasToilet');
-  }
 
 }

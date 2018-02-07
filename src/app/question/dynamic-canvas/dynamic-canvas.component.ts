@@ -39,7 +39,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     renderer.setSize(window.innerWidth/2, window.innerHeight/2);
 
     // CAMERA
-    let camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 3000);
+    let camera = new THREE.PerspectiveCamera(1000, window.innerWidth / window.innerHeight, 0.1, 30000);
 
     // SCENE
     let scene = new THREE.Scene();
@@ -51,20 +51,21 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     scene.add(light1);
 
     // Floors
-    let floorGeometry = new THREE.PlaneGeometry(100,100);
+    let floorGeometry = new THREE.PlaneGeometry(this.selectionsMadeService.getRoomWidth(),this.selectionsMadeService.getRoomLength());
     let floorMaterial = new THREE.MeshBasicMaterial({
       color: 0xeeeeee,
       //wireframe: true
     });
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);
 
+    let fontSize:number = floorGeometry.parameters.height / 15;
     // Texts
     let loader = new THREE.FontLoader();
     loader.load( this.assetsFolderPath + 'fonts/optimer_regular.typeface.json', ( font ) => {
       let textMaterial = new THREE.MeshLambertMaterial({color:0x444444});
       let roomWidthTextGeometry = new THREE.TextGeometry( 'Room width', {
         font: font,
-        size: 8,
+        size: fontSize,
         height: 3,
         curveSegments: 10,
         bevelEnabled: false,
@@ -73,14 +74,15 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         bevelSegments: 1
       });
       let roomWidthText = new THREE.Mesh(roomWidthTextGeometry, textMaterial);
-      roomWidthText.position.x = floor.position.y - floor.geometry.parameters.width / 3.5;
-      roomWidthText.position.y = floor.position.y - floor.geometry.parameters.height / 2 - 10;
-      roomWidthText.position.z = floor.position.z + roomWidthTextGeometry.parameters.parameters.size;
+      roomWidthText.position.x = floor.position.x - floor.geometry.parameters.width / 4;
+      // multiply by 1.5 to give space between floor and text elements
+      roomWidthText.position.y = floor.position.y - floor.geometry.parameters.height / 2 - roomWidthTextGeometry.parameters.parameters.size * 1.5;
+      roomWidthText.position.z = floor.position.z;
       this.roomWidthText = roomWidthText;
 
       let roomLengthTextGeometry = new THREE.TextGeometry( 'Room length', {
         font: font,
-        size: 8,
+        size: fontSize,
         height: 3,
         curveSegments: 12,
         bevelEnabled: false,
@@ -90,9 +92,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       });
 
       let roomLengthText = new THREE.Mesh(roomLengthTextGeometry, textMaterial);
-      roomLengthText.position.x = floor.position.x - floor.geometry.parameters.width / 2 - 10;
-      roomLengthText.position.y = floor.position.y - 40;
-      roomLengthText.position.z = floor.position.z + roomLengthTextGeometry.parameters.parameters.size;
+      roomLengthText.position.x = floor.position.x - floor.geometry.parameters.width / 2 - roomLengthTextGeometry.parameters.parameters.size / 2;
+      roomLengthText.position.y = floor.position.y - floor.geometry.parameters.height / 3;
+      roomLengthText.position.z = floor.position.z;
       roomLengthText.rotation.x = THREE.Math.degToRad(20);
       roomLengthText.rotation.y = THREE.Math.degToRad(10);
       roomLengthText.rotation.z = THREE.Math.degToRad(80);
@@ -106,15 +108,15 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     });
 
     // create Doors and add it to the scene
-    let doorsGeometry = new THREE.PlaneGeometry(30,60);
+    let doorsGeometry = new THREE.PlaneGeometry(this.selectionsMadeService.getDoorWidth(),this.selectionsMadeService.getDoorHeight());
     let doorsMaterial = new THREE.MeshLambertMaterial({
       color:0xFFFFFF,
       map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg')
     });
     let doors = new THREE.Mesh(doorsGeometry, doorsMaterial);
-    doors.position.y = floor.position.y - floorGeometry.parameters.height / 2 + doorsGeometry.parameters.height / 4;
+    doors.position.y = floor.position.y - floorGeometry.parameters.height / 2;
     doors.position.z = floor.position.z + doorsGeometry.parameters.height / 2;
-    doors.rotation.x = THREE.Math.degToRad(60);
+    doors.rotation.x = THREE.Math.degToRad(90);
 
     // create a box and add it to the scene
     /*
@@ -141,14 +143,14 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     //let bathTubGeometry = new THREE.BoxGeometry(30,60,30,1,1,1,bathTubMaterials);
     //let bathTub = new THREE.Mesh(bathTubGeometry, new THREE.MeshFaceMaterial());
 
-    let bathTubGeometry = new THREE.BoxGeometry(30,60,30);
+    let bathTubGeometry = new THREE.BoxGeometry(this.selectionsMadeService.getTubWidth(),510, this.selectionsMadeService.getTubLength());
     let bathTubMaterial = new THREE.MeshLambertMaterial({
       color:0xFFFFFF,
       map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png')
     });
     let bathTub = new THREE.Mesh(bathTubGeometry, bathTubMaterial);
-    debugger;
-    bathTub.position.z = floor.position.z + bathTubGeometry.parameters.depth / 2;
+    bathTub.position.z = floor.position.z + bathTubGeometry.parameters.height / 2;
+    bathTub.rotation.x = THREE.Math.degToRad(90);
 
     // setup placeholders group and material
     let placeholdersGroup = new THREE.Group();
@@ -158,7 +160,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     });
 
     // create a box and add it to the scene
-    let boxGeometry = new THREE.BoxGeometry(1,1,1);
+    let boxGeometry = new THREE.BoxGeometry(100,100,100);
     let boxMaterial = new THREE.MeshLambertMaterial({color:0xF3FFE2});
     let box = new THREE.Mesh(boxGeometry, boxMaterial);
     box.position.x = 0.5;
@@ -166,10 +168,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     box.rotation.y = THREE.Math.degToRad(30);
 
     // Adjust camera position so that view would not be from above.
-    camera.position.x = 0;
-    camera.position.y = -50;
-    camera.position.z = 100;
-    camera.lookAt(scene.position);
+    camera.rotation.x = THREE.Math.degToRad(60);
+    camera.rotation.y = THREE.Math.degToRad(0);
+    camera.rotation.z = THREE.Math.degToRad(180);
 
     // Assign local variables to globals so the shapes become accessible in other methods
     this.renderer = renderer;
@@ -222,12 +223,14 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     console.log("hello from dynamic-canvas switch! stageName: ", stageName);
     switch (stageName) {
       case 'showRoomDimensionsElements':
+        console.log('Switch went to ShowRoomDimensionElements!');
+        this.camera.position.y = -this.selectionsMadeService.getRoomLength();
+        this.camera.position.z = this.selectionsMadeService.getRoomWidth();
         if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors)) {
           this.scene.add(this.roomWidthText);
           this.scene.add(this.roomLengthText);
           this.scene.remove(this.doors);
         }
-        console.log("Switch went to showRoomDimensionsElements!");
         break;
       case 'roomParametersChanged':
         //this.updateFloorSize();
@@ -235,6 +238,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         break;
       case 'showDoorPositionElements':
         console.log("Switch went to showDoorPositionElements!");
+        this.camera.position.y = -this.selectionsMadeService.getRoomLength()*1.25;
+        this.camera.position.z = this.selectionsMadeService.getRoomWidth()*1.25;
         if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub)) {
           this.scene.add(this.doors);
           this.scene.remove(this.roomWidthText);
@@ -260,6 +265,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         break;
       case 'showTubParametersElements':
         console.log("Switch went to showTubParametersElements!");
+        this.camera.position.y = -this.selectionsMadeService.getRoomLength();
+        this.camera.position.z = this.selectionsMadeService.getRoomWidth();
         if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
           this.scene.remove(this.doors);
           this.scene.remove(this.placeholdersGroup);
@@ -273,34 +280,34 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         console.log('Switch went to tubPositionChanged!');
         switch (this.selectionsMadeService.getTubPosition()) {
           case 'Left Bottom':
-            this.bathTub.rotation.z = THREE.Math.degToRad(0);
+            this.bathTub.rotation.y = THREE.Math.degToRad(0);
             this.bathTub.position.x = this.floor.position.x - this.floor.geometry.parameters.width / 2 + this.bathTub.geometry.parameters.width / 2;
-            this.bathTub.position.y = this.floor.position.y - this.floor.geometry.parameters.height / 2 + this.bathTub.geometry.parameters.height / 2;
+            this.bathTub.position.y = this.floor.position.y - this.floor.geometry.parameters.height / 2 + this.bathTub.geometry.parameters.depth / 2;
             break;
           case 'Left Top':
-            this.bathTub.rotation.z = THREE.Math.degToRad(0);
+            this.bathTub.rotation.y = THREE.Math.degToRad(0);
             this.bathTub.position.x = this.floor.position.x - this.floor.geometry.parameters.width / 2 + this.bathTub.geometry.parameters.width / 2;
-            this.bathTub.position.y = this.floor.position.y + this.floor.geometry.parameters.height / 2 - this.bathTub.geometry.parameters.height / 2;
+            this.bathTub.position.y = this.floor.position.y + this.floor.geometry.parameters.height / 2 - this.bathTub.geometry.parameters.depth / 2;
             break;
           case 'Top Left':
-            this.bathTub.rotation.z = THREE.Math.degToRad(90);
-            this.bathTub.position.x = this.floor.position.x - this.floor.geometry.parameters.width / 2 + this.bathTub.geometry.parameters.width;
-            this.bathTub.position.y = this.floor.position.y + this.floor.geometry.parameters.height / 2 - this.bathTub.geometry.parameters.height / 2;
+            this.bathTub.rotation.y = THREE.Math.degToRad(90);
+            this.bathTub.position.x = this.floor.position.x - this.floor.geometry.parameters.width / 2 + this.bathTub.geometry.parameters.depth / 2;
+            this.bathTub.position.y = this.floor.position.y + this.floor.geometry.parameters.height / 2 - this.bathTub.geometry.parameters.width / 2;
             break;
           case 'Top Right':
-            this.bathTub.rotation.z = THREE.Math.degToRad(90);
-            this.bathTub.position.x = this.floor.position.x + this.floor.geometry.parameters.width / 2 - this.bathTub.geometry.parameters.width;
-            this.bathTub.position.y = this.floor.position.y + this.floor.geometry.parameters.height / 2 - this.bathTub.geometry.parameters.height / 2;
+            this.bathTub.rotation.y = THREE.Math.degToRad(90);
+            this.bathTub.position.x = this.floor.position.x + this.floor.geometry.parameters.width / 2 - this.bathTub.geometry.parameters.depth / 2;
+            this.bathTub.position.y = this.floor.position.y + this.floor.geometry.parameters.height / 2 - this.bathTub.geometry.parameters.width / 2;
             break;
           case 'Right Top':
-            this.bathTub.rotation.z = THREE.Math.degToRad(180);
+            this.bathTub.rotation.y = THREE.Math.degToRad(180);
             this.bathTub.position.x = this.floor.position.x + this.floor.geometry.parameters.width / 2 - this.bathTub.geometry.parameters.width / 2;
-            this.bathTub.position.y = this.floor.position.y + this.floor.geometry.parameters.height / 2 - this.bathTub.geometry.parameters.height / 2;
+            this.bathTub.position.y = this.floor.position.y + this.floor.geometry.parameters.height / 2 - this.bathTub.geometry.parameters.depth / 2;
             break;
           case 'Right Bottom':
-            this.bathTub.rotation.z = THREE.Math.degToRad(180);
+            this.bathTub.rotation.y = THREE.Math.degToRad(180);
             this.bathTub.position.x = this.floor.position.x + this.floor.geometry.parameters.width / 2 - this.bathTub.geometry.parameters.width / 2;
-            this.bathTub.position.y = this.floor.position.y - this.floor.geometry.parameters.height / 2 + this.bathTub.geometry.parameters.height / 2;
+            this.bathTub.position.y = this.floor.position.y - this.floor.geometry.parameters.height / 2 + this.bathTub.geometry.parameters.depth / 2;
             break;
           default:
             console.log('Tub position not recognised!');
@@ -309,12 +316,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         break;
       case 'showPlaceholderElements':
         console.log('Placeholder elements in switch!!!');
+        this.camera.position.y = -this.selectionsMadeService.getRoomLength();
+        this.camera.position.z = this.selectionsMadeService.getRoomWidth();
         if (!isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
           this.scene.remove(this.bathTub);
           this.scene.add(this.placeholdersGroup);
         }
-
-        this.placeholdersGroup.add(this.createPlaceholderObject(20, 20));
+        this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(), this.selectionsMadeService.getPlaceholderMinLength()));
 
         break;
       default:
