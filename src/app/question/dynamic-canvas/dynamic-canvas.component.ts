@@ -147,7 +147,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png')
     });
     let bathTub = new THREE.Mesh(bathTubGeometry, bathTubMaterial);
-    bathTub.position.z = floor.position.z + bathTubGeometry.parameters.height / 2;
+    debugger;
+    bathTub.position.z = floor.position.z + bathTubGeometry.parameters.depth / 2;
 
     // setup placeholders group and material
     let placeholdersGroup = new THREE.Group();
@@ -250,7 +251,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
             this.doors.position.x = this.floor.position.x;
             break;
           case 'Right':
-            this.doors.position.x = this.floor.position.x + this.doors.geometry.parameters.width;
+            this.doors.position.x = this.floor.position.x + this.floor.geometry.parameters.width / 2 - this.doors.geometry.parameters.width / 2;
             break;
           default:
             console.log('Door position was not recognized!');
