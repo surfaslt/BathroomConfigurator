@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { AppComponent } from './app.component';
 import { SelectionsMadeService } from "./selections-made.service";
 import { DynamicCanvasComponent } from './question/dynamic-canvas/dynamic-canvas.component';
-import { FirstQuestionPageComponent } from './question/first-question-page/first-question-page.component';
+import { FirstQuestionPageComponent } from './question/placeholders-page/placeholders-page.component';
 import { SplashPageComponent } from './splash-page/splash-page.component';
 import { QuestionComponent } from './question/question.component';
 import { ParametersPageComponent } from './question/parameters-page/parameters-page.component';

@@ -11,7 +11,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   currentQuestionNo: number = 1;
   totalQuestionNo: number = 4;
   userChangeMade: string = '';
-  messagesToDynamicCanvasComponent: string[] = ['showRoomDimensionsElements','showDoorPositionElements','showTubParametersElements','','',''];
+  messagesToDynamicCanvasComponent: string[] = ['showRoomDimensionsElements','showDoorPositionElements','showTubParametersElements','showPlaceholderElements'];
 
   constructor(private selectionsMadeService: SelectionsMadeService) {
     this.currentQuestionNo = selectionsMadeService.getCurrentQuestionNo();

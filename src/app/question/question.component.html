@@ -3,7 +3,7 @@
     <app-parameters-page *ngIf="currentQuestionNo == 1" (onChangeMade)="onChangeMade($event)">Loading...</app-parameters-page>
     <app-door-position-page *ngIf="currentQuestionNo == 2" (onChangeMade)="onChangeMade($event)">Loading...</app-door-position-page>
     <app-tub-parameters-page *ngIf="currentQuestionNo == 3" (onChangeMade)="onChangeMade($event)">Loading...</app-tub-parameters-page>
-    <app-first-question-page *ngIf="currentQuestionNo == 4" (onChangeMade)="onChangeMade($event)">Loading...</app-first-question-page>
+    <app-placeholders-page *ngIf="currentQuestionNo == 4" (onChangeMade)="onChangeMade($event)">Loading...</app-placeholders-page>
   </div>
   <div class="col- col-sm col-md">
     <app-dynamic-canvas [changeMade]="userChangeMade"></app-dynamic-canvas>

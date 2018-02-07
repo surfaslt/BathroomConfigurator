@@ -9,7 +9,7 @@ import {SelectionsMadeService} from "../../selections-made.service";
 export class TubParametersPageComponent implements OnInit {
 
   @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
-  tubPositionAvailableOptions: number = 3;
+  tubPositionAvailableOptions: number = 6;
   tubPositionOptions: string[] = ['Left Bottom','Left Top','Top Left','Top Right','Right Top', 'Right Bottom'];
   tubPositionChosen: string;
 

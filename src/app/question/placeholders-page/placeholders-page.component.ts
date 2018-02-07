@@ -2,9 +2,9 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SelectionsMadeService } from "../../selections-made.service";
 
 @Component({
-  selector: 'app-first-question-page',
-  templateUrl: './first-question-page.component.html',
-  styleUrls: ['./first-question-page.component.css']
+  selector: 'app-placeholders-page',
+  templateUrl: './placeholders-page.component.html',
+  styleUrls: ['./placeholders-page.component.css']
 })
 export class FirstQuestionPageComponent implements OnInit {
 
