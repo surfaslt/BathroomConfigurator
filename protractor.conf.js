@@ -3,41 +3,42 @@
 
 
 exports.config = {
-  allScriptsTimeout: 11000,
+  //seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
+  getPageTimeout: 60000,
+  allScriptsTimeout: 500000,
+  // Use a custom framework adapter and set its relative path
+  framework: 'custom',
+  frameworkPath: require.resolve('protractor-cucumber-framework'),
   capabilities: {
     'browserName': 'chrome'
   },
+  chromeOnly: true,
   directConnect: true,
-  baseUrl: 'http://localhost:4200/',
+  chromeDriver: "./node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.24.exe",
 
   // Specs here are the cucumber feature files
   specs: [
     './e2e/features/*.feature'
   ],
 
-  // Use a custom framework adapter and set its relative path
-  framework: 'custom',
-  frameworkPath: require.resolve('protractor-cucumber-framework'),
+  baseUrl: 'http://localhost:4200/',
 
   // cucumber command line options
   cucumberOpts: {
     // require step definition files before executing features
     require: ['./e2e/features/stepDefinitions/*.js'],
     // <string[]> (expression) only execute the features or scenarios with tags matching the expression
-    tags: [],
+    tags: false,
     // <boolean> fail if there are any undefined or pending steps
-    strict: true,
-    // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    format: [
-      'progress',
-      'pretty:reports/summary.txt',
-      'json:reports/summary.json'
-    ],
+    format: 'pretty',
     // <boolean> invoke formatters without executing steps
-    dryRun: false,
+    profile: false,
     // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
-    compiler: []
+    'no-source': true
   },
+
+  /*
+  directConnect: true,
 
   // Enable TypeScript for the tests
   onPrepare() {
@@ -45,4 +46,5 @@ exports.config = {
       project: 'e2e/tsconfig.e2e.json'
     });
   }
+  */
 };
