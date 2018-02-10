@@ -114,11 +114,29 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     // Create and do initial setup to bath tub element
     let bathTubGeometry = new THREE.BoxGeometry(1,1,1);
-    let bathTubMaterial = new THREE.MeshLambertMaterial({
-      color:0xFFFFFF,
+
+    let bathTubTextureMaterial = new THREE.MeshLambertMaterial({
       map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png')
     });
-    let bathTub = new THREE.Mesh(bathTubGeometry, bathTubMaterial);
+
+    let bathTubMaterial = new THREE.MeshLambertMaterial({
+      color:0xFFFFFF
+    });
+
+    bathTubGeometry.materials = [ bathTubTextureMaterial, bathTubMaterial ];
+
+    let bathTubMaterials = [
+      bathTubMaterial,
+      bathTubMaterial,
+      bathTubTextureMaterial,
+      bathTubMaterial,
+      bathTubMaterial,
+      bathTubMaterial
+    ];
+
+    let bathTub = new THREE.Mesh( bathTubGeometry, bathTubMaterials );
+
+    //let bathTub = new THREE.Mesh(bathTubGeometry, bathTubMaterial);
 
     bathTub.scale.set(this.selectionsMadeService.getTubWidth(),510, this.selectionsMadeService.getTubLength());
     bathTub.position.z = floor.position.z + bathTub.scale.y / 2;
