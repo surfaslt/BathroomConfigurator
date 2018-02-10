@@ -138,7 +138,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     //let bathTub = new THREE.Mesh(bathTubGeometry, bathTubMaterial);
 
-    bathTub.scale.set(this.selectionsMadeService.getTubWidth(),510, this.selectionsMadeService.getTubLength());
+    bathTub.scale.set(this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubHeight(), this.selectionsMadeService.getTubLength());
     bathTub.position.z = floor.position.z + bathTub.scale.y / 2;
     bathTub.rotation.x = THREE.Math.degToRad(90);
 
@@ -270,6 +270,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         break;
       case 'tubParametersChanged':
         console.log('Switch went to tubParametersChanged!');
+        this.updateTubSize();
+        this.updateView('tubPositionChanged');
         break;
       case 'tubPositionChanged':
         console.log('Switch went to tubPositionChanged!');
@@ -354,4 +356,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.roomLengthText.position.y = this.floor.position.y - this.floor.scale.y / 3;
     this.roomLengthText.position.z = this.floor.position.z + 1;
   }
+
+  updateTubSize = ():void => {
+    this.bathTub.scale.set( this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubHeight(), this.selectionsMadeService.getTubLength());
+  }
+
 }

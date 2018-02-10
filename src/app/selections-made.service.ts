@@ -4,11 +4,13 @@ import {Subject} from "rxjs/Subject";
 @Injectable()
 export class SelectionsMadeService {
 
+  // Values that are NOT chosen by user - globally accessible file storage for program to work
   private currentQuestion: number = 1;
   private progress: number = 25;
   private numberOfPages: number = 6;
   private doorWidth: number = 762;
   private doorHeight: number = 1981;
+  private tubHeight: number = 510;
   private placeholderMinWidth: number = 400;
   private placeholderMinLength: number = 400;
 
@@ -101,6 +103,10 @@ export class SelectionsMadeService {
 
   getDoorHeight():number {
     return this.doorHeight;
+  }
+
+  getTubHeight():number {
+    return this.tubHeight;
   }
 
   getPlaceholderMinWidth():number {
