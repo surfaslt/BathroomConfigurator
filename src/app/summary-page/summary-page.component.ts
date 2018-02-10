@@ -10,7 +10,7 @@ export class SummaryPageComponent implements OnInit {
 
   private data: object;
   constructor(private selectionsMadeService: SelectionsMadeService) {
-    this.selectionsMadeService.setProgress(8);
+    this.selectionsMadeService.setProgress(6);
     this.data = this.selectionsMadeService.getData();
   }
 

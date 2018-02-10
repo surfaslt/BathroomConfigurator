@@ -313,11 +313,12 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         this.updateCameraPosition();
         if (!isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
           for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 0.3; }
+          this.scene.add(this.bathTub);
           this.scene.add(this.placeholdersGroup);
-        }
-        this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(),
-          this.selectionsMadeService.getPlaceholderMinLength()));
 
+          this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(),
+          this.selectionsMadeService.getPlaceholderMinLength()));
+        }
         break;
       default:
         console.log("Switch went to default!");
