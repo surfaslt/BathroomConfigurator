@@ -24,11 +24,11 @@ export class SelectionsMadeService {
   constructor() { }
 
   setCurrentQuestionNumber( questionNo:number ):void {
-    this.currentQuestion = questionNo;
+    this.currentQuestion = Number(questionNo);
   }
 
   setProgress( pageNo:number ):void {
-    this.progress = pageNo / this.numberOfPages * 100;
+    this.progress = Number(pageNo) / this.numberOfPages * 100;
   }
 
   setData( data ):void {
@@ -36,11 +36,11 @@ export class SelectionsMadeService {
   }
 
   setRoomWidth(width: number):void {
-    this.data.roomWidth = +width;
+    this.data.roomWidth = Number(width);
   }
 
   setRoomLength(length: number):void {
-    this.data.roomLength = +length;
+    this.data.roomLength = Number(length);
   }
 
   setDoorPosition(doorPosition: string):void {
@@ -48,11 +48,11 @@ export class SelectionsMadeService {
   }
 
   setTubWidth(width: number):void {
-    this.data.tubWidth = width;
+    this.data.tubWidth = Number(width);
   }
 
   setTubLength(length: number):void {
-    this.data.tubLength = length;
+    this.data.tubLength = Number(length);
   }
 
   setTubPosition(tubPosition: string):void {
