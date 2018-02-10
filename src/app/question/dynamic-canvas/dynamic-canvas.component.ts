@@ -19,13 +19,11 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private roomWidthText: THREE.Object3D;
   private roomLengthText: THREE.Object3D;
   private doors: THREE.Object3D;
-  private box: THREE.Object3D;
   private bathTub: THREE.Object3D;
   private placeholdersGroup: THREE.Group;
   private controls: any; // might not be needded
   private currentPage: string ='';
   private assetsFolderPath: string ='./../../../assets/';
-  private degree = Math.PI / 180;
   private placeholderMaterial;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
@@ -146,16 +144,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let placeholdersGroup = new THREE.Group();
     placeholdersGroup.position.z = floor.position.z + 1;
     let placeholderMaterial = new THREE.MeshBasicMaterial({
-      color: 0x999999
+      color: 0x00ff00,
+      transparent: true
     });
-
-    // create a box and add it to the scene
-    let boxGeometry = new THREE.BoxGeometry(100,100,100);
-    let boxMaterial = new THREE.MeshLambertMaterial({color:0xF3FFE2});
-    let box = new THREE.Mesh(boxGeometry, boxMaterial);
-    box.position.x = 0.5;
-    box.position.z = -5;
-    box.rotation.y = THREE.Math.degToRad(30);
 
     // Adjust camera position so that view would not be from above.
     camera.rotation.x = THREE.Math.degToRad(60);
@@ -171,7 +162,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.bathTub = bathTub;
     this.placeholdersGroup = placeholdersGroup;
     this.placeholderMaterial = placeholderMaterial;
-    this.box = box;
 
     // Update floor size from parameters
     this.updateFloorSize();
@@ -183,15 +173,19 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.animate();
   }
 
-  animate = () => {
+  animate = ():void => {
     requestAnimationFrame( this.animate );
     this.render();
   }
 
-  render = () => {
+  render = ():void => {
     let timer = 0.002 * Date.now();
-    this.box.position.y = 0.5 + 3 * Math.sin(timer);
-    this.box.rotation.x += THREE.Math.degToRad(3);
+    for(let placeholder of this.placeholdersGroup.children){
+      placeholder.material.opacity = 0.5 + Math.abs(0.5 * Math.sin(timer));
+    }
+    //this.box.position.y = 0.5 + 3 * Math.sin(timer);
+    //this.box.rotation.x += THREE.Math.degToRad(3);
+
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -318,7 +312,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.scene.remove(this.bathTub);
           this.scene.add(this.placeholdersGroup);
         }
-        this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(), this.selectionsMadeService.getPlaceholderMinLength()));
+        this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(),
+          this.selectionsMadeService.getPlaceholderMinLength()));
+        debugger;
 
         break;
       default:
