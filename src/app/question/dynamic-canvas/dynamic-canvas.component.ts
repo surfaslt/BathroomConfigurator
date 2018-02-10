@@ -114,11 +114,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let bathTubGeometry = new THREE.BoxGeometry(1,1,1);
 
     let bathTubTextureMaterial = new THREE.MeshLambertMaterial({
-      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png')
+      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png'),
+      transparent: true
     });
 
     let bathTubMaterial = new THREE.MeshLambertMaterial({
-      color:0xFFFFFF
+      color:0xFFFFFF,
+      transparent: true
     });
 
     bathTubGeometry.materials = [ bathTubTextureMaterial, bathTubMaterial ];
@@ -259,6 +261,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
           this.scene.remove(this.doors);
           this.scene.remove(this.placeholdersGroup);
+          for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 1.0; }
           this.scene.add(this.bathTub);
         }
         break;
@@ -309,12 +312,11 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         console.log('Placeholder elements in switch!!!');
         this.updateCameraPosition();
         if (!isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
-          this.scene.remove(this.bathTub);
+          for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 0.3; }
           this.scene.add(this.placeholdersGroup);
         }
         this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(),
           this.selectionsMadeService.getPlaceholderMinLength()));
-        debugger;
 
         break;
       default:
