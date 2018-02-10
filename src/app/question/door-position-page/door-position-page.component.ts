@@ -10,21 +10,18 @@ export class DoorPositionPageComponent implements OnInit {
 
   @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
 
-  private doorPositionAvailableOptions: number = 1;
-  private doorWidth: number = 762; // most common door width in UK is 762mm
   private doorPositionOptions: string[] = ['Left', 'Middle', 'Right'];
   private doorPositionChosen: string;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {
     selectionsMadeService.setProgress(3);
     this.doorPositionChosen = selectionsMadeService.getDoorPosition();
-    this.doorPositionAvailableOptions = selectionsMadeService.getRoomWidth() / this.doorWidth;
   }
 
   ngOnInit() {
   }
 
-  doorPositionChanged():void {
+  doorPositionChanged = ():void => {
     this.selectionsMadeService.setDoorPosition(this.doorPositionChosen);
     this.onChangeMade.emit('doorPositionChanged');
   }
