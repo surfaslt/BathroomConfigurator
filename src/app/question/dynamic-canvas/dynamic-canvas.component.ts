@@ -51,18 +51,18 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     scene.add(light1);
 
     // Floors
-    let floorGeometry = new THREE.PlaneGeometry(this.selectionsMadeService.getRoomWidth(),this.selectionsMadeService.getRoomLength());
+    let floorGeometry = new THREE.PlaneGeometry(1,1);
     let floorMaterial = new THREE.MeshBasicMaterial({
       color: 0xeeeeee,
       //wireframe: true
     });
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);
 
-    let fontSize:number = floorGeometry.parameters.height / 15;
     // Texts
     let loader = new THREE.FontLoader();
     loader.load( this.assetsFolderPath + 'fonts/optimer_regular.typeface.json', ( font ) => {
       let textMaterial = new THREE.MeshLambertMaterial({color:0x444444});
+      let fontSize:number = floor.scale.y / 15;
       let roomWidthTextGeometry = new THREE.TextGeometry( 'Room width', {
         font: font,
         size: fontSize,
@@ -74,11 +74,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         bevelSegments: 1
       });
       let roomWidthText = new THREE.Mesh(roomWidthTextGeometry, textMaterial);
-      roomWidthText.position.x = floor.position.x - floor.geometry.parameters.width / 4;
-      // multiply by 1.5 to give space between floor and text elements
-      roomWidthText.position.y = floor.position.y - floor.geometry.parameters.height / 2 - roomWidthTextGeometry.parameters.parameters.size * 1.5;
-      roomWidthText.position.z = floor.position.z;
       this.roomWidthText = roomWidthText;
+
+      debugger;
 
       let roomLengthTextGeometry = new THREE.TextGeometry( 'Room length', {
         font: font,
@@ -92,13 +90,12 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       });
 
       let roomLengthText = new THREE.Mesh(roomLengthTextGeometry, textMaterial);
-      roomLengthText.position.x = floor.position.x - floor.geometry.parameters.width / 2 - roomLengthTextGeometry.parameters.parameters.size / 2;
-      roomLengthText.position.y = floor.position.y - floor.geometry.parameters.height / 3;
-      roomLengthText.position.z = floor.position.z;
       roomLengthText.rotation.x = THREE.Math.degToRad(20);
       roomLengthText.rotation.y = THREE.Math.degToRad(10);
       roomLengthText.rotation.z = THREE.Math.degToRad(80);
       this.roomLengthText = roomLengthText;
+
+      this.resizeAndRepositionRoomDimensionTexts();
 
       // loader is asynchronous so the only way to add the elements into the scene is after they load
       if(this.currentPage == 'showRoomDimensionsElements') {
@@ -117,31 +114,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     doors.position.y = floor.position.y - floorGeometry.parameters.height / 2;
     doors.position.z = floor.position.z + doorsGeometry.parameters.height / 2;
     doors.rotation.x = THREE.Math.degToRad(90);
-
-    // create a box and add it to the scene
-    /*
-    let bathTubMaterials = [
-      new THREE.MeshLambertMaterial({
-        color:0xFFFFFF
-      }),        // Left side
-      new THREE.MeshLambertMaterial({
-        color:0xFFFFFF
-      }),       // Right side
-      new THREE.MeshLambertMaterial({
-        color:0xFFFFFF,
-        map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png')
-      }),         // Top side
-      null,      // Bottom side
-      new THREE.MeshLambertMaterial({
-        color:0xFFFFFF
-      }),       // Front side
-      new THREE.MeshLambertMaterial({
-        color:0xFFFFFF
-      })         // Back side
-    ];
-    */
-    //let bathTubGeometry = new THREE.BoxGeometry(30,60,30,1,1,1,bathTubMaterials);
-    //let bathTub = new THREE.Mesh(bathTubGeometry, new THREE.MeshFaceMaterial());
 
     let bathTubGeometry = new THREE.BoxGeometry(this.selectionsMadeService.getTubWidth(),510, this.selectionsMadeService.getTubLength());
     let bathTubMaterial = new THREE.MeshLambertMaterial({
@@ -182,6 +154,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.placeholdersGroup = placeholdersGroup;
     this.placeholderMaterial = placeholderMaterial;
     this.box = box;
+
+    // Update floor size from parameters
+    this.updateFloorSize();
 
     // Update all the positions from selections
     this.updateView('doorPositionChanged');
@@ -224,8 +199,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     switch (stageName) {
       case 'showRoomDimensionsElements':
         console.log('Switch went to ShowRoomDimensionElements!');
-        this.camera.position.y = -this.selectionsMadeService.getRoomLength();
-        this.camera.position.z = this.selectionsMadeService.getRoomWidth();
+        this.updateCameraPosition();
         if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors)) {
           this.scene.add(this.roomWidthText);
           this.scene.add(this.roomLengthText);
@@ -233,13 +207,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         }
         break;
       case 'roomParametersChanged':
-        //this.updateFloorSize();
         console.log('Switch went to roomParametersChanged!');
+        this.updateFloorSize();
+        this.updateCameraPosition();
         break;
       case 'showDoorPositionElements':
         console.log("Switch went to showDoorPositionElements!");
-        this.camera.position.y = -this.selectionsMadeService.getRoomLength()*1.25;
-        this.camera.position.z = this.selectionsMadeService.getRoomWidth()*1.25;
+        this.updateCameraPosition(1.25);
         if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub)) {
           this.scene.add(this.doors);
           this.scene.remove(this.roomWidthText);
@@ -265,8 +239,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         break;
       case 'showTubParametersElements':
         console.log("Switch went to showTubParametersElements!");
-        this.camera.position.y = -this.selectionsMadeService.getRoomLength();
-        this.camera.position.z = this.selectionsMadeService.getRoomWidth();
+        this.updateCameraPosition();
         if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
           this.scene.remove(this.doors);
           this.scene.remove(this.placeholdersGroup);
@@ -316,8 +289,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         break;
       case 'showPlaceholderElements':
         console.log('Placeholder elements in switch!!!');
-        this.camera.position.y = -this.selectionsMadeService.getRoomLength();
-        this.camera.position.z = this.selectionsMadeService.getRoomWidth();
+        this.updateCameraPosition();
         if (!isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
           this.scene.remove(this.bathTub);
           this.scene.add(this.placeholdersGroup);
@@ -338,29 +310,25 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   updateFloorSize = () => {
-    let roomW: number = this.selectionsMadeService.getRoomWidth();
-    let roomL: number = this.selectionsMadeService.getRoomLength();
+    this.floor.scale.set( this.selectionsMadeService.getRoomWidth(), this.selectionsMadeService.getRoomLength(), 1 );
+  }
 
-    let sceneBoundingBox = new THREE.Box3().setFromObject(this.scene);
-    let sceneHeight: number = sceneBoundingBox.max.z - sceneBoundingBox.min.z;
-    let sceneLength: number = sceneBoundingBox.max.x - sceneBoundingBox.min.x;
-    let sceneWidth: number = sceneBoundingBox.max.y - sceneBoundingBox.min.y;
+  updateCameraPosition = (multiplier?:number) => {
+    multiplier = multiplier ? multiplier : 1;
+    this.camera.position.y = -this.selectionsMadeService.getRoomLength() * multiplier;
+    this.camera.position.z = this.selectionsMadeService.getRoomWidth() * multiplier;
+    debugger;
+  }
 
-    /* tried to update width and height without recreating the object
-    this.floor.geometry.parameters.width = sceneWidth * 0.8 / 10;
-    let ratioRealVSDrawn = roomW / this.floor.geometry.parameters.width;
-    this.floor.geometry.parameters.height = roomL / ratioRealVSDrawn;
-    */
+  resizeAndRepositionRoomDimensionTexts(){
 
-    let floorWidth = sceneWidth * 0.8 / 10;
-    let ratioRealVSDrawn = roomW / this.floor.geometry.parameters.width;
-    let floorHeight = roomL / ratioRealVSDrawn;
+    this.roomWidthText.position.x = this.floor.position.x - this.floor.scale.x / 4;
+    // multiply by 1.5 to give space between floor and text elements
+    this.roomWidthText.position.y = this.floor.position.y - this.floor.scale.y / 2 - this.roomWidthText.geometry.parameters.parameters.size * 1.5;
+    this.roomWidthText.position.z = this.floor.position.z;
 
-    let floorGeometry = new THREE.PlaneGeometry(floorWidth, floorHeight);
-    let floorMaterial = new THREE.MeshBasicMaterial({
-      color: 0xeeeeee
-    });
-
-    this.floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    this.roomLengthText.position.x = this.floor.position.x - this.floor.scale.x / 2 - this.roomLengthText.geometry.parameters.parameters.size / 2;
+    this.roomLengthText.position.y = this.floor.position.y - this.floor.scale.y / 3;
+    this.roomLengthText.position.z = this.floor.position.z;
   }
 }

@@ -36,11 +36,11 @@ export class SelectionsMadeService {
   }
 
   setRoomWidth(width: number):void {
-    this.data.roomWidth = width;
+    this.data.roomWidth = +width;
   }
 
   setRoomLength(length: number):void {
-    this.data.roomLength = length;
+    this.data.roomLength = +length;
   }
 
   setDoorPosition(doorPosition: string):void {
