@@ -25,6 +25,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private currentPage: string ='';
   private assetsFolderPath: string ='./../../../assets/';
   private placeholderMaterial;
+  private raycaster: THREE.Raycaster;
+  private mouse: THREE.Vector2;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
@@ -43,9 +45,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let scene = new THREE.Scene();
 
     // LIGHTS
-    let light = new THREE.AmbientLight(0xffffff, 0.5);
+    let light = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(light);
-    let light1 = new THREE.PointLight(0xffffff, 0.5);
+    let light1 = new THREE.PointLight(0xffffff, 0.1);
+    light1.position.set( 0, 0, 5000);
     scene.add(light1);
 
     // Floors
@@ -165,6 +168,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.placeholdersGroup = placeholdersGroup;
     this.placeholderMaterial = placeholderMaterial;
 
+    // Define other parameters
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+
     // Update floor size from parameters
     this.updateFloorSize();
 
@@ -172,6 +179,11 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.updateView('doorPositionChanged');
     this.updateView('tubPositionChanged');
 
+    // Add listeners for clickable elements
+    //document.getElementById('myCanvas')
+
+    renderer.context.canvas.addEventListener( 'mousedown', this.onDocumentMouseDown, false );
+    renderer.context.canvas.addEventListener( 'touchstart', this.onDocumentTouchStart, false );
     this.animate();
   }
 
@@ -263,6 +275,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.scene.remove(this.placeholdersGroup);
           for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 1.0; }
           this.scene.add(this.bathTub);
+          this.updateView('tubPositionChanged');
         }
         break;
       case 'tubParametersChanged':
@@ -316,8 +329,17 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.scene.add(this.bathTub);
           this.scene.add(this.placeholdersGroup);
 
+
+          // Add for left wall
+
           this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(),
-          this.selectionsMadeService.getPlaceholderMinLength()));
+            this.selectionsMadeService.getPlaceholderMinLength()));
+
+          // Add for right wall
+
+          // Add top wall
+
+          // Add bottom wall
         }
         break;
       default:
@@ -358,6 +380,61 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   updateTubSize = ():void => {
     this.bathTub.scale.set( this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubHeight(), this.selectionsMadeService.getTubLength());
+  }
+
+  onDocumentTouchStart = ( event ) => {
+
+    event.preventDefault();
+
+    event.clientX = event.touches[0].clientX;
+    event.clientY = event.touches[0].clientY;
+    this.onDocumentMouseDown( event );
+
+  }
+
+  onDocumentMouseDown = ( event ) => {
+
+    event.preventDefault();
+
+    this.mouse.x = ( event.clientX / this.renderer.domElement.clientWidth ) * 2 - 1;
+    this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
+
+    debugger;
+
+    this.raycaster.setFromCamera( this.mouse, this.camera );
+
+    //let intersects = this.raycaster.intersectObjects( this.placeholdersGroup.children );
+    let intersects = this.raycaster.intersectObjects( this.scene.children );
+    console.log(this.mouse.x, this.mouse.y, intersects);
+    if ( intersects.length > 0 ) {
+
+      console.log("Intersected!");
+      /*
+      intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+      let particleMaterial = new THREE.SpriteMaterial( {
+        color: 0x000000,
+        program: function ( context ) {
+          context.beginPath();
+          context.arc( 0, 0, 0.5, 0, Math.PI * 2, true );
+          context.fill();
+        }
+      } );
+
+      let particle = new THREE.Sprite( particleMaterial );
+      particle.position.copy( intersects[ 0 ].point );
+      particle.scale.x = particle.scale.y = 16;
+      this.scene.add( particle );
+*/
+    }
+
+    /*
+            // Parse all the faces
+            for ( var i in intersects ) {
+
+                intersects[ i ].face.material[ 0 ].color.setHex( Math.random() * 0xffffff | 0x80000000 );
+
+            }
+            */
   }
 
 }
