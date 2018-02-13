@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TubParametersComponent } from './tub-parameters-page.component';
+import { TubParametersPageComponent } from './tub-parameters-page.component';
 
 describe('TubParametersComponent', () => {
-  let component: TubParametersComponent;
-  let fixture: ComponentFixture<TubParametersComponent>;
+  let component: TubParametersPageComponent;
+  let fixture: ComponentFixture<TubParametersPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TubParametersComponent ]
+      declarations: [ TubParametersPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TubParametersComponent);
+    fixture = TestBed.createComponent(TubParametersPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

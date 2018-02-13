@@ -1,50 +1,13 @@
-// Protractor configuration file, see link for more information
-// https://github.com/angular/protractor/blob/master/lib/config.ts
+'use strict';
+const config = require('./protractor.shared.conf').config;
+const chrome = require('./e2e/config/browsers/chrome.config').config;
 
+// NOTE: To run this tests the application must be running in localhost:4200.
+config.baseUrl = 'http://localhost:4200/';
 
-exports.config = {
-  //seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
-  getPageTimeout: 60000,
-  allScriptsTimeout: 500000,
-  // Use a custom framework adapter and set its relative path
-  framework: 'custom',
-  frameworkPath: require.resolve('protractor-cucumber-framework'),
-  capabilities: {
-    'browserName': 'chrome'
-  },
-  chromeOnly: true,
-  directConnect: true,
-  chromeDriver: "./node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.24.exe",
+// Use the standalone Selenium server.
+chrome.directConnect = true;
 
-  // Specs here are the cucumber feature files
-  specs: [
-    './e2e/features/*.feature'
-  ],
+config.capabilities = chrome;
 
-  baseUrl: 'http://localhost:4200/',
-
-  // cucumber command line options
-  cucumberOpts: {
-    // require step definition files before executing features
-    require: ['./e2e/features/stepDefinitions/*.js'],
-    // <string[]> (expression) only execute the features or scenarios with tags matching the expression
-    tags: false,
-    // <boolean> fail if there are any undefined or pending steps
-    format: 'pretty',
-    // <boolean> invoke formatters without executing steps
-    profile: false,
-    // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
-    'no-source': true
-  },
-
-  /*
-  directConnect: true,
-
-  // Enable TypeScript for the tests
-  onPrepare() {
-    require('ts-node').register({
-      project: 'e2e/tsconfig.e2e.json'
-    });
-  }
-  */
-};
+exports.config = config;
