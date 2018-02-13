@@ -396,21 +396,22 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     event.preventDefault();
 
-    this.mouse.x = ( event.clientX / this.renderer.domElement.clientWidth ) * 2 - 1;
-    this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
+    let canvas = this.renderer.context.canvas;
+    let canvasBounds = canvas.getBoundingClientRect();;
 
-    debugger;
+    this.mouse.x = ( ( event.clientX - canvasBounds.left ) / ( canvasBounds.right - canvasBounds.left ) ) * 2 - 1;
+    this.mouse.y = - ( ( event.clientY - canvasBounds.top ) / ( canvasBounds.bottom - canvasBounds.top) ) * 2 + 1;
 
     this.raycaster.setFromCamera( this.mouse, this.camera );
 
-    //let intersects = this.raycaster.intersectObjects( this.placeholdersGroup.children );
-    let intersects = this.raycaster.intersectObjects( this.scene.children );
+    let intersects = this.raycaster.intersectObjects( this.placeholdersGroup.children );
+    //let intersects = this.raycaster.intersectObjects( this.scene.children );
     console.log(this.mouse.x, this.mouse.y, intersects);
     if ( intersects.length > 0 ) {
 
-      console.log("Intersected!");
-      /*
       intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+
+      /*
       let particleMaterial = new THREE.SpriteMaterial( {
         color: 0x000000,
         program: function ( context ) {
@@ -424,7 +425,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       particle.position.copy( intersects[ 0 ].point );
       particle.scale.x = particle.scale.y = 16;
       this.scene.add( particle );
-*/
+      */
+
     }
 
     /*
