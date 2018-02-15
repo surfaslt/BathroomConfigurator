@@ -107,7 +107,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let doorsGeometry = new THREE.PlaneGeometry(this.selectionsMadeService.getDoorWidth(),this.selectionsMadeService.getDoorHeight());
     let doorsMaterial = new THREE.MeshLambertMaterial({
       color:0xFFFFFF,
-      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg')
+      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg'),
+      transparent: true
     });
     let doors = new THREE.Mesh(doorsGeometry, doorsMaterial);
     doors.position.z = floor.position.z + doorsGeometry.parameters.height / 2;
@@ -197,6 +198,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     for(let placeholder of this.placeholdersGroup.children){
       placeholder.material.opacity = 0.5 + Math.abs(0.5 * Math.sin(timer));
     }
+
     //this.box.position.y = 0.5 + 3 * Math.sin(timer);
     //this.box.rotation.x += THREE.Math.degToRad(3);
 
@@ -242,6 +244,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         console.log("Switch went to showDoorPositionElements!");
         this.updateCameraPosition(1.25);
         if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub)) {
+          this.doors.material.opacity = 1;
           this.scene.add(this.doors);
           // make doors sit on the edge of floor
           this.doors.position.y = this.floor.position.y - this.floor.scale.y / 2;
@@ -307,12 +310,12 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
             this.bathTub.position.y = this.floor.position.y + this.floor.scale.y / 2 - this.bathTub.scale.x / 2;
             break;
           case 'Right Top':
-            this.bathTub.rotation.y = THREE.Math.degToRad(180);
+            this.bathTub.rotation.y = THREE.Math.degToRad(0);
             this.bathTub.position.x = this.floor.position.x + this.floor.scale.x / 2 - this.bathTub.scale.x / 2;
             this.bathTub.position.y = this.floor.position.y + this.floor.scale.y / 2 - this.bathTub.scale.z / 2;
             break;
           case 'Right Bottom':
-            this.bathTub.rotation.y = THREE.Math.degToRad(180);
+            this.bathTub.rotation.y = THREE.Math.degToRad(0);
             this.bathTub.position.x = this.floor.position.x + this.floor.scale.x / 2 - this.bathTub.scale.x / 2;
             this.bathTub.position.y = this.floor.position.y - this.floor.scale.y / 2 + this.bathTub.scale.z / 2;
             break;
@@ -324,12 +327,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       case 'showPlaceholderElements':
         console.log('Placeholder elements in switch!!!');
         this.updateCameraPosition();
-        if (!isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
-          for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 0.3; }
+        if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
+          for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 0.2; }
+          this.doors.material.opacity = 0.2;
           this.scene.add(this.bathTub);
+          this.scene.add(this.doors);
+
           this.scene.add(this.placeholdersGroup);
-
-
           // Add for left wall
 
           this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(),
@@ -340,6 +344,19 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           // Add top wall
 
           // Add bottom wall
+
+          /* BoundingBox collision
+          var firstObject = ...your first object...
+
+          var secondObject = ...your second object...
+
+          firstBB = new THREE.Box3().setFromObject(firstObject);
+
+          secondBB = new THREE.Box3().setFromObject(secondObject);
+
+          var collision = firstBB.isIntersectionBox(secondBB);
+           */
+
         }
         break;
       default:
@@ -396,8 +413,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     event.preventDefault();
 
-    let canvas = this.renderer.context.canvas;
-    let canvasBounds = canvas.getBoundingClientRect();;
+    let canvasBounds = this.renderer.context.canvas.getBoundingClientRect();
 
     this.mouse.x = ( ( event.clientX - canvasBounds.left ) / ( canvasBounds.right - canvasBounds.left ) ) * 2 - 1;
     this.mouse.y = - ( ( event.clientY - canvasBounds.top ) / ( canvasBounds.bottom - canvasBounds.top) ) * 2 + 1;
