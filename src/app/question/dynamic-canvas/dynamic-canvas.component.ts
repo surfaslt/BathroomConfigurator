@@ -19,6 +19,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private roomWidthText: THREE.Object3D;
   private roomLengthText: THREE.Object3D;
   private doors: THREE.Object3D;
+  private doorsOpening: THREE.Object3D;
   private bathTub: THREE.Object3D;
   private placeholdersGroup: THREE.Group;
   private controls: any; // might not be needded
@@ -27,6 +28,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private placeholderMaterial;
   private raycaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
+  private collidables: THREE.Object3D[] = [];
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
@@ -112,10 +114,17 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       transparent: true
     });
     let doors = new THREE.Mesh(doorsGeometry, doorsMaterial);
-    // make doors sit on the edge of floor
-    doors.position.y = floor.position.y - floor.scale.y / 2;
     doors.position.z = floor.position.z + doorsGeometry.parameters.height / 2;
     doors.rotation.x = THREE.Math.degToRad(90);
+
+    let doorsOpeningMaterial = new THREE.MeshLambertMaterial({
+      color:0xFFFFFF,
+      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/doorOpeningMaterial.png'),
+      transparent: true
+    });
+    let doorsOpeningGeometry = new THREE.PlaneGeometry(this.selectionsMadeService.getDoorWidth(),this.selectionsMadeService.getDoorWidth());
+    let doorsOpening:THREE.Object3D = new THREE.Mesh(doorsOpeningGeometry, doorsOpeningMaterial);
+    doorsOpening.position.z = floor.position.z + 1;
 
     // Create and do initial setup to bath tub element
     let bathTubGeometry = new THREE.BoxGeometry(1,1,1);
@@ -168,6 +177,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.scene = scene;
     this.floor =  floor;
     this.doors = doors;
+    this.doorsOpening = doorsOpening;
     this.bathTub = bathTub;
     this.placeholdersGroup = placeholdersGroup;
     this.placeholderMaterial = placeholderMaterial;
@@ -178,6 +188,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     // Update all the positions from selections
     this.updateView('doorPositionChanged');
+    this.updateDoorsPositionY();
     this.updateView('tubPositionChanged');
 
     // Add listeners for clickable elements
@@ -228,10 +239,12 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       case 'showRoomDimensionsElements':
         console.log('Switch went to ShowRoomDimensionElements!');
         this.updateCameraPosition();
-        if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors)) {
+        if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText)
+          && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening) ) {
           this.scene.add(this.roomWidthText);
           this.scene.add(this.roomLengthText);
           this.scene.remove(this.doors);
+          this.scene.remove(this.doorsOpening);
         }
         break;
       case 'roomParametersChanged':
@@ -239,15 +252,16 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         this.updateFloorSize();
         this.resizeAndRepositionRoomDimensionTexts();
         this.updateCameraPosition();
-        // make doors sit on the edge of floor
-        this.doors.position.y = this.floor.position.y - this.floor.scale.y / 2;
+        this.updateDoorsPositionY();
         break;
       case 'showDoorPositionElements':
         console.log("Switch went to showDoorPositionElements!");
         this.updateCameraPosition(1.25);
         if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub)) {
           this.doors.material.opacity = 1;
+          this.doorsOpening.material.opacity = 1;
           this.scene.add(this.doors);
+          this.scene.add(this.doorsOpening);
           this.updateView('doorPositionChanged');
           this.scene.remove(this.roomWidthText);
           this.scene.remove(this.roomLengthText);
@@ -269,12 +283,14 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
             console.log('Door position was not recognized!');
             break;
         }
+        this.doorsOpening.position.x = this.doors.position.x;
         break;
       case 'showTubParametersElements':
         console.log("Switch went to showTubParametersElements!");
         this.updateCameraPosition();
-        if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
-          this.scene.remove(this.doors);
+        if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening) && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
+          this.doors.material.opacity = 0.2;
+          this.doorsOpening.material.opacity = 0.2;
           this.scene.remove(this.placeholdersGroup);
           for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 1.0; }
           this.scene.add(this.bathTub);
@@ -335,9 +351,40 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
           this.scene.add(this.placeholdersGroup);
           // Add for left wall
+          let placeholdersWidth = this.selectionsMadeService.getPlaceholderMinWidth();
+          let placeholdersLength = this.selectionsMadeService.getPlaceholderMinLength();
+          let xCoord = this.floor.position.x - this.floor.scale.x / 2 + placeholdersWidth / 2;
+          let yCoord = this.floor.position.y - this.floor.scale.y / 2 + placeholdersWidth / 2;
+          let floorTopCoordinate = this.floor.position.x + this.floor.scale.y / 2;
+          this.collidables.push(this.bathTub,);
+          let i = 1;
+          /*
+          while( yCoord <= floorTopCoordinate) {
+           console.log(i++);
+           // BoundingBox collision
+
+
+           let firstObject = null;
+           let secondObject = null;
+
+           let firstBB = new THREE.Box3().setFromObject(firstObject);
+
+           let secondBB = new THREE.Box3().setFromObject(secondObject);
+
+           let collision = firstBB.isIntersectionBox(secondBB);
+
+           if( collision ) {
+             yCoord = collisionObject.position.x + collisionObject.geometry.height;
+           } else {
+
+             yCoord += placeholdersWidth;
+           }
+         }
+           */
 
           this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(),
             this.selectionsMadeService.getPlaceholderMinLength()));
+
 
           // Add for right wall
 
@@ -345,17 +392,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
           // Add bottom wall
 
-          /* BoundingBox collision
-          var firstObject = ...your first object...
-
-          var secondObject = ...your second object...
-
-          firstBB = new THREE.Box3().setFromObject(firstObject);
-
-          secondBB = new THREE.Box3().setFromObject(secondObject);
-
-          var collision = firstBB.isIntersectionBox(secondBB);
-           */
 
         }
         break;
@@ -454,6 +490,11 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
             }
             */
+  }
+
+  updateDoorsPositionY = () => {
+    this.doors.position.y = this.floor.position.y - this.floor.scale.y / 2;
+    this.doorsOpening.position.y = this.doors.position.y + this.doorsOpening.geometry.parameters.width / 2;
   }
 
 }
