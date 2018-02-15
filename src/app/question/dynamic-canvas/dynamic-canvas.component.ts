@@ -57,7 +57,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       color: 0xeeeeee,
       //wireframe: true
     });
-    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    let floor = new THREE.Mesh(floorGeometry, floorMaterial);// Update floor size from parameters
+    this.updateFloorSize(floor);
 
     // Texts
     let loader = new THREE.FontLoader();
@@ -111,6 +112,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       transparent: true
     });
     let doors = new THREE.Mesh(doorsGeometry, doorsMaterial);
+    // make doors sit on the edge of floor
+    doors.position.y = floor.position.y - floor.scale.y / 2;
     doors.position.z = floor.position.z + doorsGeometry.parameters.height / 2;
     doors.rotation.x = THREE.Math.degToRad(90);
 
@@ -172,9 +175,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     // Define other parameters
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
-
-    // Update floor size from parameters
-    this.updateFloorSize();
 
     // Update all the positions from selections
     this.updateView('doorPositionChanged');
@@ -239,6 +239,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         this.updateFloorSize();
         this.resizeAndRepositionRoomDimensionTexts();
         this.updateCameraPosition();
+        // make doors sit on the edge of floor
+        this.doors.position.y = this.floor.position.y - this.floor.scale.y / 2;
         break;
       case 'showDoorPositionElements':
         console.log("Switch went to showDoorPositionElements!");
@@ -246,8 +248,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub)) {
           this.doors.material.opacity = 1;
           this.scene.add(this.doors);
-          // make doors sit on the edge of floor
-          this.doors.position.y = this.floor.position.y - this.floor.scale.y / 2;
           this.updateView('doorPositionChanged');
           this.scene.remove(this.roomWidthText);
           this.scene.remove(this.roomLengthText);
@@ -371,8 +371,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     return placeholder;
   }
 
-  updateFloorSize = ():void => {
-    this.floor.scale.set( this.selectionsMadeService.getRoomWidth(), this.selectionsMadeService.getRoomLength(), 1 );
+  updateFloorSize = ( floor?: THREE.Object3D ):void => {
+    floor = floor ? floor : this.floor;
+    floor.scale.set( this.selectionsMadeService.getRoomWidth(), this.selectionsMadeService.getRoomLength(), 1 );
   }
 
   updateCameraPosition = (multiplier?:number):void => {
