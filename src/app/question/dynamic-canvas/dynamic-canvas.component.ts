@@ -28,7 +28,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private placeholderMaterial;
   private raycaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
-  private collidables: THREE.Object3D[] = [];
+  private intersectables: THREE.Object3D[] = [];
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
@@ -348,42 +348,73 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.doors.material.opacity = 0.2;
           this.scene.add(this.bathTub);
           this.scene.add(this.doors);
-
           this.scene.add(this.placeholdersGroup);
-          // Add for left wall
+
+          // set intersectables
+          this.intersectables.push(this.bathTub,this.doorsOpening);
+          for(let placeholder of this.placeholdersGroup.children) {
+            this.intersectables.push(placeholder);
+          }
+
           let placeholdersWidth = this.selectionsMadeService.getPlaceholderMinWidth();
           let placeholdersLength = this.selectionsMadeService.getPlaceholderMinLength();
-          let xCoord = this.floor.position.x - this.floor.scale.x / 2 + placeholdersWidth / 2;
-          let yCoord = this.floor.position.y - this.floor.scale.y / 2 + placeholdersWidth / 2;
-          let floorTopCoordinate = this.floor.position.x + this.floor.scale.y / 2;
-          this.collidables.push(this.bathTub,);
+          let xCoordFloorLeft = this.floor.position.x - this.floor.scale.x / 2;
+          let xCoordFloorRight = this.floor.position.x + this.floor.scale.x / 2;
+          let yCoordFloorBottom = this.floor.position.y - this.floor.scale.y / 2;
+          let yCoordFloorTop = this.floor.position.y + this.floor.scale.y / 2;
+
+          // Add placeholders for left wall
+          let xCoord = xCoordFloorLeft + placeholdersWidth / 2;
+          let yCoord = yCoordFloorBottom + placeholdersLength / 2;
+
           let i = 1;
-          /*
-          while( yCoord <= floorTopCoordinate) {
-           console.log(i++);
-           // BoundingBox collision
+          while( yCoord <= yCoordFloorTop) {
+            console.log(i++);
+            // BoundingBox collision
+            let newPlaceholder = this.createPlaceholderObject(placeholdersWidth,placeholdersLength);
+            newPlaceholder.position.x = xCoord;
+            newPlaceholder.position.y = yCoord;
+            newPlaceholder.position.z = this.floor.position.z + 1;
 
+            let collisionHappened: boolean = false;
+            for(let intersectable of this.intersectables) {
+              let firstBB = new THREE.Box3().setFromObject(newPlaceholder);
+              let secondBB = new THREE.Box3().setFromObject(intersectable);
+              let collision = firstBB.isIntersectionBox(secondBB);
 
-           let firstObject = null;
-           let secondObject = null;
+              if( collision ) {
+                let intersectableHeight = intersectable.geometry.parameters.height;
+                // if intersectables height is defined by scale, then use the scale instead of geometry height
+                intersectableHeight = intersectableHeight == 1 ? intersectable.scale.z : intersectableHeight;
+                // if last placeholder could have been bigger - make it bigger
+                if(this.placeholdersGroup.children.length != 0) {
+                  let lastPlaceholder = this.placeholdersGroup.children[this.placeholdersGroup.children.length - 1];
+                  debugger;
+                  let yCoordIntersectableBottom = intersectable.position.y - intersectableHeight / 2;
+                  let yCoordLastPlaceholderTop = lastPlaceholder.position.y + lastPlaceholder.geometry.parameters.height;
+                  if( yCoordIntersectableBottom > yCoordLastPlaceholderTop ) {
+                    let difference = yCoordIntersectableBottom - yCoordLastPlaceholderTop;
+                    lastPlaceholder.geometry.parameters.height += difference;
+                    console.log("hello!");
+                  }
+                }
 
-           let firstBB = new THREE.Box3().setFromObject(firstObject);
+                yCoord = intersectable.position.y + intersectableHeight / 2 + placeholdersLength / 2 + 1;
+                collisionHappened = true;
+                break;
+              }
+            }
+            if(!collisionHappened) {
+              this.placeholdersGroup.add(newPlaceholder);
+              yCoord = yCoord + placeholdersLength + 1;
+            }
+          }
 
-           let secondBB = new THREE.Box3().setFromObject(secondObject);
-
-           let collision = firstBB.isIntersectionBox(secondBB);
-
-           if( collision ) {
-             yCoord = collisionObject.position.x + collisionObject.geometry.height;
-           } else {
-
-             yCoord += placeholdersWidth;
-           }
-         }
-           */
+/*
 
           this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(),
             this.selectionsMadeService.getPlaceholderMinLength()));
+*/
 
 
           // Add for right wall
@@ -461,7 +492,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     //let intersects = this.raycaster.intersectObjects( this.scene.children );
     console.log(this.mouse.x, this.mouse.y, intersects);
     if ( intersects.length > 0 ) {
-
       intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
 
       /*
