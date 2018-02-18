@@ -31,7 +31,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private placeholderMaterial;
   private raycaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
-  private intersectables: THREE.Object3D[] = [];
+  private intersectables: THREE.Object3D[];
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
@@ -94,8 +94,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     backWall.position.z = floor.position.z + this.getHeight(backWall) / 2;
     backWall.rotation.x = THREE.Math.degToRad(90);
     leftWall.position.z = floor.position.z + this.getHeight(leftWall) / 2;
+    leftWall.rotation.x = THREE.Math.degToRad(90);
     leftWall.rotation.y = THREE.Math.degToRad(90);
     rightWall.position.z = floor.position.z + this.getHeight(rightWall) / 2;
+    rightWall.rotation.x = THREE.Math.degToRad(90);
     rightWall.rotation.y = THREE.Math.degToRad(-90);
 
     // Texts
@@ -289,8 +291,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         console.log('Switch went to roomParametersChanged!');
         this.updateFloorSize();
         this.updateWallsSize();
-        console.log(this.backWall,this.leftWall,this.rightWall);
-        debugger;
         this.resizeAndRepositionRoomDimensionTexts();
         this.updateCameraPosition();
         this.updateDoorsPositionY();
@@ -403,44 +403,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.scene.add(this.doors);
           this.scene.add(this.placeholdersGroup);
 
-          // set intersectables
-          this.intersectables.push(this.bathTub);
-          this.intersectables.push(this.doorsOpening);
-
-          this.intersectables.push(this.backWall);
-          this.intersectables.push(this.leftWall);
-          this.intersectables.push(this.rightWall);
-
-          // reset placeholdersGroup
-          this.placeholdersGroup.children = [];
-
-          // constants for further calculations
-          let placeholdersWidth = this.selectionsMadeService.getPlaceholderMinWidth();
-          let placeholdersLength = this.selectionsMadeService.getPlaceholderMinLength();
-          let xCoordFloorLeft = this.floor.position.x - this.getWidth(this.floor) / 2;
-          let xCoordFloorRight = this.floor.position.x + this.getWidth(this.floor) / 2;
-          let zCoord = this.floor.position.z + 1;
-
-          // Add placeholders for left wall
-          let xCoord = xCoordFloorLeft + placeholdersWidth / 2;
-          this.addPlaceholdersVertically(xCoord, zCoord, placeholdersWidth, placeholdersLength);
-
-          // Add placeholders for the right wall
-          xCoord = xCoordFloorRight - placeholdersWidth / 2;
-          this.addPlaceholdersVertically(xCoord, zCoord, placeholdersWidth, placeholdersLength);
-          /*
-
-                    this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(),
-                      this.selectionsMadeService.getPlaceholderMinLength()));
-          */
-
-
-          // Add for right wall
-
-          // Add top wall
-
-          // Add bottom wall
-
+          this.updatePlaceholders();
 
         }
         break;
@@ -450,32 +413,66 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     }
   }
 
-  addPlaceholdersVertically = (xCoord:number, zCoord:number, placeholdersWidth:number, placeholdersLength:number):void => {
+  updatePlaceholders = ():void => {
+    // set intersectables
+    this.intersectables = [];
+    this.intersectables.push(this.bathTub);
+    this.intersectables.push(this.doorsOpening);
+    this.intersectables.push(this.backWall);
+    // reset placeholdersGroup
+    this.placeholdersGroup.children = [];
+    // constants for further calculations
+    let placeholdersWidth = this.selectionsMadeService.getPlaceholderMinWidth();
+    let placeholdersLength = this.selectionsMadeService.getPlaceholderMinLength();
+    let zCoord = this.floor.position.z + 1;
+    // Add placeholders for left wall
+    let xCoordFloorLeft = this.floor.position.x - this.getWidth(this.floor) / 2;
+    let xCoord = xCoordFloorLeft + placeholdersWidth / 2;
+    this.addPlaceholdersVertically(xCoord, zCoord, placeholdersWidth, placeholdersLength);
+    // Add placeholders for the right wall
+    let xCoordFloorRight = this.floor.position.x + this.getWidth(this.floor) / 2;
+    xCoord = xCoordFloorRight - placeholdersWidth / 2;
+    this.addPlaceholdersVertically(xCoord, zCoord, placeholdersWidth, placeholdersLength);
+    // Add placeholders for the top wall
+    // Set different intersectables
+    this.intersectables.pop(); // remove the backWall from intersectable objects list
+    this.intersectables.push(this.rightWall);
+    this.intersectables.concat(this.placeholdersGroup.children);
+    let yCoordFloorBottom = this.floor.position.y - this.getHeight(this.floor) / 2;
+    let yCoord = yCoordFloorBottom + placeholdersLength / 2;
+    this.addPlaceholdersHorizontally(yCoord, zCoord, placeholdersWidth, placeholdersLength);
 
+    // Add placeholders for the bottom wall
+    let yCoordFloorTop = this.floor.position.y + this.getHeight(this.floor) / 2;
+    yCoord = yCoordFloorTop - placeholdersLength / 2;
+    this.addPlaceholdersHorizontally(yCoord, zCoord, placeholdersWidth, placeholdersLength);
+  }
+
+  addPlaceholdersVertically = (xCoord:number, zCoord:number, placeholdersWidth:number, placeholdersLength:number):void => {
     let yCoordFloorBottom = this.floor.position.y - this.getHeight(this.floor) / 2;
     let yCoordFloorTop = this.floor.position.y + this.getHeight(this.floor) / 2;
     let yCoord = yCoordFloorBottom + placeholdersLength / 2;
-
     while( yCoord <= yCoordFloorTop) {
       // BoundingBox collision
       let newPlaceholder = this.createPlaceholderObject(placeholdersWidth,placeholdersLength);
       newPlaceholder.position.x = xCoord;
       newPlaceholder.position.y = yCoord;
       newPlaceholder.position.z = zCoord;
-
       let collisionHappened: boolean = false;
       for(let intersectable of this.intersectables) {
         let firstBB = new THREE.Box3().setFromObject(newPlaceholder);
         let secondBB = new THREE.Box3().setFromObject(intersectable);
         let collision = firstBB.intersectsBox(secondBB);
-
         if( collision ) {
           let intersectableHeight = this.getHeight(intersectable);
-
           // if the last placeholder could have been bigger - make it bigger
           if(this.placeholdersGroup.children.length != 0) {
             let lastPlaceholder = this.placeholdersGroup.children[this.placeholdersGroup.children.length - 1];
             let yCoordIntersectableBottom = intersectable.position.y - intersectableHeight / 2;
+            // if the intersected item is the back wall
+            if( intersectable == this.backWall ) {
+              yCoordIntersectableBottom = intersectable.position.y;
+            }
             let yCoordLastPlaceholderTop = lastPlaceholder.position.y + this.getHeight(lastPlaceholder)/2;
             // if there still is unused space in between the last placeholder and the object
             // detected by collision - give that space to the placeholder.
@@ -485,7 +482,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
               lastPlaceholder.position.y += difference / 2;
             }
           }
-
           yCoord = intersectable.position.y + intersectableHeight / 2 + placeholdersLength / 2 + 1;
           collisionHappened = true;
           break;
@@ -494,6 +490,52 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       if(!collisionHappened) {
         this.placeholdersGroup.add(newPlaceholder);
         yCoord = yCoord + placeholdersLength + 1;
+      }
+    }
+  }
+
+  addPlaceholdersHorizontally = (yCoord:number, zCoord:number, placeholdersWidth:number, placeholdersLength:number):void => {
+    let xCoordFloorLeft = this.floor.position.x - this.getWidth(this.floor) / 2;
+    let xCoordFloorRight = this.floor.position.x + this.getWidth(this.floor) / 2;
+    let xCoord = xCoordFloorLeft + placeholdersWidth / 2;
+    while( xCoord <= xCoordFloorRight) {
+      // BoundingBox collision
+      let newPlaceholder = this.createPlaceholderObject(placeholdersWidth,placeholdersLength);
+      newPlaceholder.position.x = xCoord;
+      newPlaceholder.position.y = yCoord;
+      newPlaceholder.position.z = zCoord;
+      let collisionHappened: boolean = false;
+      for(let intersectable of this.intersectables) {
+        let firstBB = new THREE.Box3().setFromObject(newPlaceholder);
+        let secondBB = new THREE.Box3().setFromObject(intersectable);
+        let collision = firstBB.intersectsBox(secondBB);
+        if( collision ) {
+          let intersectableWidth = this.getWidth(intersectable);
+          // if the last placeholder could have been bigger - make it bigger
+          if(this.placeholdersGroup.children.length != 0) {
+            let lastPlaceholder = this.placeholdersGroup.children[this.placeholdersGroup.children.length - 1];
+            let xCoordIntersectableLeft = intersectable.position.x - intersectableWidth / 2;
+            // if the intersected item is the back wall
+            if( intersectable == this.rightWall ) {
+              xCoordIntersectableLeft = intersectable.position.x;
+            }
+            let xCoordLastPlaceholderRight = lastPlaceholder.position.x + this.getWidth(lastPlaceholder)/2;
+            // if there still is unused space in between the last placeholder and the object
+            // detected by collision - give that space to the placeholder.
+            if( xCoordIntersectableLeft > xCoordLastPlaceholderRight ) {
+              let difference = xCoordIntersectableLeft - xCoordLastPlaceholderRight;
+              this.setWidth( lastPlaceholder, this.getWidth(lastPlaceholder) + difference );
+              lastPlaceholder.position.x += difference / 2;
+            }
+          }
+          xCoord = intersectable.position.x + intersectableWidth / 2 + placeholdersLength / 2 + 1;
+          collisionHappened = true;
+          break;
+        }
+      }
+      if(!collisionHappened) {
+        this.placeholdersGroup.add(newPlaceholder);
+        xCoord = xCoord + placeholdersWidth + 1;
       }
     }
   }
@@ -542,7 +584,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   resizeAndRepositionRoomDimensionTexts = ():void => {
-
     let fontSize:number = Math.max(this.floor.scale.y, this.floor.scale.x) / 15;
     this.roomWidthText.scale.set(fontSize, fontSize, 1);
     this.roomLengthText.scale.set(fontSize, fontSize, 1);
