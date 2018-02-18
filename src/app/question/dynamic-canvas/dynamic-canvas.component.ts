@@ -75,17 +75,15 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let backWall = new THREE.Mesh(floorGeometry, backWallMaterial);
 
     let leftWallMaterial = new THREE.MeshLambertMaterial({
-      //color:0xFFFFFF,
-      color: 0xeeeeee,
-      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg'),
+      color:0xFFFFFF,
+      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/sideWalls.png'),
       transparent: true
     });
     let leftWall = new THREE.Mesh(floorGeometry, leftWallMaterial);
 
     let rightWallMaterial = new THREE.MeshLambertMaterial({
-      //color:0xFFFFFF,
-      color: 0xeeeeee,
-      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg'),
+      color:0xFFFFFF,
+      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/sideWalls.png'),
       transparent: true
     });
     let rightWall = new THREE.Mesh(floorGeometry, rightWallMaterial);
@@ -512,6 +510,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         let collision = firstBB.intersectsBox(secondBB);
         if( collision ) {
           let intersectableWidth = this.getWidth(intersectable);
+          // if intersectable was rotated, then its height should be taken instead of width
+          if(intersectable.rotation.z == THREE.Math.degToRad(90) ) {
+            intersectableWidth = this.getHeight(intersectable); }
           // if the last placeholder could have been bigger - make it bigger
           if(this.placeholdersGroup.children.length != 0) {
             let lastPlaceholder = this.placeholdersGroup.children[this.placeholdersGroup.children.length - 1];
@@ -529,6 +530,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
               lastPlaceholder.position.x += difference / 2;
             }
           }
+          debugger;
           xCoord = intersectable.position.x + intersectableWidth / 2 + placeholdersLength / 2 + 1;
           collisionHappened = true;
           break;
