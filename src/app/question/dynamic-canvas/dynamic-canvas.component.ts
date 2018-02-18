@@ -16,6 +16,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private camera: THREE.Object3D;
   private scene: THREE.Object3D;
   private floor: THREE.Object3D;
+  private backWall: THREE.Object3D;
+  private leftWall: THREE.Object3D;
+  private rightWall: THREE.Object3D;
   private roomWidthText: THREE.Object3D;
   private roomLengthText: THREE.Object3D;
   private doors: THREE.Object3D;
@@ -62,6 +65,34 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);// Update floor size from parameters
     this.updateFloorSize(floor);
 
+    // Walls
+    let backWallMaterial = new THREE.MeshLambertMaterial({
+      //color:0xFFFFFF,
+      color: 0xeeeeee,
+      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg'),
+      transparent: true
+    });
+    let backWall = new THREE.Mesh(floorGeometry, backWallMaterial);
+    backWall.position.z = floor.position.z + this.getHeight(backWall) / 2;
+    backWall.rotation.x = THREE.Math.degToRad(90);
+
+    let leftWallMaterial = new THREE.MeshLambertMaterial({
+      //color:0xFFFFFF,
+      color: 0xeeeeee,
+      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg'),
+      transparent: true
+    });
+    let leftWall = new THREE.Mesh(floorGeometry, leftWallMaterial);
+
+    let rightWallMaterial = new THREE.MeshLambertMaterial({
+      //color:0xFFFFFF,
+      color: 0xeeeeee,
+      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg'),
+      transparent: true
+    });
+    let rightWall = new THREE.Mesh(floorGeometry, rightWallMaterial);
+
+
     // Texts
     let loader = new THREE.FontLoader();
     loader.load( this.assetsFolderPath + 'fonts/optimer_regular.typeface.json', ( font ) => {
@@ -94,7 +125,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       let roomLengthText = new THREE.Mesh(roomLengthTextGeometry, textMaterial);
       roomLengthText.rotation.x = THREE.Math.degToRad(20);
       roomLengthText.rotation.y = THREE.Math.degToRad(10);
-      roomLengthText.rotation.z = THREE.Math.degToRad(80);
+      roomLengthText.rotation.z = THREE.Math.degToRad(84);
       this.roomLengthText = roomLengthText;
 
       this.resizeAndRepositionRoomDimensionTexts();
@@ -114,7 +145,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       transparent: true
     });
     let doors = new THREE.Mesh(doorsGeometry, doorsMaterial);
-    doors.position.z = floor.position.z + doorsGeometry.parameters.height / 2;
+    doors.position.z = floor.position.z + this.getHeight(doors) / 2;
     doors.rotation.x = THREE.Math.degToRad(90);
 
     let doorsOpeningMaterial = new THREE.MeshLambertMaterial({
@@ -139,24 +170,18 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       transparent: true
     });
 
-    bathTubGeometry.materials = [ bathTubTextureMaterial, bathTubMaterial ];
-
     let bathTubMaterials = [
       bathTubMaterial,
       bathTubMaterial,
+      bathTubMaterial,
+      bathTubMaterial,
       bathTubTextureMaterial,
-      bathTubMaterial,
-      bathTubMaterial,
       bathTubMaterial
     ];
 
     let bathTub = new THREE.Mesh( bathTubGeometry, bathTubMaterials );
-
-    //let bathTub = new THREE.Mesh(bathTubGeometry, bathTubMaterial);
-
-    bathTub.scale.set(this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubHeight(), this.selectionsMadeService.getTubLength());
-    bathTub.position.z = floor.position.z + bathTub.scale.y / 2;
-    bathTub.rotation.x = THREE.Math.degToRad(90);
+    bathTub.scale.set(this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubLength(), this.selectionsMadeService.getTubHeight());
+    bathTub.position.z = floor.position.z + bathTub.scale.z / 2;
 
     // setup placeholders group and material
     let placeholdersGroup = new THREE.Group();
@@ -271,13 +296,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       case 'doorPositionChanged':
         switch (this.selectionsMadeService.getDoorPosition()) {
           case 'Left':
-            this.doors.position.x = this.floor.position.x - this.floor.scale.x / 2 + this.doors.geometry.parameters.width / 2;
+            this.doors.position.x = this.floor.position.x - this.getWidth(this.floor) / 2 + this.getWidth(this.doors) / 2;
             break;
           case 'Middle':
             this.doors.position.x = this.floor.position.x;
             break;
           case 'Right':
-            this.doors.position.x = this.floor.position.x + this.floor.scale.x / 2 - this.doors.geometry.parameters.width / 2;
+            this.doors.position.x = this.floor.position.x + this.getWidth(this.floor) / 2 - this.getWidth(this.doors) / 2;
             break;
           default:
             console.log('Door position was not recognized!');
@@ -306,34 +331,34 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         console.log('Switch went to tubPositionChanged!');
         switch (this.selectionsMadeService.getTubPosition()) {
           case 'Left Bottom':
-            this.bathTub.rotation.y = THREE.Math.degToRad(0);
-            this.bathTub.position.x = this.floor.position.x - this.floor.scale.x / 2 + this.bathTub.scale.x / 2;
-            this.bathTub.position.y = this.floor.position.y - this.floor.scale.y / 2 + this.bathTub.scale.z / 2;
+            this.bathTub.rotation.z = THREE.Math.degToRad(0);
+            this.bathTub.position.x = this.floor.position.x - this.getWidth(this.floor) / 2 + this.getWidth(this.bathTub) / 2;
+            this.bathTub.position.y = this.floor.position.y - this.getHeight(this.floor) / 2 + this.getHeight(this.bathTub) / 2;
             break;
           case 'Left Top':
-            this.bathTub.rotation.y = THREE.Math.degToRad(0);
-            this.bathTub.position.x = this.floor.position.x - this.floor.scale.x / 2 + this.bathTub.scale.x / 2;
-            this.bathTub.position.y = this.floor.position.y + this.floor.scale.y / 2 - this.bathTub.scale.z / 2;
+            this.bathTub.rotation.z = THREE.Math.degToRad(0);
+            this.bathTub.position.x = this.floor.position.x - this.getWidth(this.floor) / 2 + this.getWidth(this.bathTub) / 2;
+            this.bathTub.position.y = this.floor.position.y + this.getHeight(this.floor) / 2 - this.getHeight(this.bathTub) / 2;
             break;
           case 'Top Left':
-            this.bathTub.rotation.y = THREE.Math.degToRad(90);
-            this.bathTub.position.x = this.floor.position.x - this.floor.scale.x / 2 + this.bathTub.scale.z / 2;
-            this.bathTub.position.y = this.floor.position.y + this.floor.scale.y / 2 - this.bathTub.scale.x / 2;
+            this.bathTub.rotation.z = THREE.Math.degToRad(90);
+            this.bathTub.position.x = this.floor.position.x - this.getWidth(this.floor) / 2 + this.getHeight(this.bathTub) / 2;
+            this.bathTub.position.y = this.floor.position.y + this.getHeight(this.floor) / 2 - this.getWidth(this.bathTub) / 2;
             break;
           case 'Top Right':
-            this.bathTub.rotation.y = THREE.Math.degToRad(90);
-            this.bathTub.position.x = this.floor.position.x + this.floor.scale.x / 2 - this.bathTub.scale.z / 2;
-            this.bathTub.position.y = this.floor.position.y + this.floor.scale.y / 2 - this.bathTub.scale.x / 2;
+            this.bathTub.rotation.z = THREE.Math.degToRad(90);
+            this.bathTub.position.x = this.floor.position.x + this.getWidth(this.floor) / 2 - this.getHeight(this.bathTub) / 2;
+            this.bathTub.position.y = this.floor.position.y + this.getHeight(this.floor) / 2 - this.getWidth(this.bathTub) / 2;
             break;
           case 'Right Top':
-            this.bathTub.rotation.y = THREE.Math.degToRad(0);
-            this.bathTub.position.x = this.floor.position.x + this.floor.scale.x / 2 - this.bathTub.scale.x / 2;
-            this.bathTub.position.y = this.floor.position.y + this.floor.scale.y / 2 - this.bathTub.scale.z / 2;
+            this.bathTub.rotation.z = THREE.Math.degToRad(0);
+            this.bathTub.position.x = this.floor.position.x + this.getWidth(this.floor) / 2 - this.getWidth(this.bathTub) / 2;
+            this.bathTub.position.y = this.floor.position.y + this.getHeight(this.floor) / 2 - this.getHeight(this.bathTub) / 2;
             break;
           case 'Right Bottom':
-            this.bathTub.rotation.y = THREE.Math.degToRad(0);
-            this.bathTub.position.x = this.floor.position.x + this.floor.scale.x / 2 - this.bathTub.scale.x / 2;
-            this.bathTub.position.y = this.floor.position.y - this.floor.scale.y / 2 + this.bathTub.scale.z / 2;
+            this.bathTub.rotation.z = THREE.Math.degToRad(0);
+            this.bathTub.position.x = this.floor.position.x + this.getWidth(this.floor) / 2 - this.getWidth(this.bathTub) / 2;
+            this.bathTub.position.y = this.floor.position.y - this.getHeight(this.floor) / 2 + this.getHeight(this.bathTub) / 2;
             break;
           default:
             console.log('Tub position not recognised!');
@@ -343,7 +368,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       case 'showPlaceholderElements':
         console.log('Placeholder elements in switch!!!');
         this.updateCameraPosition();
-        if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
+        if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening) && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
           for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 0.2; }
           this.doors.material.opacity = 0.2;
           this.scene.add(this.bathTub);
@@ -351,70 +376,31 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.scene.add(this.placeholdersGroup);
 
           // set intersectables
-          this.intersectables.push(this.bathTub,this.doorsOpening);
-          for(let placeholder of this.placeholdersGroup.children) {
-            this.intersectables.push(placeholder);
-          }
+          this.intersectables.push(this.bathTub);
+          this.intersectables.push(this.doorsOpening);
 
+          // reset placeholdersGroup
+          this.placeholdersGroup.children = [];
+
+          // constants for further calculations
           let placeholdersWidth = this.selectionsMadeService.getPlaceholderMinWidth();
           let placeholdersLength = this.selectionsMadeService.getPlaceholderMinLength();
-          let xCoordFloorLeft = this.floor.position.x - this.floor.scale.x / 2;
-          let xCoordFloorRight = this.floor.position.x + this.floor.scale.x / 2;
-          let yCoordFloorBottom = this.floor.position.y - this.floor.scale.y / 2;
-          let yCoordFloorTop = this.floor.position.y + this.floor.scale.y / 2;
+          let xCoordFloorLeft = this.floor.position.x - this.getWidth(this.floor) / 2;
+          let xCoordFloorRight = this.floor.position.x + this.getWidth(this.floor) / 2;
+          let zCoord = this.floor.position.z + 1;
 
           // Add placeholders for left wall
           let xCoord = xCoordFloorLeft + placeholdersWidth / 2;
-          let yCoord = yCoordFloorBottom + placeholdersLength / 2;
+          this.addPlaceholdersVertically(xCoord, zCoord, placeholdersWidth, placeholdersLength);
 
-          let i = 1;
-          while( yCoord <= yCoordFloorTop) {
-            console.log(i++);
-            // BoundingBox collision
-            let newPlaceholder = this.createPlaceholderObject(placeholdersWidth,placeholdersLength);
-            newPlaceholder.position.x = xCoord;
-            newPlaceholder.position.y = yCoord;
-            newPlaceholder.position.z = this.floor.position.z + 1;
+          // Add placeholders for the right wall
+          xCoord = xCoordFloorRight - placeholdersWidth / 2;
+          this.addPlaceholdersVertically(xCoord, zCoord, placeholdersWidth, placeholdersLength);
+          /*
 
-            let collisionHappened: boolean = false;
-            for(let intersectable of this.intersectables) {
-              let firstBB = new THREE.Box3().setFromObject(newPlaceholder);
-              let secondBB = new THREE.Box3().setFromObject(intersectable);
-              let collision = firstBB.isIntersectionBox(secondBB);
-
-              if( collision ) {
-                let intersectableHeight = intersectable.geometry.parameters.height;
-                // if intersectables height is defined by scale, then use the scale instead of geometry height
-                intersectableHeight = intersectableHeight == 1 ? intersectable.scale.z : intersectableHeight;
-                // if last placeholder could have been bigger - make it bigger
-                if(this.placeholdersGroup.children.length != 0) {
-                  let lastPlaceholder = this.placeholdersGroup.children[this.placeholdersGroup.children.length - 1];
-                  debugger;
-                  let yCoordIntersectableBottom = intersectable.position.y - intersectableHeight / 2;
-                  let yCoordLastPlaceholderTop = lastPlaceholder.position.y + lastPlaceholder.geometry.parameters.height;
-                  if( yCoordIntersectableBottom > yCoordLastPlaceholderTop ) {
-                    let difference = yCoordIntersectableBottom - yCoordLastPlaceholderTop;
-                    lastPlaceholder.geometry.parameters.height += difference;
-                    console.log("hello!");
-                  }
-                }
-
-                yCoord = intersectable.position.y + intersectableHeight / 2 + placeholdersLength / 2 + 1;
-                collisionHappened = true;
-                break;
-              }
-            }
-            if(!collisionHappened) {
-              this.placeholdersGroup.add(newPlaceholder);
-              yCoord = yCoord + placeholdersLength + 1;
-            }
-          }
-
-/*
-
-          this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(),
-            this.selectionsMadeService.getPlaceholderMinLength()));
-*/
+                    this.placeholdersGroup.add(this.createPlaceholderObject(this.selectionsMadeService.getPlaceholderMinWidth(),
+                      this.selectionsMadeService.getPlaceholderMinLength()));
+          */
 
 
           // Add for right wall
@@ -429,6 +415,54 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       default:
         console.log("Switch went to default!");
         break;
+    }
+  }
+
+  addPlaceholdersVertically = (xCoord:number, zCoord:number, placeholdersWidth:number, placeholdersLength:number):void => {
+
+    let yCoordFloorBottom = this.floor.position.y - this.getHeight(this.floor) / 2;
+    let yCoordFloorTop = this.floor.position.y + this.getHeight(this.floor) / 2;
+    let yCoord = yCoordFloorBottom + placeholdersLength / 2;
+
+    while( yCoord <= yCoordFloorTop) {
+      // BoundingBox collision
+      let newPlaceholder = this.createPlaceholderObject(placeholdersWidth,placeholdersLength);
+      newPlaceholder.position.x = xCoord;
+      newPlaceholder.position.y = yCoord;
+      newPlaceholder.position.z = zCoord;
+
+      let collisionHappened: boolean = false;
+      for(let intersectable of this.intersectables) {
+        let firstBB = new THREE.Box3().setFromObject(newPlaceholder);
+        let secondBB = new THREE.Box3().setFromObject(intersectable);
+        let collision = firstBB.intersectsBox(secondBB);
+
+        if( collision ) {
+          let intersectableHeight = this.getHeight(intersectable);
+
+          // if the last placeholder could have been bigger - make it bigger
+          if(this.placeholdersGroup.children.length != 0) {
+            let lastPlaceholder = this.placeholdersGroup.children[this.placeholdersGroup.children.length - 1];
+            let yCoordIntersectableBottom = intersectable.position.y - intersectableHeight / 2;
+            let yCoordLastPlaceholderTop = lastPlaceholder.position.y + this.getHeight(lastPlaceholder)/2;
+            // if there still is unused space in between the last placeholder and the object
+            // detected by collision - give that space to the placeholder.
+            if( yCoordIntersectableBottom > yCoordLastPlaceholderTop ) {
+              let difference = yCoordIntersectableBottom - yCoordLastPlaceholderTop;
+              this.setHeight( lastPlaceholder, this.getHeight(lastPlaceholder) + difference );
+              lastPlaceholder.position.y += difference / 2;
+            }
+          }
+
+          yCoord = intersectable.position.y + intersectableHeight / 2 + placeholdersLength / 2 + 1;
+          collisionHappened = true;
+          break;
+        }
+      }
+      if(!collisionHappened) {
+        this.placeholdersGroup.add(newPlaceholder);
+        yCoord = yCoord + placeholdersLength + 1;
+      }
     }
   }
 
@@ -454,17 +488,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let fontSize:number = Math.max(this.floor.scale.y, this.floor.scale.x) / 15;
     this.roomWidthText.scale.set(fontSize, fontSize, 1);
     this.roomLengthText.scale.set(fontSize, fontSize, 1);
-    // multiply/divide fontsize to give more space between floor and text elements
+    // multiply or divide the fontsize to give more space between floor and text elements
     this.roomWidthText.position.x = this.floor.position.x - this.floor.scale.x / 4;
     this.roomWidthText.position.y = this.floor.position.y - this.floor.scale.y / 2 - fontSize * 1.5;
     this.roomWidthText.position.z = this.floor.position.z + 1;
     this.roomLengthText.position.x = this.floor.position.x - this.floor.scale.x / 2 - fontSize / 2;
     this.roomLengthText.position.y = this.floor.position.y - this.floor.scale.y / 3;
     this.roomLengthText.position.z = this.floor.position.z + 1;
-  }
-
-  updateTubSize = ():void => {
-    this.bathTub.scale.set( this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubHeight(), this.selectionsMadeService.getTubLength());
   }
 
   onDocumentTouchStart = ( event ) => {
@@ -522,9 +552,47 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
             */
   }
 
-  updateDoorsPositionY = () => {
+  updateDoorsPositionY = ():void => {
     this.doors.position.y = this.floor.position.y - this.floor.scale.y / 2;
-    this.doorsOpening.position.y = this.doors.position.y + this.doorsOpening.geometry.parameters.width / 2;
+    this.doorsOpening.position.y = this.doors.position.y + this.getWidth(this.doorsOpening) / 2;
+  }
+
+  updateTubSize = ():void => {
+    this.bathTub.scale.set( this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubHeight(), this.selectionsMadeService.getTubLength());
+  }
+
+  getWidth = ( object: THREE.Object3D ):number => {
+    let scaleWidth:number = object.scale.x;
+    let geometryWidth:number = object.geometry.parameters.width;
+
+    return scaleWidth * geometryWidth;
+  }
+
+  setWidth = ( object: THREE.Object3D, newWidth: number):void => {
+    object.scale.y = newWidth / object.geometry.parameters.width;
+  }
+
+  getHeight = ( object: THREE.Object3D ):number => {
+
+    let scaleHeight:number = object.scale.y;
+    let geometryHeight:number = object.geometry.parameters.height;
+
+    return scaleHeight * geometryHeight;
+  }
+
+  setHeight = ( object: THREE.Object3D, newHeight: number):void => {
+    object.scale.y = newHeight / object.geometry.parameters.height;
+  }
+
+  getDepth = ( object: THREE.Object3D ):number => {
+    let scaleDepth:number = object.scale.z;
+    let geometryDepth:number = object.geometry.parameters.depth;
+
+    return scaleDepth * geometryDepth;
+  }
+
+  setDepth = ( object: THREE.Object3D, newDepth: number):void => {
+    object.scale.y = newDepth / object.geometry.parameters.depth;
   }
 
 }
