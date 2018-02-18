@@ -437,7 +437,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     // Set different intersectables
     this.intersectables.pop(); // remove the backWall from intersectable objects list
     this.intersectables.push(this.rightWall);
-    this.intersectables.concat(this.placeholdersGroup.children);
+    this.intersectables = this.intersectables.concat(this.placeholdersGroup.children);
+    debugger;
     let yCoordFloorBottom = this.floor.position.y - this.getHeight(this.floor) / 2;
     let yCoord = yCoordFloorBottom + placeholdersLength / 2;
     this.addPlaceholdersHorizontally(yCoord, zCoord, placeholdersWidth, placeholdersLength);
