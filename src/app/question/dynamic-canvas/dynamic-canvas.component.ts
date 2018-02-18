@@ -67,14 +67,12 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     // Walls
     let backWallMaterial = new THREE.MeshLambertMaterial({
-      //color:0xFFFFFF,
-      color: 0xeeeeee,
-      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg'),
+      color:0xFFFFFF,
+      //color: 0xeeeeee,
+      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/backWall.png'),
       transparent: true
     });
     let backWall = new THREE.Mesh(floorGeometry, backWallMaterial);
-    backWall.position.z = floor.position.z + this.getHeight(backWall) / 2;
-    backWall.rotation.x = THREE.Math.degToRad(90);
 
     let leftWallMaterial = new THREE.MeshLambertMaterial({
       //color:0xFFFFFF,
@@ -92,6 +90,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     });
     let rightWall = new THREE.Mesh(floorGeometry, rightWallMaterial);
 
+    this.updateWallsSize(floor, backWall, leftWall, rightWall);
+    backWall.position.z = floor.position.z + this.getHeight(backWall) / 2;
+    backWall.rotation.x = THREE.Math.degToRad(90);
+    leftWall.position.z = floor.position.z + this.getHeight(leftWall) / 2;
+    leftWall.rotation.y = THREE.Math.degToRad(90);
+    rightWall.position.z = floor.position.z + this.getHeight(rightWall) / 2;
+    rightWall.rotation.y = THREE.Math.degToRad(-90);
 
     // Texts
     let loader = new THREE.FontLoader();
@@ -201,6 +206,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.camera = camera;
     this.scene = scene;
     this.floor =  floor;
+    this.backWall = backWall;
+    this.leftWall = leftWall;
+    this.rightWall = rightWall;
     this.doors = doors;
     this.doorsOpening = doorsOpening;
     this.bathTub = bathTub;
@@ -265,9 +273,14 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         console.log('Switch went to ShowRoomDimensionElements!');
         this.updateCameraPosition();
         if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText)
-          && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening) ) {
+          && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening)
+          && !isNullOrUndefined(this.backWall) && !isNullOrUndefined(this.leftWall)
+          && !isNullOrUndefined(this.rightWall) ) {
           this.scene.add(this.roomWidthText);
           this.scene.add(this.roomLengthText);
+          this.scene.remove(this.backWall);
+          this.scene.remove(this.leftWall);
+          this.scene.remove(this.rightWall);
           this.scene.remove(this.doors);
           this.scene.remove(this.doorsOpening);
         }
@@ -275,6 +288,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       case 'roomParametersChanged':
         console.log('Switch went to roomParametersChanged!');
         this.updateFloorSize();
+        this.updateWallsSize();
+        console.log(this.backWall,this.leftWall,this.rightWall);
+        debugger;
         this.resizeAndRepositionRoomDimensionTexts();
         this.updateCameraPosition();
         this.updateDoorsPositionY();
@@ -282,9 +298,15 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       case 'showDoorPositionElements':
         console.log("Switch went to showDoorPositionElements!");
         this.updateCameraPosition(1.25);
-        if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText) && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub)) {
+        if (!isNullOrUndefined(this.roomWidthText) && !isNullOrUndefined(this.roomLengthText)
+          && !isNullOrUndefined(this.doors) && !isNullOrUndefined(this.bathTub)
+          && !isNullOrUndefined(this.backWall) && !isNullOrUndefined(this.leftWall)
+          && !isNullOrUndefined(this.rightWall) ) {
           this.doors.material.opacity = 1;
           this.doorsOpening.material.opacity = 1;
+          this.scene.add(this.backWall);
+          this.scene.add(this.leftWall);
+          this.scene.add(this.rightWall);
           this.scene.add(this.doors);
           this.scene.add(this.doorsOpening);
           this.updateView('doorPositionChanged');
@@ -368,7 +390,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       case 'showPlaceholderElements':
         console.log('Placeholder elements in switch!!!');
         this.updateCameraPosition();
-        if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening) && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
+        if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening)
+          && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)
+          && !isNullOrUndefined(this.backWall) && !isNullOrUndefined(this.leftWall)
+          && !isNullOrUndefined(this.rightWall)) {
+          this.scene.add(this.backWall);
+          this.scene.add(this.leftWall);
+          this.scene.add(this.rightWall);
           for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 0.2; }
           this.doors.material.opacity = 0.2;
           this.scene.add(this.bathTub);
@@ -378,6 +406,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           // set intersectables
           this.intersectables.push(this.bathTub);
           this.intersectables.push(this.doorsOpening);
+
+          this.intersectables.push(this.backWall);
+          this.intersectables.push(this.leftWall);
+          this.intersectables.push(this.rightWall);
 
           // reset placeholdersGroup
           this.placeholdersGroup.children = [];
@@ -477,6 +509,32 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     floor.scale.set( this.selectionsMadeService.getRoomWidth(), this.selectionsMadeService.getRoomLength(), 1 );
   }
 
+  updateWallsSize = ( floor?: THREE.Object3D, backWall?: THREE.Object3D, leftWall?: THREE.Object3D, rightWall?: THREE.Object3D ):void => {
+    // check if parameters were supplied
+    // if not, use global variables instead
+    floor = floor ? floor : this.floor;
+    backWall = backWall ? backWall : this.backWall;
+    leftWall = leftWall ? leftWall : this.leftWall;
+    rightWall = rightWall ? rightWall : this.rightWall;
+
+    this.setWidth(backWall, this.getWidth(floor));
+    this.setWidth(leftWall, this.getHeight(floor));
+    this.setWidth(rightWall, this.getHeight(floor));
+
+    this.setHeight(backWall, 2000);
+    this.setHeight(rightWall, 2000);
+    this.setHeight(leftWall, 2000);
+
+    backWall.position.x = floor.position.x;
+    backWall.position.y = floor.position.y + this.getHeight(floor) / 2;
+
+    leftWall.position.x = floor.position.x - this.getWidth(floor) / 2;
+    leftWall.position.y = floor.position.y;
+
+    rightWall.position.x = floor.position.x + this.getWidth(floor) / 2;
+    rightWall.position.y = floor.position.y;
+  }
+
   updateCameraPosition = (multiplier?:number):void => {
     multiplier = multiplier ? multiplier : 1;
     this.camera.position.y = - Math.max(this.floor.scale.y, this.floor.scale.x) * multiplier;
@@ -569,7 +627,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   setWidth = ( object: THREE.Object3D, newWidth: number):void => {
-    object.scale.y = newWidth / object.geometry.parameters.width;
+    object.scale.x = newWidth / object.geometry.parameters.width;
   }
 
   getHeight = ( object: THREE.Object3D ):number => {
