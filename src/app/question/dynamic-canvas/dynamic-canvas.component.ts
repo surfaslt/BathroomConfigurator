@@ -190,7 +190,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     // setup placeholders group and material
     let placeholdersGroup = new THREE.Group();
-    placeholdersGroup.position.z = floor.position.z + 1;
     let placeholderMaterial = new THREE.MeshBasicMaterial({
       color: 0x00ff00,
       transparent: true
@@ -436,7 +435,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.intersectables.pop(); // remove the backWall from intersectable objects list
     this.intersectables.push(this.rightWall);
     this.intersectables = this.intersectables.concat(this.placeholdersGroup.children);
-    debugger;
     let yCoordFloorBottom = this.floor.position.y - this.getHeight(this.floor) / 2;
     let yCoord = yCoordFloorBottom + placeholdersLength / 2;
     this.addPlaceholdersHorizontally(yCoord, zCoord, placeholdersWidth, placeholdersLength);
@@ -530,7 +528,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
               lastPlaceholder.position.x += difference / 2;
             }
           }
-          debugger;
           xCoord = intersectable.position.x + intersectableWidth / 2 + placeholdersLength / 2 + 1;
           collisionHappened = true;
           break;
