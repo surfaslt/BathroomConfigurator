@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, OnChanges} from '@angular/core';
 import * as THREE from 'three';
+import * as OrbitControls from 'three-orbitcontrols';
 import { SelectionsMadeService } from "../../selections-made.service";
 import {isNullOrUndefined} from "util";
 
@@ -45,6 +46,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
     // CAMERA
     let camera = new THREE.PerspectiveCamera(1000, window.innerWidth / window.innerHeight, 0.1, 30000);
+    camera.up.set(0,-1,0);
+
+    // CONTROLS
+    let controls = new OrbitControls( camera, renderer.domElement );
 
     // SCENE
     let scene = new THREE.Scene();
@@ -60,6 +65,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let floorGeometry = new THREE.PlaneGeometry(1,1);
     let floorMaterial = new THREE.MeshBasicMaterial({
       color: 0xeeeeee,
+      side: THREE.DoubleSide,
       //wireframe: true
     });
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);// Update floor size from parameters
@@ -195,14 +201,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       transparent: true
     });
 
-    // Adjust camera position so that view would not be from above.
-    camera.rotation.x = THREE.Math.degToRad(60);
-    camera.rotation.y = THREE.Math.degToRad(0);
-    camera.rotation.z = THREE.Math.degToRad(180);
-
     // Assign local variables to globals so the shapes become accessible in other methods
     this.renderer = renderer;
     this.camera = camera;
+    this.controls = controls;
     this.scene = scene;
     this.floor =  floor;
     this.backWall = backWall;
@@ -242,8 +244,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       placeholder.material.opacity = 0.5 + Math.abs(0.5 * Math.sin(timer));
     }
 
-    //this.box.position.y = 0.5 + 3 * Math.sin(timer);
-    //this.box.rotation.x += THREE.Math.degToRad(3);
+    // required if controls.enableDamping or controls.autoRotate are set to true
+    //this.controls.update();
 
     this.renderer.render(this.scene, this.camera);
   }
@@ -579,8 +581,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   updateCameraPosition = (multiplier?:number):void => {
     multiplier = multiplier ? multiplier : 1;
+
     this.camera.position.y = - Math.max(this.floor.scale.y, this.floor.scale.x) * multiplier;
     this.camera.position.z = Math.max(this.floor.scale.y, this.floor.scale.x) * multiplier;
+    this.controls.update(); // controls need to be updated after every manual camera's transform
   }
 
   resizeAndRepositionRoomDimensionTexts = ():void => {

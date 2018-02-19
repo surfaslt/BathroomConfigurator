@@ -6954,6 +6954,10 @@ thenify-all@^1.0.0:
   dependencies:
     any-promise "^1.0.0"
 
+three-orbitcontrols@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/three-orbitcontrols/-/three-orbitcontrols-2.0.0.tgz#4a0ce4c790bd85febb20de2ea4521c21c573794c"
+
 three@0.89.0:
   version "0.89.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.89.0.tgz#4442d819a6168871b8d2cb37ad12a24310c170f5"
