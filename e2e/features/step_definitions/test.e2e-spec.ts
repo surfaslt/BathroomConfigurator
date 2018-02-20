@@ -1,29 +1,27 @@
 //features/step_definitions/my_step_definitions.js
-import {browser} from "protractor";
+import {browser, by, element} from "protractor";
 import {Given, Then, When} from "cucumber";
 
 module.exports = function() {
 
-    Given('I go to {string}', function (string, callback) {
-      // Write code here that turns the phrase above into concrete actions
+  let textEntered: string = '';
+
+    Given('I go to {string}', function (string: string, callback) {
       browser.get(string);
-      callback(null, 'pending');
     });
 
-    When('I add {string} in the task field', function (string, callback) {
-      // Write code here that turns the phrase above into concrete actions
-      callback(null, 'pending');
+    When('I add {string} in the task field', function (string: string, callback) {
+      element(by.model('todoList.todoText')).sendKeys(string);
+      textEntered = string;
     });
 
-    When('I click the add button', function (callback) {
-      // Write code here that turns the phrase above into concrete actions
-      callback(null, 'pending');
+    When('I click the {string} button', function (string: string, callback) {
+      element(by.css('[value="' + string + '"]')).click();
     });
 
     Then('I should see my new task in the list', function (callback) {
-      // Write code here that turns the phrase above into concrete actions
-      callback(null, 'pending');
+      let todoList = element.all(by.repeater('todo in todoList.todos'));
+      expect(todoList.count()).toEqual(3);
+      expect(todoList.get(2).getText()).toEqual(textEntered);
     });
-
-
 }
