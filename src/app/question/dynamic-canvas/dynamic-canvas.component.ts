@@ -65,8 +65,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let floorGeometry = new THREE.PlaneGeometry(1,1);
     let floorMaterial = new THREE.MeshBasicMaterial({
       color: 0xeeeeee,
-      side: THREE.DoubleSide,
-      //wireframe: true
+      side: THREE.DoubleSide
     });
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);// Update floor size from parameters
     this.updateFloorSize(floor);
@@ -153,6 +152,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let doorsMaterial = new THREE.MeshLambertMaterial({
       color:0xFFFFFF,
       map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg'),
+      side: THREE.DoubleSide,
       transparent: true
     });
     let doors = new THREE.Mesh(doorsGeometry, doorsMaterial);

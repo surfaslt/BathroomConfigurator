@@ -1,13 +1,19 @@
-'use strict';
-const config = require('./protractor.shared.conf').config;
-const chrome = require('./e2e/config/browsers/chrome.config').config;
+exports.config = {
+  // set to "custom" instead of cucumber.
+  framework: 'custom',
 
-// NOTE: To run this tests the application must be running in localhost:4200.
-config.baseUrl = 'http://localhost:4200/';
+  // path relative to the current config file
+  frameworkPath: require.resolve('protractor-cucumber-framework'),
 
-// Use the standalone Selenium server.
-chrome.directConnect = true;
+  // require feature files
+  specs: [
+    './e2e/features/**/*.feature' // accepts a glob
+  ],
 
-config.capabilities = chrome;
-
-exports.config = config;
+  cucumberOpts: {
+    // require step definitions
+    require: [
+      './e2e/features/step_definitions/**/*.steps.js' // accepts a glob
+    ]
+  }
+};
