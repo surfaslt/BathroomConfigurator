@@ -661,7 +661,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   updateTubSize = ():void => {
-    this.bathTub.scale.set( this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubHeight(), this.selectionsMadeService.getTubLength());
+    this.bathTub.scale.set( this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubLength(), this.selectionsMadeService.getTubHeight());
   }
 
   getWidth = ( object: THREE.Object3D ):number => {
