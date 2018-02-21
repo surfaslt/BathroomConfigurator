@@ -184,9 +184,9 @@
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.2.tgz#f1af664769cfb50af805431c407425ed619daa21"
 
-"@types/cucumber@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/cucumber/-/cucumber-4.0.0.tgz#866c1e3c909776c025280fa954febf2fc1a22266"
+"@types/cucumber@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/cucumber/-/cucumber-4.0.1.tgz#3e588a3fa510af7ad3dbe753f1c9ea818e984f85"
 
 "@types/jasmine@*", "@types/jasmine@2.8.6":
   version "2.8.6"
@@ -213,14 +213,6 @@
 "@types/selenium-webdriver@^2.53.35", "@types/selenium-webdriver@~2.53.39":
   version "2.53.43"
   resolved "https://registry.yarnpkg.com/@types/selenium-webdriver/-/selenium-webdriver-2.53.43.tgz#2de3d718819bc20165754c4a59afb7e9833f6707"
-
-"@types/strip-bom@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@types/strip-bom/-/strip-bom-3.0.0.tgz#14a8ec3956c2e81edb7520790aecf21c290aebd2"
-
-"@types/strip-json-comments@0.0.30":
-  version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@types/strip-json-comments/-/strip-json-comments-0.0.30.tgz#9aa30c04db212a9a0649d6ae6fd50accc40748a1"
 
 JSONStream@^1.0.3:
   version "1.3.2"
@@ -518,7 +510,7 @@ assert@^1.1.1, assert@^1.4.0:
   dependencies:
     util "0.10.3"
 
-assertion-error-formatter@^2.0.1:
+assertion-error-formatter@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/assertion-error-formatter/-/assertion-error-formatter-2.0.1.tgz#6bbdffaec8e2fa9e2b0eb158bfe353132d7c0a9b"
   dependencies:
@@ -713,10 +705,6 @@ bcrypt-pbkdf@^1.0.0:
   resolved "https://registry.yarnpkg.com/bcrypt-pbkdf/-/bcrypt-pbkdf-1.0.1.tgz#63bc5dcb61331b92bc05fd528953c33462a06f8d"
   dependencies:
     tweetnacl "^0.14.3"
-
-becke-ch--regex--s0-0-v1--base--pl--lib@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/becke-ch--regex--s0-0-v1--base--pl--lib/-/becke-ch--regex--s0-0-v1--base--pl--lib-1.2.0.tgz#2e73e9d21f2c2e6f5a5454045636f0ab93e46130"
 
 better-assert@~1.0.0:
   version "1.0.2"
@@ -1738,44 +1726,41 @@ csso@~2.3.1:
     clap "^1.0.9"
     source-map "^0.5.3"
 
-cucumber-expressions@^5.0.7:
-  version "5.0.13"
-  resolved "https://registry.yarnpkg.com/cucumber-expressions/-/cucumber-expressions-5.0.13.tgz#f174597dae6d2f0121294ac2ea65443249cf1587"
-  dependencies:
-    becke-ch--regex--s0-0-v1--base--pl--lib "^1.2.0"
+cucumber-expressions@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/cucumber-expressions/-/cucumber-expressions-3.0.0.tgz#4cf424813dae396cc9dab714b8104b459befc32c"
 
-cucumber-tag-expressions@^1.1.1:
+cucumber-tag-expressions@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/cucumber-tag-expressions/-/cucumber-tag-expressions-1.1.1.tgz#7f5c7b70009bc2b666591bfe64854578bedee85a"
 
-cucumber@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/cucumber/-/cucumber-4.0.0.tgz#09f078b852d817c8f818737d0dcc34d40f31534f"
+cucumber@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/cucumber/-/cucumber-2.3.1.tgz#3791a51ffd0c61462ad57fdb8ed111d55b51cde3"
   dependencies:
-    assertion-error-formatter "^2.0.1"
+    assertion-error-formatter "^2.0.0"
     babel-runtime "^6.11.6"
     bluebird "^3.4.1"
     cli-table "^0.3.1"
     colors "^1.1.2"
     commander "^2.9.0"
-    cucumber-expressions "^5.0.7"
-    cucumber-tag-expressions "^1.1.1"
+    cucumber-expressions "^3.0.0"
+    cucumber-tag-expressions "^1.0.0"
     duration "^0.2.0"
-    escape-string-regexp "^1.0.5"
     figures "2.0.0"
-    gherkin "^5.0.0"
+    gherkin "^4.1.0"
     glob "^7.0.0"
     indent-string "^3.1.0"
     is-generator "^1.0.2"
     is-stream "^1.1.0"
-    lodash "^4.17.4"
+    lodash "^4.0.0"
     mz "^2.4.0"
     progress "^2.0.0"
     resolve "^1.3.3"
-    stack-chain "^2.0.0"
+    stack-chain "^1.3.5"
     stacktrace-js "^2.0.0"
     string-argv "0.0.2"
-    title-case "^2.1.1"
+    upper-case-first "^1.1.2"
     util-arity "^1.0.2"
     verror "^1.9.0"
 
@@ -2859,9 +2844,9 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-gherkin@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/gherkin/-/gherkin-5.0.0.tgz#96def41198ec3908258b511af74f655a2764d2a1"
+gherkin@^4.1.0:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/gherkin/-/gherkin-4.1.3.tgz#11687db93976df97633125a6b2228a1a4bfdfa24"
 
 glob-base@^0.3.0:
   version "0.3.0"
@@ -3111,12 +3096,6 @@ hoek@2.x.x:
 hoek@4.x.x:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
-
-homedir-polyfill@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/homedir-polyfill/-/homedir-polyfill-1.0.1.tgz#4c2bbc8a758998feebf5ed68580f76d46768b4bc"
-  dependencies:
-    parse-passwd "^1.0.0"
 
 homedir@0.6.0:
   version "0.6.0"
@@ -5013,10 +4992,6 @@ parse-json@^2.2.0:
   dependencies:
     error-ex "^1.2.0"
 
-parse-passwd@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/parse-passwd/-/parse-passwd-1.0.0.tgz#6d5b934a456993b23d37f40a382d6f1666a8e5c6"
-
 parseqs@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/parseqs/-/parseqs-0.0.5.tgz#d5208a3738e46766e291ba2ea173684921a8b89d"
@@ -5506,7 +5481,7 @@ protractor-cucumber-framework@^4.2.0:
     q "^1.4.1"
     tmp "^0.0.33"
 
-protractor@^5.3.0:
+protractor@^5.1.2:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/protractor/-/protractor-5.3.0.tgz#5df98201cbdaeb50826af6d05630ef1945bf9c32"
   dependencies:
@@ -6443,7 +6418,7 @@ source-map-support@^0.4.1, source-map-support@^0.4.2, source-map-support@~0.4.0:
   dependencies:
     source-map "^0.5.6"
 
-source-map-support@^0.5.0:
+source-map-support@^0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.3.tgz#2b3d5fff298cfa4d1afd7d4352d569e9a0158e76"
   dependencies:
@@ -6538,9 +6513,9 @@ ssri@^5.0.0:
   dependencies:
     safe-buffer "^5.1.0"
 
-stack-chain@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/stack-chain/-/stack-chain-2.0.0.tgz#d73d1172af89565f07438b5bcc086831b6689b2d"
+stack-chain@^1.3.5:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/stack-chain/-/stack-chain-1.3.7.tgz#d192c9ff4ea6a22c94c4dd459171e3f00cea1285"
 
 stack-generator@^2.0.1:
   version "2.0.2"
@@ -6705,7 +6680,7 @@ strip-indent@^1.0.1:
   dependencies:
     get-stdin "^4.0.1"
 
-strip-json-comments@^2.0.0, strip-json-comments@~2.0.1:
+strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
@@ -6889,13 +6864,6 @@ timespan@2.3.x:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/timespan/-/timespan-2.3.0.tgz#4902ce040bd13d845c8f59b27e9d59bad6f39929"
 
-title-case@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/title-case/-/title-case-2.1.1.tgz#3e127216da58d2bc5becf137ab91dae3a7cd8faa"
-  dependencies:
-    no-case "^2.2.0"
-    upper-case "^1.0.3"
-
 tmp@0.0.24:
   version "0.0.24"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.24.tgz#d6a5e198d14a9835cc6f2d7c3d9e302428c8cf12"
@@ -6962,9 +6930,9 @@ trim-right@^1.0.1:
   dependencies:
     glob "^6.0.4"
 
-ts-node@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-4.1.0.tgz#36d9529c7b90bb993306c408cd07f7743de20712"
+ts-node@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-5.0.0.tgz#9aa573889ad7949411f972981c209e064705e36f"
   dependencies:
     arrify "^1.0.0"
     chalk "^2.3.0"
@@ -6972,19 +6940,8 @@ ts-node@^4.1.0:
     make-error "^1.1.1"
     minimist "^1.2.0"
     mkdirp "^0.5.1"
-    source-map-support "^0.5.0"
-    tsconfig "^7.0.0"
-    v8flags "^3.0.0"
+    source-map-support "^0.5.3"
     yn "^2.0.0"
-
-tsconfig@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/tsconfig/-/tsconfig-7.0.0.tgz#84538875a4dc216e5c4a5432b3a4dec3d54e91b7"
-  dependencies:
-    "@types/strip-bom" "^3.0.0"
-    "@types/strip-json-comments" "0.0.30"
-    strip-bom "^3.0.0"
-    strip-json-comments "^2.0.0"
 
 tsickle@^0.26.0:
   version "0.26.0"
@@ -7069,9 +7026,13 @@ typedarray@^0.0.6, typedarray@~0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.1.0-dev.20160920, typescript@^2.6.2, typescript@~2.6.2:
+typescript@^2.1.0-dev.20160920, typescript@~2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
+
+typescript@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.7.2.tgz#2d615a1ef4aee4f574425cdff7026edf81919836"
 
 uglify-es@^3.1.3:
   version "3.3.8"
@@ -7182,7 +7143,13 @@ unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
 
-upper-case@^1.0.3, upper-case@^1.1.1:
+upper-case-first@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/upper-case-first/-/upper-case-first-1.1.2.tgz#5d79bedcff14419518fd2edb0a0507c9b6859115"
+  dependencies:
+    upper-case "^1.1.1"
+
+upper-case@^1.1.1:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/upper-case/-/upper-case-1.1.3.tgz#f6b4501c2ec4cdd26ba78be7222961de77621598"
 
@@ -7259,12 +7226,6 @@ uuid@^3.0.0, uuid@^3.1.0:
 uws@~0.14.4:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/uws/-/uws-0.14.5.tgz#67aaf33c46b2a587a5f6666d00f7691328f149dc"
-
-v8flags@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-3.0.1.tgz#dce8fc379c17d9f2c9e9ed78d89ce00052b1b76b"
-  dependencies:
-    homedir-polyfill "^1.0.1"
 
 valid-url@^1.0.9:
   version "1.0.9"
