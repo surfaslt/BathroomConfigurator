@@ -2,8 +2,6 @@
 import {browser, by, element} from "protractor";
 import {Given, Then, When} from "cucumber";
 
-module.exports = function() {
-
   let textEntered: string = '';
 
   Given('I go to {string}', function (string: string, callback) {
@@ -24,4 +22,3 @@ module.exports = function() {
     expect(todoList.count()).toEqual(3);
     expect(todoList.get(2).getText()).toEqual(textEntered);
   });
-}
