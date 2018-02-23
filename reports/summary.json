@@ -1,0 +1,72 @@
+[
+  {
+    "description": "  As a user of Protractor\n  I should be able to use Cucumber\n  In order to run my E2E tests",
+    "keyword": "Feature",
+    "line": 2,
+    "name": "Running Cucumber with Protractor",
+    "tags": [],
+    "uri": "C:\\Users\\Developer\\Desktop\\Mereway Bathrooms Workspace\\MerewayBathrooms\\e2e\\features\\test.feature",
+    "elements": [
+      {
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "Protractor and Cucumber Test",
+        "tags": [],
+        "id": "running-cucumber-with-protractor;protractor-and-cucumber-test",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I go to \"https://angularjs.org/\"",
+            "result": {
+              "status": "failed",
+              "duration": 5005,
+              "error_message": "Error: function timed out after 5000 milliseconds\n    at Timeout._onTimeout (C:\\Users\\Developer\\Desktop\\Mereway Bathrooms Workspace\\MerewayBathrooms\\node_modules\\cucumber\\lib\\user_code_runner.js:91:22)\n    at ontimeout (timers.js:475:11)\n    at tryOnTimeout (timers.js:310:5)\n    at Timer.listOnTimeout (timers.js:270:5)"
+            },
+            "line": 8,
+            "match": {
+              "location": "Workspace\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I add \"Be Awesome\" in the task field",
+            "result": {
+              "status": "skipped"
+            },
+            "line": 9,
+            "match": {
+              "location": "Workspace\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I click the add button",
+            "result": {
+              "status": "skipped"
+            },
+            "line": 10,
+            "match": {
+              "location": "Workspace\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "I should see my new task in the list",
+            "result": {
+              "status": "skipped"
+            },
+            "line": 11,
+            "match": {
+              "location": "Workspace\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "running-cucumber-with-protractor"
+  }
+]

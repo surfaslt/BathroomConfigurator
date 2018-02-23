@@ -24,4 +24,4 @@ Failures:
 
 1 scenario ([31m1 failed[39m)
 4 steps ([31m1 failed[39m, [36m3 skipped[39m)
-0m05.006s
+0m05.005s
