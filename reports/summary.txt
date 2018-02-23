@@ -14,14 +14,14 @@ Failures:
 
 1) Scenario: [1mProtractor and Cucumber Test[22m - [90me2e\features\test.feature:7[39m
    Step: [1mGiven I go to "https://angularjs.org/"[22m - [90me2e\features\test.feature:8[39m
-   Step Definition: [90mWorkspace\MerewayBathrooms\node_modules\cucumber\lib\index.js:176[39m
+   Step Definition: [90mtests\MerewayBathrooms\node_modules\cucumber\lib\index.js:176[39m
    Message:
      [31mError: function timed out after 5000 milliseconds[39m[90m
-         at Timeout._onTimeout (C:\Users\Developer\Desktop\Mereway Bathrooms Workspace\MerewayBathrooms\node_modules\cucumber\lib\user_code_runner.js:91:22)
-         at ontimeout (timers.js:475:11)
-         at tryOnTimeout (timers.js:310:5)
-         at Timer.listOnTimeout (timers.js:270:5)[39m
+         at Timeout._onTimeout (C:\Users\Martynas\Desktop\Angular tests\MerewayBathrooms\node_modules\cucumber\lib\user_code_runner.js:91:22)
+         at ontimeout (timers.js:478:11)
+         at tryOnTimeout (timers.js:302:5)
+         at Timer.listOnTimeout (timers.js:262:5)[39m
 
 1 scenario ([31m1 failed[39m)
 4 steps ([31m1 failed[39m, [36m3 skipped[39m)
-0m05.005s
+0m05.026s

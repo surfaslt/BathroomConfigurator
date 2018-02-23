@@ -1,6 +1,7 @@
 //features/step_definitions/my_step_definitions.js
 import {browser, by, element} from "protractor";
 import {Given, Then, When} from "cucumber";
+import {expect} from "chai";
 
   let textEntered: string = '';
 
@@ -19,6 +20,6 @@ import {Given, Then, When} from "cucumber";
 
   Then('I should see my new task in the list', function (callback) {
     let todoList = element.all(by.repeater('todo in todoList.todos'));
-    expect(todoList.count()).toEqual(3);
-    expect(todoList.get(2).getText()).toEqual(textEntered);
+    expect(todoList.count()).to.eql(3);
+    expect(todoList.get(2).getText()).to.eql(textEntered);
   });

@@ -8,7 +8,7 @@ exports.config = {
     'browserName': 'chrome'
   },
   directConnect: true,
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'http://localhost:49152/',
 
   // Specs here are the cucumber feature files
   specs: [
