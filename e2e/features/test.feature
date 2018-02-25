@@ -1,11 +1,13 @@
 #features/test.feature
-Feature: Running Cucumber with Protractor
-  As a user of Protractor
-  I should be able to use Cucumber
-  In order to run my E2E tests
+Feature: Testing Input values
 
-  Scenario: Protractor and Cucumber Test
-    Given I go to "https://angularjs.org/"
-    When I add "Be Awesome" in the task field
-    And I click the add button
-    Then I should see my new task in the list
+  Scenario: Changing Room Width changes it on Summary page as well
+    Given I go to questionPage
+    And all data is set to its default values
+    When I write 3000 inside roomWidth input box
+    And I click the Next Page button
+    And I click the Next Page button
+    And I click the Next Page button
+    And I click the Next Page button
+    Then I should be on summaryPage page
+    And I should see roomWidth: 3000 in the list

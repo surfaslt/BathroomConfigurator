@@ -1,27 +1,64 @@
 [
   {
-    "description": "  As a user of Protractor\n  I should be able to use Cucumber\n  In order to run my E2E tests",
     "keyword": "Feature",
     "line": 2,
-    "name": "Running Cucumber with Protractor",
+    "name": "Testing Input values",
     "tags": [],
     "uri": "C:\\Users\\Martynas\\Desktop\\Angular tests\\MerewayBathrooms\\e2e\\features\\test.feature",
     "elements": [
       {
         "keyword": "Scenario",
-        "line": 7,
-        "name": "Protractor and Cucumber Test",
+        "line": 4,
+        "name": "Changing Room Width changes it on Summary page as well",
         "tags": [],
-        "id": "running-cucumber-with-protractor;protractor-and-cucumber-test",
+        "id": "testing-input-values;changing-room-width-changes-it-on-summary-page-as-well",
         "steps": [
           {
             "arguments": [],
             "keyword": "Given ",
-            "name": "I go to \"https://angularjs.org/\"",
+            "name": "I go to questionPage",
+            "result": {
+              "status": "passed",
+              "duration": 2566
+            },
+            "line": 5,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "all data is set to its default values",
+            "result": {
+              "status": "passed",
+              "duration": 0
+            },
+            "line": 6,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I write 3000 inside roomWidth input box",
             "result": {
               "status": "failed",
-              "duration": 5026,
+              "duration": 5004,
               "error_message": "Error: function timed out after 5000 milliseconds\n    at Timeout._onTimeout (C:\\Users\\Martynas\\Desktop\\Angular tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\user_code_runner.js:91:22)\n    at ontimeout (timers.js:478:11)\n    at tryOnTimeout (timers.js:302:5)\n    at Timer.listOnTimeout (timers.js:262:5)"
+            },
+            "line": 7,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I click the Next Page button",
+            "result": {
+              "status": "skipped"
             },
             "line": 8,
             "match": {
@@ -30,8 +67,8 @@
           },
           {
             "arguments": [],
-            "keyword": "When ",
-            "name": "I add \"Be Awesome\" in the task field",
+            "keyword": "And ",
+            "name": "I click the Next Page button",
             "result": {
               "status": "skipped"
             },
@@ -43,7 +80,7 @@
           {
             "arguments": [],
             "keyword": "And ",
-            "name": "I click the add button",
+            "name": "I click the Next Page button",
             "result": {
               "status": "skipped"
             },
@@ -54,8 +91,8 @@
           },
           {
             "arguments": [],
-            "keyword": "Then ",
-            "name": "I should see my new task in the list",
+            "keyword": "And ",
+            "name": "I click the Next Page button",
             "result": {
               "status": "skipped"
             },
@@ -63,10 +100,34 @@
             "match": {
               "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
             }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "I should be on summaryPage page",
+            "result": {
+              "status": "skipped"
+            },
+            "line": 12,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I should see roomWidth: 3000 in the list",
+            "result": {
+              "status": "skipped"
+            },
+            "line": 13,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
           }
         ]
       }
     ],
-    "id": "running-cucumber-with-protractor"
+    "id": "testing-input-values"
   }
 ]

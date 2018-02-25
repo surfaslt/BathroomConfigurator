@@ -1,19 +1,20 @@
-Feature: Running Cucumber with Protractor
+Feature: Testing Input values
 
-    As a user of Protractor
-    I should be able to use Cucumber
-    In order to run my E2E tests
-
-  Scenario: Protractor and Cucumber Test
-  [31m× Given I go to "https://angularjs.org/"[39m
-  [36m- When I add "Be Awesome" in the task field[39m
-  [36m- And I click the add button[39m
-  [36m- Then I should see my new task in the list[39m
+  Scenario: Changing Room Width changes it on Summary page as well
+  [32m√ Given I go to questionPage[39m
+  [32m√ And all data is set to its default values[39m
+  [31m× When I write 3000 inside roomWidth input box[39m
+  [36m- And I click the Next Page button[39m
+  [36m- And I click the Next Page button[39m
+  [36m- And I click the Next Page button[39m
+  [36m- And I click the Next Page button[39m
+  [36m- Then I should be on summaryPage page[39m
+  [36m- And I should see roomWidth: 3000 in the list[39m
 
 Failures:
 
-1) Scenario: [1mProtractor and Cucumber Test[22m - [90me2e\features\test.feature:7[39m
-   Step: [1mGiven I go to "https://angularjs.org/"[22m - [90me2e\features\test.feature:8[39m
+1) Scenario: [1mChanging Room Width changes it on Summary page as well[22m - [90me2e\features\test.feature:4[39m
+   Step: [1mWhen I write 3000 inside roomWidth input box[22m - [90me2e\features\test.feature:7[39m
    Step Definition: [90mtests\MerewayBathrooms\node_modules\cucumber\lib\index.js:176[39m
    Message:
      [31mError: function timed out after 5000 milliseconds[39m[90m
@@ -23,5 +24,5 @@ Failures:
          at Timer.listOnTimeout (timers.js:262:5)[39m
 
 1 scenario ([31m1 failed[39m)
-4 steps ([31m1 failed[39m, [36m3 skipped[39m)
-0m05.026s
+9 steps ([31m1 failed[39m, [36m6 skipped[39m, [32m2 passed[39m)
+0m07.570s
