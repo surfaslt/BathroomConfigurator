@@ -632,6 +632,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
       // TODO check total available space around the placeholder
 
+      // if I scale the clicked placeholder on both width and length by a small number (even 5 would do)
+      // then I could check if it intersects with any other placeholder and sum their widths or heights
+      // to get maximum available space.
+
       this.onChangeMade.emit('placeholderClicked');
       // TODO
       /*
