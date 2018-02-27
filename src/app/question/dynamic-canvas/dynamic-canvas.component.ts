@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, EventEmitter, Output} from '@angular/core';
 import * as THREE from 'three';
 import * as OrbitControls from 'three-orbitcontrols';
 import { SelectionsMadeService } from "../../selections-made.service";
@@ -12,6 +12,7 @@ import {isNullOrUndefined} from "util";
 export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   @Input() changeMade: string;
+  @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
 
   private renderer: THREE.Object3D;
   private camera: THREE.Object3D;
@@ -33,6 +34,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private raycaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
   private intersectables: THREE.Object3D[];
+  private selectedPlaceholder: THREE.Object3D;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
@@ -459,10 +461,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       newPlaceholder.position.z = zCoord;
       let collisionHappened: boolean = false;
       for(let intersectable of this.intersectables) {
-        let firstBB = new THREE.Box3().setFromObject(newPlaceholder);
-        let secondBB = new THREE.Box3().setFromObject(intersectable);
-        let collision = firstBB.intersectsBox(secondBB);
-        if( collision ) {
+        if( this.intersects(newPlaceholder, intersectable) ) {
           let intersectableHeight = this.getHeight(intersectable);
           // if the last placeholder could have been bigger - make it bigger
           if(this.placeholdersGroup.children.length != 0) {
@@ -505,10 +504,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       newPlaceholder.position.z = zCoord;
       let collisionHappened: boolean = false;
       for(let intersectable of this.intersectables) {
-        let firstBB = new THREE.Box3().setFromObject(newPlaceholder);
-        let secondBB = new THREE.Box3().setFromObject(intersectable);
-        let collision = firstBB.intersectsBox(secondBB);
-        if( collision ) {
+        if( this.intersects(newPlaceholder, intersectable) ) {
           let intersectableWidth = this.getWidth(intersectable);
           // if intersectable was rotated, then its height should be taken instead of width
           if(intersectable.rotation.z == THREE.Math.degToRad(90) ) {
@@ -517,7 +513,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           if(this.placeholdersGroup.children.length != 0) {
             let lastPlaceholder = this.placeholdersGroup.children[this.placeholdersGroup.children.length - 1];
             let xCoordIntersectableLeft = intersectable.position.x - intersectableWidth / 2;
-            // if the intersected item is the back wall
+            // if the intersected item is the right wall
             if( intersectable == this.rightWall ) {
               xCoordIntersectableLeft = intersectable.position.x;
             }
@@ -526,8 +522,12 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
             // detected by collision - give that space to the placeholder.
             if( xCoordIntersectableLeft > xCoordLastPlaceholderRight ) {
               let difference = xCoordIntersectableLeft - xCoordLastPlaceholderRight;
-              this.setWidth( lastPlaceholder, this.getWidth(lastPlaceholder) + difference );
-              lastPlaceholder.position.x += difference / 2;
+              // if the gap between placeholder and object is bigger than placeholders widht,
+              // then there must be some other object in between them and space reimbursement is unneeded
+              if (difference < this.getWidth(newPlaceholder)) {
+                this.setWidth(lastPlaceholder, this.getWidth(lastPlaceholder) + difference);
+                lastPlaceholder.position.x += difference / 2;
+              }
             }
           }
           xCoord = intersectable.position.x + intersectableWidth / 2 + placeholdersLength / 2 + 1;
@@ -542,8 +542,15 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     }
   }
 
+  intersects = (firstObject: THREE.Object3D, secondObject: THREE.Object3D):boolean => {
+    let firstBB: THREE.Box3 = new THREE.Box3().setFromObject(firstObject);
+    let secondBB: THREE.Box3 = new THREE.Box3().setFromObject(secondObject);
+    let collision: boolean = firstBB.intersectsBox(secondBB);
+    return collision;
+}
+
   createPlaceholderObject = ( width: number, length: number):THREE.Object3D => {
-    let placeholderGeometry = new THREE.PlaneGeometry(width, length);
+    let placeholderGeometry: THREE.Object3D = new THREE.PlaneGeometry(width, length);
     let placeholder:THREE.Object3D = new THREE.Mesh(placeholderGeometry, this.placeholderMaterial);
     return placeholder;
   }
@@ -600,7 +607,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.roomLengthText.position.z = this.floor.position.z + 1;
   }
 
-  onDocumentTouchStart = ( event ) => {
+  onDocumentTouchStart = ( event ):void => {
 
     event.preventDefault();
 
@@ -610,23 +617,23 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   }
 
-  onDocumentMouseDown = ( event ) => {
+  onDocumentMouseDown = ( event ):void => {
 
     event.preventDefault();
 
     let canvasBounds = this.renderer.context.canvas.getBoundingClientRect();
-
     this.mouse.x = ( ( event.clientX - canvasBounds.left ) / ( canvasBounds.right - canvasBounds.left ) ) * 2 - 1;
     this.mouse.y = - ( ( event.clientY - canvasBounds.top ) / ( canvasBounds.bottom - canvasBounds.top) ) * 2 + 1;
-
     this.raycaster.setFromCamera( this.mouse, this.camera );
-
     let intersects = this.raycaster.intersectObjects( this.placeholdersGroup.children );
-    //let intersects = this.raycaster.intersectObjects( this.scene.children );
     console.log(this.mouse.x, this.mouse.y, intersects);
     if ( intersects.length > 0 ) {
+      this.selectedPlaceholder = intersects[ 0 ];
       intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+      // TODO check total available space around the placeholder
 
+      this.onChangeMade.emit('placeholderClicked');
+      // TODO
       /*
       let particleMaterial = new THREE.SpriteMaterial( {
         color: 0x000000,

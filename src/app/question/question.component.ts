@@ -10,7 +10,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
 
   currentQuestionNo: number = 1;
   totalQuestionNo: number = 4;
-  userChangeMade: string = '';
+  pageChange: string = '';
   messagesToDynamicCanvasComponent: string[] = ['showRoomDimensionsElements','showDoorPositionElements','showTubParametersElements','showPlaceholderElements'];
 
   constructor(private selectionsMadeService: SelectionsMadeService) {
@@ -19,22 +19,27 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(){
     console.log("Question component, change will be made: ", this.messagesToDynamicCanvasComponent[this.currentQuestionNo-1]);
-    this.onChangeMade(this.messagesToDynamicCanvasComponent[this.currentQuestionNo-1]);
+    this.pageChangeMade(this.messagesToDynamicCanvasComponent[this.currentQuestionNo-1]);
   }
 
-  onChangeMade(changedName: string): void{
-    this.userChangeMade = this.userChangeMade == changedName ? changedName + '1' : changedName; // triggers ngOnChanges() in dynamic-canvas component
-    console.log("question component - change was made!");
+  pageChangeMade = (changedName: string): void => {
+    this.pageChange = this.pageChange == changedName ? changedName + '1' : changedName; // triggers ngOnChanges() in dynamic-canvas component
+    console.log("question component - pageChangeMade!");
   }
 
-  nextQuestion(): void{
+  canvasChangeMade = (changedName: string): void => {
+
+    console.log("question component - canvasChangeMade!", changedName);
+  }
+
+  nextQuestion = (): void => {
     this.currentQuestionNo++;
-    this.onChangeMade(this.messagesToDynamicCanvasComponent[this.currentQuestionNo-1]);
+    this.pageChangeMade(this.messagesToDynamicCanvasComponent[this.currentQuestionNo-1]);
   }
 
-  previousQuestion():void {
+  previousQuestion = ():void => {
     this.currentQuestionNo--;
-    this.onChangeMade(this.messagesToDynamicCanvasComponent[this.currentQuestionNo-1]);
+    this.pageChangeMade(this.messagesToDynamicCanvasComponent[this.currentQuestionNo-1]);
   }
 
   ngOnDestroy(): void {
