@@ -28,8 +28,8 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   }
 
   canvasChangeMade = (changedName: string): void => {
-
     console.log("question component - canvasChangeMade!", changedName);
+    console.log("maximum available space: ", this.selectionsMadeService.getSelectedPlaceholderWidth(), this.selectionsMadeService.getSelectedPlaceholderLength());
   }
 
   nextQuestion = (): void => {

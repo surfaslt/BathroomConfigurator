@@ -13,6 +13,8 @@ export class SelectionsMadeService {
   private tubHeight: number = 510;
   private placeholderMinWidth: number = 400;
   private placeholderMinLength: number = 400;
+  private selectedPlaceholderWidth: number = 400;
+  private selectedPlaceholderLength: number = 400;
 
   private data = {
     roomWidth: 2000,
@@ -25,96 +27,120 @@ export class SelectionsMadeService {
 
   constructor() { }
 
-  setCurrentQuestionNumber( questionNo:number ):void {
+  setCurrentQuestionNumber = ( questionNo:number ):void => {
     this.currentQuestion = Number(questionNo);
   }
 
-  setProgress( pageNo:number ):void {
+  setProgress = ( pageNo:number ):void => {
     this.progress = Number(pageNo) / this.numberOfPages * 100;
   }
 
-  setData( data ):void {
+  setData = ( data ):void => {
     this.data = data;
   }
 
-  setRoomWidth(width: number):void {
+  setRoomWidth = (width: number):void => {
     this.data.roomWidth = Number(width);
   }
 
-  setRoomLength(length: number):void {
+  setRoomLength = (length: number):void => {
     this.data.roomLength = Number(length);
   }
 
-  setDoorPosition(doorPosition: string):void {
+  setDoorPosition = (doorPosition: string):void => {
     this.data.doorPosition = doorPosition;
   }
 
-  setTubWidth(width: number):void {
+  setTubWidth = (width: number):void => {
     this.data.tubWidth = Number(width);
   }
 
-  setTubLength(length: number):void {
+  setTubLength = (length: number):void => {
     this.data.tubLength = Number(length);
   }
 
-  setTubPosition(tubPosition: string):void {
+  setTubPosition = (tubPosition: string):void => {
     this.data.tubPosition = tubPosition;
   }
 
-  getCurrentQuestionNo():number {
+  setSelectedPlaceholderWidth = (width: number):void => {
+    this.selectedPlaceholderWidth = Number(width);
+  }
+
+  setSelectedPlaceholderLength = (length: number):void => {
+    this.selectedPlaceholderLength = Number(length);
+  }
+
+  incSelectedPlaceholderWidth = (width: number):void => {
+    this.selectedPlaceholderWidth += Number(width);
+  }
+
+  incSelectedPlaceholderLength = (length: number):void => {
+    this.selectedPlaceholderLength += Number(length);
+  }
+
+  getCurrentQuestionNo = ():number => {
     return this.currentQuestion;
   }
 
-  getProgress():number {
+  getProgress = ():number => {
     return Math.round(this.progress);
   }
 
-  getData():object {
+  getData = ():object => {
     return this.data;
   }
 
-  getRoomWidth():number {
+  getRoomWidth = ():number => {
     return this.data.roomWidth;
   }
 
-  getRoomLength():number {
+  getRoomLength = ():number => {
     return this.data.roomLength;
   }
 
-  getDoorPosition():string {
+  getDoorPosition = ():string => {
     return this.data.doorPosition;
   }
 
-  getTubWidth():number {
+  getTubWidth = ():number => {
     return this.data.tubWidth;
   }
 
-  getTubLength():number {
+  getTubLength = ():number => {
     return this.data.tubLength;
   }
 
-  getTubPosition():string {
+  getTubPosition = ():string => {
     return this.data.tubPosition;
   }
 
-  getDoorWidth():number {
+  getDoorWidth = ():number => {
     return this.doorWidth;
   }
 
-  getDoorHeight():number {
+  getDoorHeight = ():number => {
     return this.doorHeight;
   }
 
-  getTubHeight():number {
+  getTubHeight = ():number => {
     return this.tubHeight;
   }
 
-  getPlaceholderMinWidth():number {
+  getPlaceholderMinWidth = ():number => {
     return this.placeholderMinWidth;
   }
 
-  getPlaceholderMinLength():number {
+  getPlaceholderMinLength = ():number => {
     return this.placeholderMinLength;
+  }
+
+  getSelectedPlaceholderWidth = ():number => {
+    return this.selectedPlaceholderWidth;
+  }
+
+  getSelectedPlaceholderLength = ():number => {
+    return this.selectedPlaceholderLength;
   }
 
 }

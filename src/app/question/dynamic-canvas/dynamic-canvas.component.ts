@@ -628,13 +628,41 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let intersects = this.raycaster.intersectObjects( this.placeholdersGroup.children );
     console.log(this.mouse.x, this.mouse.y, intersects);
     if ( intersects.length > 0 ) {
-      this.selectedPlaceholder = intersects[ 0 ];
-      intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
-      // TODO check total available space around the placeholder
-
-      // if I scale the clicked placeholder on both width and length by a small number (even 5 would do)
-      // then I could check if it intersects with any other placeholder and sum their widths or heights
-      // to get maximum available space.
+      this.selectedPlaceholder = intersects[ 0 ].object;
+      this.selectedPlaceholder.material.color.setHex( Math.random() * 0xffffff );
+      this.selectionsMadeService.setSelectedPlaceholderWidth(this.getWidth(this.selectedPlaceholder));
+      this.selectionsMadeService.setSelectedPlaceholderLength(this.getHeight(this.selectedPlaceholder));
+      // check total available space around the placeholder
+      let scaleUp:number = 0.05;
+      // Scale placeholder up by a bit and check for intersections with other placeholder
+      console.log(this.selectedPlaceholder);
+      this.selectedPlaceholder.scale.x += scaleUp;
+      this.selectedPlaceholder.scale.y += scaleUp;
+      this.intersectables = [];
+      this.intersectables = this.intersectables.concat(this.placeholdersGroup.children);
+      // get rid of the selected placeholder from intersectables list
+      this.intersectables.splice(this.intersectables.indexOf(this.selectedPlaceholder), 1);
+      // And find the nearby placeholders
+      for(let intersectable of this.intersectables){
+        if(this.intersects(this.selectedPlaceholder, intersectable)){
+          // find their position relative to the selected placeholder and
+          // put maximum available space in the service class.
+          // left or right
+          if(this.selectedPlaceholder.position.x != intersectable.position.x
+            && this.selectedPlaceholder.position.y == intersectable.position.y) {
+            this.selectionsMadeService.incSelectedPlaceholderWidth(this.getWidth(intersectable));
+            console.log("Has placeholder left/right");
+          }
+          // above or below
+          if(this.selectedPlaceholder.position.x == intersectable.position.x
+            && this.selectedPlaceholder.position.y != intersectable.position.y) {
+            this.selectionsMadeService.incSelectedPlaceholderLength(this.getHeight(intersectable));
+            console.log("Has placeholder above/below");
+          }
+        }
+      }
+      this.selectedPlaceholder.scale.x -= scaleUp;
+      this.selectedPlaceholder.scale.y -= scaleUp;
 
       this.onChangeMade.emit('placeholderClicked');
       // TODO
