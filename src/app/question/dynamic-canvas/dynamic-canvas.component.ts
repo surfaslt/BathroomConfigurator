@@ -663,9 +663,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       }
       this.selectedPlaceholder.scale.x -= scaleUp;
       this.selectedPlaceholder.scale.y -= scaleUp;
-
+      // notify questionComponent about the click
       this.onChangeMade.emit('placeholderClicked');
-      // TODO
+
       /*
       let particleMaterial = new THREE.SpriteMaterial( {
         color: 0x000000,
