@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef, AfterViewChecked} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewChecked} from '@angular/core';
 import { SelectionsMadeService } from "./selections-made.service";
 
 @Component({

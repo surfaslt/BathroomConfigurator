@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { RouterModule } from '@angular/router'
-import { FormsModule } from "@angular/forms";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { SelectionsMadeService } from "./selections-made.service";
@@ -36,6 +37,7 @@ import { DoorPositionPageComponent } from './question/door-position-page/door-po
     FormsModule,
     ReactiveFormsModule,
     AlertModule.forRoot(),
+    ModalModule.forRoot(),
     RouterModule.forRoot([
       {
         path: '',

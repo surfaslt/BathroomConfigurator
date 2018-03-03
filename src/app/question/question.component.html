@@ -35,3 +35,39 @@
     <a class="float-right" routerLink="/summaryPage">Next Page</a>
   </div>
 </div>
+
+<div bsModal #productsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Select item to go in placeholders place</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideProductsModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row" *ngIf="selectionsMadeService.getSelectedPlaceholderWidth() >= smallProductWidthNeeded
+          || selectionsMadeService.getSelectedPlaceholderLength() >= smallProductWidthNeeded">
+          <div class="col-md-12">Small products</div>
+          <div *ngFor="let smallProduct of smallProductImagePaths" class="col-md-3">
+            <img class="img-fluid" [src]="productImagesFolderPath + smallProduct" (click)="productChosen($event.target.src)" />
+          </div>
+        </div>
+        <div class="row" *ngIf="selectionsMadeService.getSelectedPlaceholderWidth() >= mediumProductWidthNeeded
+          || selectionsMadeService.getSelectedPlaceholderLength() >= mediumProductWidthNeeded">
+          <div class="col-md-12">Medium products</div>
+          <div *ngFor="let mediumProduct of mediumProductImagePaths" class="col-md-3">
+            <img class="img-fluid" [src]="productImagesFolderPath + mediumProduct" (click)="productChosen($event.target.src)" />
+          </div>
+        </div>
+        <div class="row" *ngIf="selectionsMadeService.getSelectedPlaceholderWidth() >= largeProductWidthNeeded
+          || selectionsMadeService.getSelectedPlaceholderLength() >= largeProductWidthNeeded">
+          <div class="col-md-12">Large products</div>
+          <div *ngFor="let largeProduct of largeProductImagePaths" class="col-md-3">
+            <img class="img-fluid" [src]="productImagesFolderPath + largeProduct" (click)="productChosen($event.target.src)" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

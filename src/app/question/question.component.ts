@@ -1,5 +1,6 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { SelectionsMadeService } from './../selections-made.service';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-question',
@@ -8,10 +9,19 @@ import { SelectionsMadeService } from './../selections-made.service';
 })
 export class QuestionComponent implements AfterViewInit, OnDestroy {
 
-  currentQuestionNo: number = 1;
-  totalQuestionNo: number = 4;
-  pageChange: string = '';
-  messagesToDynamicCanvasComponent: string[] = ['showRoomDimensionsElements','showDoorPositionElements','showTubParametersElements','showPlaceholderElements'];
+  @ViewChild('productsModal') productsModal: ModalDirective;
+
+  private currentQuestionNo: number = 1;
+  private totalQuestionNo: number = 4;
+  private pageChange: string = '';
+  private productImagesFolderPath: string ='./../../assets/productImages/';
+  private messagesToDynamicCanvasComponent: string[] = ['showRoomDimensionsElements','showDoorPositionElements','showTubParametersElements','showPlaceholderElements'];
+  private smallProductImagePaths: string[] = ['cupboard1.png', 'cupboard1.png', 'cupboard1.png'];
+  private mediumProductImagePaths: string[] = ['cupboard2.png', 'cupboard2.png', 'cupboard2.png'];
+  private largeProductImagePaths: string[] = ['cupboard3.png', 'cupboard3.png', 'cupboard3.png'];
+  private smallProductWidthNeeded: number = 400;
+  private mediumProductWidthNeeded: number = 500;
+  private largeProductWidthNeeded: number = 600;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {
     this.currentQuestionNo = selectionsMadeService.getCurrentQuestionNo();
@@ -30,6 +40,23 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   canvasChangeMade = (changedName: string): void => {
     console.log("question component - canvasChangeMade!", changedName);
     console.log("maximum available space: ", this.selectionsMadeService.getSelectedPlaceholderWidth(), this.selectionsMadeService.getSelectedPlaceholderLength());
+    // TODO pre-populate modal with images of stuff available to be put in the selected placeholder
+    this.showProductModal();
+  }
+
+  productChosen = (imageSrc:string):void => {
+    let splittedSrc:string[] = imageSrc.split("/");
+    let productName:string = splittedSrc[splittedSrc.length - 1];
+
+    this.hideProductsModal();
+  }
+
+  showProductModal = (): void => {
+    this.productsModal.show();
+  }
+
+  hideProductsModal = (): void => {
+    this.productsModal.hide();
   }
 
   nextQuestion = (): void => {
