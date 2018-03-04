@@ -66,7 +66,14 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     // Floors
     let floorGeometry = new THREE.PlaneGeometry(1,1);
     let floorMaterial = new THREE.MeshBasicMaterial({
-      color: 0xeeeeee,
+      color:0xFFFFFF,
+      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/floorTiles.png', function ( texture ) {
+
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        texture.offset.set( 0, 0 );
+        texture.repeat.set( 2, 2 );
+
+      }),
       side: THREE.DoubleSide
     });
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);// Update floor size from parameters
@@ -382,6 +389,16 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
             this.bathTub.rotation.z = THREE.Math.degToRad(0);
             this.bathTub.position.x = this.floor.position.x + this.getWidth(this.floor) / 2 - this.getWidth(this.bathTub) / 2;
             this.bathTub.position.y = this.floor.position.y - this.getHeight(this.floor) / 2 + this.getHeight(this.bathTub) / 2;
+            break;
+          case 'Bottom Right':
+            this.bathTub.rotation.z = THREE.Math.degToRad(90);
+            this.bathTub.position.x = this.floor.position.x + this.getWidth(this.floor) / 2 - this.getHeight(this.bathTub) / 2;
+            this.bathTub.position.y = this.floor.position.y - this.getHeight(this.floor) / 2 + this.getWidth(this.bathTub) / 2;
+            break;
+          case 'Bottom Left':
+            this.bathTub.rotation.z = THREE.Math.degToRad(90);
+            this.bathTub.position.x = this.floor.position.x - this.getWidth(this.floor) / 2 + this.getHeight(this.bathTub) / 2;
+            this.bathTub.position.y = this.floor.position.y - this.getHeight(this.floor) / 2 + this.getWidth(this.bathTub) / 2;
             break;
           default:
             console.log('Tub position not recognised!');

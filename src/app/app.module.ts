@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { RouterModule } from '@angular/router'
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -38,6 +39,7 @@ import { DoorPositionPageComponent } from './question/door-position-page/door-po
     ReactiveFormsModule,
     AlertModule.forRoot(),
     ModalModule.forRoot(),
+    BsDropdownModule.forRoot(),
     RouterModule.forRoot([
       {
         path: '',

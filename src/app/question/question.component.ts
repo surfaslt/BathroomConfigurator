@@ -17,8 +17,8 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   private productImagesFolderPath: string ='./../../assets/productImages/';
   private messagesToDynamicCanvasComponent: string[] = ['showRoomDimensionsElements','showDoorPositionElements','showTubParametersElements','showPlaceholderElements'];
   private smallProductImagePaths: string[] = ['cupboard1.png', 'cupboard1.png', 'cupboard1.png'];
-  private mediumProductImagePaths: string[] = ['cupboard2.png', 'cupboard2.png', 'cupboard2.png'];
-  private largeProductImagePaths: string[] = ['cupboard3.png', 'cupboard3.png', 'cupboard3.png'];
+  private mediumProductImagePaths: string[] = ['cupboard2.png', 'cupboard2.png', 'cupboard2.png', 'cupboard2.png'];
+  private largeProductImagePaths: string[] = ['cupboard3.png', 'cupboard3.png'];
   private smallProductWidthNeeded: number = 400;
   private mediumProductWidthNeeded: number = 500;
   private largeProductWidthNeeded: number = 600;

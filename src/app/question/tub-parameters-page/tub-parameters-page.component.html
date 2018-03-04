@@ -9,33 +9,18 @@
 
 <div class="row">
   <div class="col-12">
-    <form>
-      Where is the bath tub/shower placed?
-      <br />
-      <span *ngIf="tubPositionAvailableOptions >= 1">
-    <input type="radio" name="tubRadio" id="tubRadio1" [(ngModel)]="tubPositionChosen" [value]="tubPositionOptions[0]" (ngModelChange)="tubPositionChanged()">
-    <label for="tubRadio1">{{tubPositionOptions[0]}}</label>
-  </span>
-      <span *ngIf="tubPositionAvailableOptions >= 2">
-  <input type="radio" name="tubRadio" id="tubRadio2" [(ngModel)]="tubPositionChosen" [value]="tubPositionOptions[1]" (ngModelChange)="tubPositionChanged()">
-    <label for="tubRadio2">{{tubPositionOptions[1]}}</label>
-  </span>
-      <span *ngIf="tubPositionAvailableOptions >= 3">
-    <input type="radio" name="tubRadio" id="tubRadio3" [(ngModel)]="tubPositionChosen" [value]="tubPositionOptions[2]" (ngModelChange)="tubPositionChanged()">
-    <label for="tubRadio3">{{tubPositionOptions[2]}}</label>
-  </span>
-      <span *ngIf="tubPositionAvailableOptions >= 4">
-    <input type="radio" name="tubRadio" id="tubRadio4" [(ngModel)]="tubPositionChosen" [value]="tubPositionOptions[3]" (ngModelChange)="tubPositionChanged()">
-    <label for="tubRadio4">{{tubPositionOptions[3]}}</label>
-  </span>
-      <span *ngIf="tubPositionAvailableOptions >= 5">
-    <input type="radio" name="tubRadio" id="tubRadio5" [(ngModel)]="tubPositionChosen" [value]="tubPositionOptions[4]" (ngModelChange)="tubPositionChanged()">
-    <label for="tubRadio5">{{tubPositionOptions[4]}}</label>
-  </span>
-      <span *ngIf="tubPositionAvailableOptions >= 6">
-    <input type="radio" name="tubRadio" id="tubRadio6" [(ngModel)]="tubPositionChosen" [value]="tubPositionOptions[5]" (ngModelChange)="tubPositionChanged()">
-    <label for="tubRadio6">{{tubPositionOptions[5]}}</label>
-  </span>
-    </form>
+    Where is the bath tub/shower placed?
+    <br />
+    <div class="btn-group" dropdown>
+      <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle btn-clickable">
+        Change bath tub position ({{tubPositionChosen}})<span class="caret"></span>
+      </button>
+      <ul *dropdownMenu class="dropdown-menu" role="menu">
+        <li *ngFor="let tubPosition of tubPositionOptions" [ngClass]="{'chosenDropdownItem': tubPosition === tubPositionChosen}" role="menuitem"><a class="dropdown-item btn-clickable" (click)="tubPositionChanged(tubPosition)">{{tubPosition}}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-12">
+
   </div>
 </div>

@@ -9,8 +9,7 @@ import {SelectionsMadeService} from "../../selections-made.service";
 export class TubParametersPageComponent implements OnInit {
 
   @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
-  tubPositionAvailableOptions: number = 6;
-  tubPositionOptions: string[] = ['Left Bottom','Left Top','Top Left','Top Right','Right Top', 'Right Bottom'];
+  tubPositionOptions: string[] = ['Left Bottom','Left Top','Top Left','Top Right','Right Top', 'Right Bottom', 'Bottom Right', 'Bottom Left'];
   tubPositionChosen: string;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {
@@ -21,18 +20,19 @@ export class TubParametersPageComponent implements OnInit {
   ngOnInit() {
   }
 
-  setTubWidth(event):void {
+  setTubWidth = (event):void => {
     this.selectionsMadeService.setTubWidth(event.target.value);
     this.onChangeMade.emit('tubParametersChanged');
   }
 
-  setTubLength(event):void {
+  setTubLength = (event):void => {
     this.selectionsMadeService.setTubLength(event.target.value)
     this.onChangeMade.emit('tubParametersChanged');
   }
 
-  tubPositionChanged():void {
-    this.selectionsMadeService.setTubPosition(this.tubPositionChosen);
+  tubPositionChanged = (tubPosition: string):void => {
+    this.tubPositionChosen = tubPosition;
+    this.selectionsMadeService.setTubPosition(tubPosition);
     this.onChangeMade.emit('tubPositionChanged');
   }
 
