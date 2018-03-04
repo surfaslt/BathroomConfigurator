@@ -34,11 +34,9 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
 
   pageChangeMade = (changedName: string): void => {
     this.pageChange = this.pageChange == changedName ? changedName + '1' : changedName; // triggers ngOnChanges() in dynamic-canvas component
-    console.log("question component - pageChangeMade!");
   }
 
   canvasChangeMade = (changedName: string): void => {
-    console.log("question component - canvasChangeMade!", changedName);
     console.log("maximum available space: ", this.selectionsMadeService.getSelectedPlaceholderWidth(), this.selectionsMadeService.getSelectedPlaceholderLength());
     // TODO pre-populate modal with images of stuff available to be put in the selected placeholder
     this.showProductModal();
@@ -46,8 +44,9 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
 
   productChosen = (imageSrc:string):void => {
     let splittedSrc:string[] = imageSrc.split("/");
-    let productName:string = splittedSrc[splittedSrc.length - 1];
-
+    let productName:string = splittedSrc[splittedSrc.length - 1].split('.')[0];
+    this.selectionsMadeService.setSelectedProduct(productName);
+    this.pageChangeMade('productForPlaceholderSelected');
     this.hideProductsModal();
   }
 

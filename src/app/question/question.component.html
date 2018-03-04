@@ -10,7 +10,7 @@
   </div>
 </div>
 
-<!-- custom navigation required-->
+<!-- custom navigation within this component -->
 <div class="row" *ngIf="currentQuestionNo == 1">
   <div class="col-6">
     <a class="float-left" routerLink="/splashPage">Previous Page</a>
@@ -36,6 +36,7 @@
   </div>
 </div>
 
+<!-- Modal window that comes up when placeholder is selected -->
 <div bsModal #productsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">

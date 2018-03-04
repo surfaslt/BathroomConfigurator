@@ -15,6 +15,7 @@ export class SelectionsMadeService {
   private placeholderMinLength: number = 400;
   private selectedPlaceholderWidth: number = 400;
   private selectedPlaceholderLength: number = 400;
+  private selectedProduct: string;
 
   private data = {
     roomWidth: 2000,
@@ -79,6 +80,10 @@ export class SelectionsMadeService {
     this.selectedPlaceholderLength += Number(length);
   }
 
+  setSelectedProduct = (product: string):void => {
+    this.selectedProduct = product;
+  }
+
   getCurrentQuestionNo = ():number => {
     return this.currentQuestion;
   }
@@ -141,6 +146,10 @@ export class SelectionsMadeService {
 
   getSelectedPlaceholderLength = ():number => {
     return this.selectedPlaceholderLength;
+  }
+
+  getSelectedProduct = ():string => {
+    return this.selectedProduct;
   }
 
 }

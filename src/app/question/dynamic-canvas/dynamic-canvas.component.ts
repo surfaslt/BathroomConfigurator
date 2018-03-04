@@ -426,6 +426,24 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
         }
         break;
+      case 'productForPlaceholderSelected':
+        console.log('Product for placeholder selected switch!!!');
+        switch (this.selectionsMadeService.getSelectedProduct()) {
+          case 'cupboard1':
+            console.log('Selected item was: cupboard1!');
+            break;
+          case 'cupboard2':
+            console.log('Selected item was: cupboard2!');
+            break;
+          case 'cupboard3':
+            console.log('Selected item was: cupboard3!');
+            break;
+          default:
+            break;
+        }
+        this.updatePlaceholders();
+
+        break;
       default:
         console.log("Switch went to default!");
         break;
@@ -433,13 +451,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   updatePlaceholders = ():void => {
+    // reset placeholdersGroup
+    this.placeholdersGroup.children = [];
     // set intersectables
     this.intersectables = [];
     this.intersectables.push(this.bathTub);
     this.intersectables.push(this.doorsOpening);
     this.intersectables.push(this.backWall);
-    // reset placeholdersGroup
-    this.placeholdersGroup.children = [];
     // constants for further calculations
     let placeholdersWidth = this.selectionsMadeService.getPlaceholderMinWidth();
     let placeholdersLength = this.selectionsMadeService.getPlaceholderMinLength();
