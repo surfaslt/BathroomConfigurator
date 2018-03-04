@@ -27,7 +27,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private doorsOpening: THREE.Object3D;
   private bathTub: THREE.Object3D;
   private placeholdersGroup: THREE.Group;
-  private controls: any; // might not be needded
+  private selectedProductsGroup: THREE.Group;
+  private controls: any;
   private currentPage: string ='';
   private assetsFolderPath: string ='./../../../assets/';
   private placeholderMaterial;
@@ -225,6 +226,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.bathTub = bathTub;
     this.placeholdersGroup = placeholdersGroup;
     this.placeholderMaterial = placeholderMaterial;
+    this.selectedProductsGroup = new THREE.Group();
 
     // Define other parameters
     this.raycaster = new THREE.Raycaster();
@@ -344,10 +346,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       case 'showTubParametersElements':
         console.log("Switch went to showTubParametersElements!");
         this.updateCameraPosition();
-        if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening) && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
+        if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening)
+          && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)
+          && !isNullOrUndefined(this.selectedProductsGroup)) {
           this.doors.material.opacity = this.transparentObjectOpacity;
           this.doorsOpening.material.opacity = this.transparentObjectOpacity;
           this.scene.remove(this.placeholdersGroup);
+          this.scene.remove(this.selectedProductsGroup);
           for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 1.0; }
           this.scene.add(this.bathTub);
           this.updateView('tubPositionChanged');
@@ -410,9 +415,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         console.log('Placeholder elements in switch!!!');
         this.updateCameraPosition();
         if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening)
-          && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)
-          && !isNullOrUndefined(this.backWall) && !isNullOrUndefined(this.leftWall)
-          && !isNullOrUndefined(this.rightWall)) {
+          && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.backWall)
+          && !isNullOrUndefined(this.leftWall) && !isNullOrUndefined(this.rightWall)
+          && !isNullOrUndefined(this.placeholdersGroup) && !isNullOrUndefined(this.selectedProductsGroup)) {
           this.scene.add(this.backWall);
           this.scene.add(this.leftWall);
           this.scene.add(this.rightWall);
@@ -421,6 +426,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.scene.add(this.bathTub);
           this.scene.add(this.doors);
           this.scene.add(this.placeholdersGroup);
+          this.scene.add(this.selectedProductsGroup);
 
           this.updatePlaceholders();
 
@@ -430,6 +436,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         console.log('Product for placeholder selected switch!!!');
         switch (this.selectionsMadeService.getSelectedProduct()) {
           case 'cupboard1':
+
             console.log('Selected item was: cupboard1!');
             break;
           case 'cupboard2':
@@ -458,6 +465,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.intersectables.push(this.bathTub);
     this.intersectables.push(this.doorsOpening);
     this.intersectables.push(this.backWall);
+    this.intersectables = this.intersectables.concat(this.selectedProductsGroup.children);
     // constants for further calculations
     let placeholdersWidth = this.selectionsMadeService.getPlaceholderMinWidth();
     let placeholdersLength = this.selectionsMadeService.getPlaceholderMinLength();
@@ -470,11 +478,11 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let xCoordFloorRight = this.floor.position.x + this.getWidth(this.floor) / 2;
     xCoord = xCoordFloorRight - placeholdersWidth / 2;
     this.addPlaceholdersVertically(xCoord, zCoord, placeholdersWidth, placeholdersLength);
-    // Add placeholders for the top wall
     // Set different intersectables
     this.intersectables.pop(); // remove the backWall from intersectable objects list
     this.intersectables.push(this.rightWall);
     this.intersectables = this.intersectables.concat(this.placeholdersGroup.children);
+    // Add placeholders for the top wall
     let yCoordFloorBottom = this.floor.position.y - this.getHeight(this.floor) / 2;
     let yCoord = yCoordFloorBottom + placeholdersLength / 2;
     this.addPlaceholdersHorizontally(yCoord, zCoord, placeholdersWidth, placeholdersLength);
@@ -661,11 +669,11 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.mouse.x = ( ( event.clientX - canvasBounds.left ) / ( canvasBounds.right - canvasBounds.left ) ) * 2 - 1;
     this.mouse.y = - ( ( event.clientY - canvasBounds.top ) / ( canvasBounds.bottom - canvasBounds.top) ) * 2 + 1;
     this.raycaster.setFromCamera( this.mouse, this.camera );
+    // check if the thing clicked was a placeholder
     let intersects = this.raycaster.intersectObjects( this.placeholdersGroup.children );
     console.log(this.mouse.x, this.mouse.y, intersects);
     if ( intersects.length > 0 ) {
       this.selectedPlaceholder = intersects[ 0 ].object;
-      this.selectedPlaceholder.material.color.setHex( Math.random() * 0xffffff );
       this.selectionsMadeService.setSelectedPlaceholderWidth(this.getWidth(this.selectedPlaceholder));
       this.selectionsMadeService.setSelectedPlaceholderLength(this.getHeight(this.selectedPlaceholder));
       // check total available space around the placeholder
@@ -697,37 +705,12 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           }
         }
       }
+      // reset the scale of the selected placeholder to the original state
       this.selectedPlaceholder.scale.x -= scaleUp;
       this.selectedPlaceholder.scale.y -= scaleUp;
       // notify questionComponent about the click
       this.onChangeMade.emit('placeholderClicked');
-
-      /*
-      let particleMaterial = new THREE.SpriteMaterial( {
-        color: 0x000000,
-        program: function ( context ) {
-          context.beginPath();
-          context.arc( 0, 0, 0.5, 0, Math.PI * 2, true );
-          context.fill();
-        }
-      } );
-
-      let particle = new THREE.Sprite( particleMaterial );
-      particle.position.copy( intersects[ 0 ].point );
-      particle.scale.x = particle.scale.y = 16;
-      this.scene.add( particle );
-      */
-
     }
-
-    /*
-            // Parse all the faces
-            for ( var i in intersects ) {
-
-                intersects[ i ].face.material[ 0 ].color.setHex( Math.random() * 0xffffff | 0x80000000 );
-
-            }
-            */
   }
 
   updateDoorsPositionY = ():void => {
