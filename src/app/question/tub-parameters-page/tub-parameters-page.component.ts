@@ -21,12 +21,24 @@ export class TubParametersPageComponent implements OnInit {
   }
 
   setTubWidth = (event):void => {
-    this.selectionsMadeService.setTubWidth(event.target.value);
+    let value = Number(event.target.value);
+    let roomWidth = Number(this.selectionsMadeService.getRoomWidth());
+    if(value > roomWidth) {
+      value = roomWidth;
+      event.target.value = roomWidth;
+    }
+    this.selectionsMadeService.setTubWidth(value);
     this.onChangeMade.emit('tubParametersChanged');
   }
 
   setTubLength = (event):void => {
-    this.selectionsMadeService.setTubLength(event.target.value)
+    let value = Number(event.target.value);
+    let roomLength = Number(this.selectionsMadeService.getRoomLength());
+    if(value > roomLength) {
+      value = roomLength;
+      event.target.value = roomLength;
+    }
+    this.selectionsMadeService.setTubLength(value)
     this.onChangeMade.emit('tubParametersChanged');
   }
 

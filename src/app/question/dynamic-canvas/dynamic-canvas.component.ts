@@ -35,6 +35,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private mouse: THREE.Vector2;
   private intersectables: THREE.Object3D[];
   private selectedPlaceholder: THREE.Object3D;
+  private transparentObjectOpacity:number = 0.5;
 
   constructor(private selectionsMadeService: SelectionsMadeService) {}
 
@@ -344,8 +345,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         console.log("Switch went to showTubParametersElements!");
         this.updateCameraPosition();
         if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening) && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)) {
-          this.doors.material.opacity = 0.2;
-          this.doorsOpening.material.opacity = 0.2;
+          this.doors.material.opacity = this.transparentObjectOpacity;
+          this.doorsOpening.material.opacity = this.transparentObjectOpacity;
           this.scene.remove(this.placeholdersGroup);
           for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 1.0; }
           this.scene.add(this.bathTub);
@@ -415,8 +416,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.scene.add(this.backWall);
           this.scene.add(this.leftWall);
           this.scene.add(this.rightWall);
-          for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 0.2; }
-          this.doors.material.opacity = 0.2;
+          for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = this.transparentObjectOpacity; }
+          this.doors.material.opacity = this.transparentObjectOpacity;
           this.scene.add(this.bathTub);
           this.scene.add(this.doors);
           this.scene.add(this.placeholdersGroup);

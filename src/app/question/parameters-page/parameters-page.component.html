@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-12">
     <p>Room width: <br>
-      <input (change)="setRoomWidth($event)" [value]="selectionsMadeService.getRoomWidth()" type="text" name="roomWidth"> mm</p>
+      <input (change)="setRoomWidth($event)" [value]="selectionsMadeService.getRoomWidth()" type="number" name="roomWidth"> mm</p>
     <p>Room length: <br>
-      <input (change)="setRoomLength($event)" [value]="selectionsMadeService.getRoomLength()" type="text" name="roomLength"> mm</p>
+      <input (change)="setRoomLength($event)" [value]="selectionsMadeService.getRoomLength()" type="number" name="roomLength"> mm</p>
   </div>
 </div>
