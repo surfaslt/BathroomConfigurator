@@ -434,22 +434,32 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         break;
       case 'productForPlaceholderSelected':
         console.log('Product for placeholder selected switch!!!');
+        let product: THREE.Object3D;
         switch (this.selectionsMadeService.getSelectedProduct()) {
           case 'cupboard1':
-
+            product = this.createCupboard1();
+            this.selectedProductsGroup.add(product);
             console.log('Selected item was: cupboard1!');
             break;
           case 'cupboard2':
+            product = this.createCupboard2();
+            this.selectedProductsGroup.add(product);
             console.log('Selected item was: cupboard2!');
             break;
           case 'cupboard3':
+            product = this.createCupboard3();
+            this.selectedProductsGroup.add(product);
             console.log('Selected item was: cupboard3!');
             break;
           default:
+            console.log('FAULT: PRODUCT NOT RECOGNISED!')
             break;
         }
+        // TODO update the placing algorithm
+        product.position.x = this.selectedPlaceholder.position.x;
+        product.position.y = this.selectedPlaceholder.position.y;
+        product.position.z = this.floor.position.z + this.getHeight(product) / 2;
         this.updatePlaceholders();
-
         break;
       default:
         console.log("Switch went to default!");
@@ -458,6 +468,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   updatePlaceholders = ():void => {
+    // TODO Find bug why placeholders still appear below boxes
     // reset placeholdersGroup
     this.placeholdersGroup.children = [];
     // set intersectables
@@ -652,13 +663,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   onDocumentTouchStart = ( event ):void => {
-
     event.preventDefault();
-
     event.clientX = event.touches[0].clientX;
     event.clientY = event.touches[0].clientY;
     this.onDocumentMouseDown( event );
-
   }
 
   onDocumentMouseDown = ( event ):void => {
@@ -754,6 +762,41 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   setDepth = ( object: THREE.Object3D, newDepth: number):void => {
     object.scale.y = newDepth / object.geometry.parameters.depth;
+  }
+
+  createCupboard1 = ():THREE.Object3D => {
+    // TODO Update the size of the product
+    let cupboardGeometry = new THREE.BoxGeometry(400,400,400);
+    let cupboardMaterial = new THREE.MeshLambertMaterial({
+      color: 0xFF0000,
+      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png'),
+      transparent: true
+    });
+    return new THREE.Mesh(cupboardGeometry, cupboardMaterial);
+  }
+
+  createCupboard2 = ():THREE.Object3D => {
+    // TODO Update the size of the product
+    let cupboardGeometry = new THREE.BoxGeometry(400,400,400);
+
+    let cupboardMaterial = new THREE.MeshLambertMaterial({
+      color: 0x00FF00,
+      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png'),
+      transparent: true
+    });
+    return new THREE.Mesh(cupboardGeometry, cupboardMaterial);
+  }
+
+  createCupboard3 = ():THREE.Object3D => {
+    // TODO Update the size of the product
+    let cupboardGeometry = new THREE.BoxGeometry(400,400,400);
+
+    let cupboardMaterial = new THREE.MeshLambertMaterial({
+      color: 0x0000FF,
+      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png'),
+      transparent: true
+    });
+    return new THREE.Mesh(cupboardGeometry, cupboardMaterial);
   }
 
 }
