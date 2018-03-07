@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { SelectionsMadeService } from "./selections-made.service";
+import { HelperService } from "./helper.service";
 import { DynamicCanvasComponent } from './question/dynamic-canvas/dynamic-canvas.component';
 import { FirstQuestionPageComponent } from './question/placeholders-page/placeholders-page.component';
 import { SplashPageComponent } from './splash-page/splash-page.component';
@@ -71,7 +72,7 @@ import { DoorPositionPageComponent } from './question/door-position-page/door-po
       }
     ])
   ],
-  providers: [SelectionsMadeService],
+  providers: [SelectionsMadeService, HelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

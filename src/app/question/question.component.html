@@ -47,22 +47,22 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="row" *ngIf="selectionsMadeService.getSelectedPlaceholderWidth() >= smallProductWidthNeeded
-          || selectionsMadeService.getSelectedPlaceholderLength() >= smallProductWidthNeeded">
+        <div class="row" *ngIf="helperService.getSelectedPlaceholderWidth() >= smallProductWidthNeeded
+          || helperService.getSelectedPlaceholderLength() >= smallProductWidthNeeded">
           <div class="col-md-12">Small products</div>
           <div *ngFor="let smallProduct of smallProductImagePaths" class="col-md-3">
             <img class="img-fluid" [src]="productImagesFolderPath + smallProduct" (click)="productChosen($event.target.src)" />
           </div>
         </div>
-        <div class="row" *ngIf="selectionsMadeService.getSelectedPlaceholderWidth() >= mediumProductWidthNeeded
-          || selectionsMadeService.getSelectedPlaceholderLength() >= mediumProductWidthNeeded">
+        <div class="row" *ngIf="helperService.getSelectedPlaceholderWidth() >= mediumProductWidthNeeded
+          || helperService.getSelectedPlaceholderLength() >= mediumProductWidthNeeded">
           <div class="col-md-12">Medium products</div>
           <div *ngFor="let mediumProduct of mediumProductImagePaths" class="col-md-3">
             <img class="img-fluid" [src]="productImagesFolderPath + mediumProduct" (click)="productChosen($event.target.src)" />
           </div>
         </div>
-        <div class="row" *ngIf="selectionsMadeService.getSelectedPlaceholderWidth() >= largeProductWidthNeeded
-          || selectionsMadeService.getSelectedPlaceholderLength() >= largeProductWidthNeeded">
+        <div class="row" *ngIf="helperService.getSelectedPlaceholderWidth() >= largeProductWidthNeeded
+          || helperService.getSelectedPlaceholderLength() >= largeProductWidthNeeded">
           <div class="col-md-12">Large products</div>
           <div *ngFor="let largeProduct of largeProductImagePaths" class="col-md-3">
             <img class="img-fluid" [src]="productImagesFolderPath + largeProduct" (click)="productChosen($event.target.src)" />

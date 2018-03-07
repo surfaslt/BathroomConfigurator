@@ -6,7 +6,7 @@
   <router-outlet></router-outlet>
 
   <div class="progress">
-    <div class="progress-bar" role="progressbar" [ngStyle]="{'width': this.selectionsMadeService.getProgress() + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{this.selectionsMadeService.getProgress()}}%</div>
+    <div class="progress-bar" role="progressbar" [ngStyle]="{'width': this.helperService.getProgress() + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{this.helperService.getProgress()}}%</div>
   </div>
 
   <!--<div class="row">
