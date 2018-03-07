@@ -475,8 +475,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.intersectables = [];
     this.intersectables.push(this.bathTub);
     this.intersectables.push(this.doorsOpening);
-    this.intersectables.push(this.backWall);
     this.intersectables = this.intersectables.concat(this.selectedProductsGroup.children);
+    this.intersectables.push(this.backWall);
     // constants for further calculations
     let placeholdersWidth = this.selectionsMadeService.getPlaceholderMinWidth();
     let placeholdersLength = this.selectionsMadeService.getPlaceholderMinLength();
