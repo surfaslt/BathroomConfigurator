@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { SelectionsMadeService } from "../../selections-made.service";
+import {HelperService} from "../../helper.service";
 
 @Component({
   selector: 'app-placeholders-page',
@@ -10,8 +10,8 @@ export class FirstQuestionPageComponent implements OnInit {
 
   @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private selectionsMadeService: SelectionsMadeService) {
-    selectionsMadeService.setProgress(5);
+  constructor(private helperService: HelperService) {
+    helperService.setProgress(5);
   }
 
   ngOnInit() {

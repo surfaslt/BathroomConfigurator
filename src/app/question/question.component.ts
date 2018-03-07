@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { SelectionsMadeService } from './../selections-made.service';
+import { HelperService } from './../helper.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -23,8 +24,8 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   private mediumProductWidthNeeded: number = 500;
   private largeProductWidthNeeded: number = 600;
 
-  constructor(private selectionsMadeService: SelectionsMadeService) {
-    this.currentQuestionNo = selectionsMadeService.getCurrentQuestionNo();
+  constructor(private selectionsMadeService: SelectionsMadeService, private helperService:HelperService) {
+    this.currentQuestionNo = helperService.getCurrentQuestionNo();
   }
 
   ngAfterViewInit(){
@@ -37,7 +38,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   }
 
   canvasChangeMade = (changedName: string): void => {
-    console.log("maximum available space: ", this.selectionsMadeService.getSelectedPlaceholderWidth(), this.selectionsMadeService.getSelectedPlaceholderLength());
+    console.log("maximum available space: ", this.helperService.getSelectedPlaceholderWidth(), this.helperService.getSelectedPlaceholderLength());
     // TODO pre-populate modal with images of stuff available to be put in the selected placeholder
     this.showProductModal();
   }
@@ -45,7 +46,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   productChosen = (imageSrc:string):void => {
     let splittedSrc:string[] = imageSrc.split("/");
     let productName:string = splittedSrc[splittedSrc.length - 1].split('.')[0];
-    this.selectionsMadeService.setSelectedProduct(productName);
+    this.helperService.setSelectedProduct(productName);
     this.pageChangeMade('productForPlaceholderSelected');
     this.hideProductsModal();
   }
@@ -69,7 +70,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.selectionsMadeService.setCurrentQuestionNumber(this.currentQuestionNo);
+    this.helperService.setCurrentQuestionNumber(this.currentQuestionNo);
   }
 
 }

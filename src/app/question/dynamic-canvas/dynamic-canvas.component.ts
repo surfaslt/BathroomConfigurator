@@ -2,7 +2,8 @@ import {Component, Input, OnInit, OnChanges, EventEmitter, Output} from '@angula
 import * as THREE from 'three';
 import * as OrbitControls from 'three-orbitcontrols';
 import { SelectionsMadeService } from "../../selections-made.service";
-import {isNullOrUndefined} from "util";
+import { isNullOrUndefined } from "util";
+import { HelperService } from "../../helper.service";
 
 @Component({
   selector: 'app-dynamic-canvas',
@@ -38,7 +39,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private selectedPlaceholder: THREE.Object3D;
   private transparentObjectOpacity:number = 0.5;
 
-  constructor(private selectionsMadeService: SelectionsMadeService) {}
+  constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {}
 
   ngOnInit() {
 
@@ -159,7 +160,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     });
 
     // create Doors and add it to the scene
-    let doorsGeometry = new THREE.PlaneGeometry(this.selectionsMadeService.getDoorWidth(),this.selectionsMadeService.getDoorHeight());
+    let doorsGeometry = new THREE.PlaneGeometry(this.helperService.getDoorWidth(),this.helperService.getDoorHeight());
     let doorsMaterial = new THREE.MeshLambertMaterial({
       color:0xFFFFFF,
       map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/modern-door.jpg'),
@@ -175,7 +176,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/doorOpeningMaterial.png'),
       transparent: true
     });
-    let doorsOpeningGeometry = new THREE.PlaneGeometry(this.selectionsMadeService.getDoorWidth(),this.selectionsMadeService.getDoorWidth());
+    let doorsOpeningGeometry = new THREE.PlaneGeometry(this.helperService.getDoorWidth(),this.helperService.getDoorWidth());
     let doorsOpening:THREE.Object3D = new THREE.Mesh(doorsOpeningGeometry, doorsOpeningMaterial);
     doorsOpening.position.z = floor.position.z + 1;
 
@@ -202,7 +203,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     ];
 
     let bathTub = new THREE.Mesh( bathTubGeometry, bathTubMaterials );
-    bathTub.scale.set(this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubLength(), this.selectionsMadeService.getTubHeight());
+    bathTub.scale.set(this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubLength(), this.helperService.getTubHeight());
     bathTub.position.z = floor.position.z + bathTub.scale.z / 2;
 
     // setup placeholders group and material
@@ -435,7 +436,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       case 'productForPlaceholderSelected':
         console.log('Product for placeholder selected switch!!!');
         let product: THREE.Object3D;
-        switch (this.selectionsMadeService.getSelectedProduct()) {
+        switch (this.helperService.getSelectedProduct()) {
           case 'cupboard1':
             product = this.createCupboard1();
             this.selectedProductsGroup.add(product);
@@ -478,8 +479,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.intersectables = this.intersectables.concat(this.selectedProductsGroup.children);
     this.intersectables.push(this.backWall);
     // constants for further calculations
-    let placeholdersWidth = this.selectionsMadeService.getPlaceholderMinWidth();
-    let placeholdersLength = this.selectionsMadeService.getPlaceholderMinLength();
+    let placeholdersWidth = this.helperService.getPlaceholderMinWidth();
+    let placeholdersLength = this.helperService.getPlaceholderMinLength();
     let zCoord = this.floor.position.z + 1;
     // Add placeholders for left wall
     let xCoordFloorLeft = this.floor.position.x - this.getWidth(this.floor) / 2;
@@ -682,8 +683,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     console.log(this.mouse.x, this.mouse.y, intersects);
     if ( intersects.length > 0 ) {
       this.selectedPlaceholder = intersects[ 0 ].object;
-      this.selectionsMadeService.setSelectedPlaceholderWidth(this.getWidth(this.selectedPlaceholder));
-      this.selectionsMadeService.setSelectedPlaceholderLength(this.getHeight(this.selectedPlaceholder));
+      this.helperService.setSelectedPlaceholderWidth(this.getWidth(this.selectedPlaceholder));
+      this.helperService.setSelectedPlaceholderLength(this.getHeight(this.selectedPlaceholder));
       // check total available space around the placeholder
       let scaleUp:number = 0.05;
       // Scale placeholder up by a bit and check for intersections with other placeholder
@@ -702,13 +703,13 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           // left or right
           if(this.selectedPlaceholder.position.x != intersectable.position.x
             && this.selectedPlaceholder.position.y == intersectable.position.y) {
-            this.selectionsMadeService.incSelectedPlaceholderWidth(this.getWidth(intersectable));
+            this.helperService.incSelectedPlaceholderWidth(this.getWidth(intersectable));
             console.log("Has placeholder left/right");
           }
           // above or below
           if(this.selectedPlaceholder.position.x == intersectable.position.x
             && this.selectedPlaceholder.position.y != intersectable.position.y) {
-            this.selectionsMadeService.incSelectedPlaceholderLength(this.getHeight(intersectable));
+            this.helperService.incSelectedPlaceholderLength(this.getHeight(intersectable));
             console.log("Has placeholder above/below");
           }
         }
@@ -727,7 +728,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   updateTubSize = ():void => {
-    this.bathTub.scale.set( this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubLength(), this.selectionsMadeService.getTubHeight());
+    this.bathTub.scale.set( this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubLength(), this.helperService.getTubHeight());
   }
 
   getWidth = ( object: THREE.Object3D ):number => {
@@ -777,7 +778,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   createCupboard2 = ():THREE.Object3D => {
     // TODO Update the size of the product
-    let cupboardGeometry = new THREE.BoxGeometry(400,400,400);
+    let cupboardGeometry = new THREE.BoxGeometry(500,400,400);
 
     let cupboardMaterial = new THREE.MeshLambertMaterial({
       color: 0x00FF00,
@@ -789,7 +790,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   createCupboard3 = ():THREE.Object3D => {
     // TODO Update the size of the product
-    let cupboardGeometry = new THREE.BoxGeometry(400,400,400);
+    let cupboardGeometry = new THREE.BoxGeometry(600,400,400);
 
     let cupboardMaterial = new THREE.MeshLambertMaterial({
       color: 0x0000FF,

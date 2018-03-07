@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {HelperService} from "../helper.service";
 import {SelectionsMadeService} from "../selections-made.service";
 
 @Component({
@@ -9,8 +10,8 @@ import {SelectionsMadeService} from "../selections-made.service";
 export class SummaryPageComponent implements OnInit {
 
   private data: object;
-  constructor(private selectionsMadeService: SelectionsMadeService) {
-    this.selectionsMadeService.setProgress(6);
+  constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
+    this.helperService.setProgress(6);
     this.data = this.selectionsMadeService.getData();
   }
 

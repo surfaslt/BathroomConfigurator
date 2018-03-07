@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {SelectionsMadeService} from "../../selections-made.service";
+import {HelperService} from "../../helper.service";
 
 @Component({
   selector: 'app-door-position-page',
@@ -13,8 +14,8 @@ export class DoorPositionPageComponent implements OnInit {
   private doorPositionOptions: string[] = ['Left', 'Middle', 'Right'];
   private doorPositionChosen: string;
 
-  constructor(private selectionsMadeService: SelectionsMadeService) {
-    selectionsMadeService.setProgress(3);
+  constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
+    helperService.setProgress(3);
     this.doorPositionChosen = selectionsMadeService.getDoorPosition();
   }
 

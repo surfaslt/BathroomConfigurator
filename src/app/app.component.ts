@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, AfterViewChecked} from '@angular/core';
 import { SelectionsMadeService } from "./selections-made.service";
+import {HelperService} from "./helper.service";
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,7 @@ import { SelectionsMadeService } from "./selections-made.service";
 })
 export class AppComponent implements OnInit, AfterViewChecked{
 
-  constructor(private selectionsMadeService: SelectionsMadeService, private cdRef: ChangeDetectorRef) {
+  constructor(public selectionsMadeService: SelectionsMadeService, public helperService: HelperService, private cdRef: ChangeDetectorRef) {
 
   }
 
