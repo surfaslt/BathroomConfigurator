@@ -16,7 +16,8 @@
         Change bath tub position ({{tubPositionChosen}})<span class="caret"></span>
       </button>
       <ul *dropdownMenu class="dropdown-menu" role="menu">
-        <li *ngFor="let tubPosition of tubPositionOptions" [ngClass]="{'chosenDropdownItem': tubPosition === tubPositionChosen}" role="menuitem"><a class="dropdown-item btn-clickable" (click)="tubPositionChanged(tubPosition)">{{tubPosition}}</a></li>
+        <li *ngFor="let tubPosition of tubPositionOptions" [ngClass]="{'chosenDropdownItem': tubPosition === tubPositionChosen}"
+            role="menuitem"><a class="dropdown-item btn-clickable" (click)="tubPositionChanged(tubPosition)">{{tubPosition}}</a></li>
       </ul>
     </div>
   </div>

@@ -671,9 +671,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   onDocumentMouseDown = ( event ):void => {
-
     event.preventDefault();
-
     let canvasBounds = this.renderer.context.canvas.getBoundingClientRect();
     this.mouse.x = ( ( event.clientX - canvasBounds.left ) / ( canvasBounds.right - canvasBounds.left ) ) * 2 - 1;
     this.mouse.y = - ( ( event.clientY - canvasBounds.top ) / ( canvasBounds.bottom - canvasBounds.top) ) * 2 + 1;
@@ -682,44 +680,48 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let intersects = this.raycaster.intersectObjects( this.placeholdersGroup.children );
     console.log(this.mouse.x, this.mouse.y, intersects);
     if ( intersects.length > 0 ) {
-      this.selectedPlaceholder = intersects[ 0 ].object;
-      this.helperService.setSelectedPlaceholderWidth(this.getWidth(this.selectedPlaceholder));
-      this.helperService.setSelectedPlaceholderLength(this.getHeight(this.selectedPlaceholder));
-      // check total available space around the placeholder
-      let scaleUp:number = 0.05;
-      // Scale placeholder up by a bit and check for intersections with other placeholder
-      console.log(this.selectedPlaceholder);
-      this.selectedPlaceholder.scale.x += scaleUp;
-      this.selectedPlaceholder.scale.y += scaleUp;
-      this.intersectables = [];
-      this.intersectables = this.intersectables.concat(this.placeholdersGroup.children);
-      // get rid of the selected placeholder from intersectables list
-      this.intersectables.splice(this.intersectables.indexOf(this.selectedPlaceholder), 1);
-      // And find the nearby placeholders
-      for(let intersectable of this.intersectables){
-        if(this.intersects(this.selectedPlaceholder, intersectable)){
-          // find their position relative to the selected placeholder and
-          // put maximum available space in the service class.
-          // left or right
-          if(this.selectedPlaceholder.position.x != intersectable.position.x
-            && this.selectedPlaceholder.position.y == intersectable.position.y) {
-            this.helperService.incSelectedPlaceholderWidth(this.getWidth(intersectable));
-            console.log("Has placeholder left/right");
-          }
-          // above or below
-          if(this.selectedPlaceholder.position.x == intersectable.position.x
-            && this.selectedPlaceholder.position.y != intersectable.position.y) {
-            this.helperService.incSelectedPlaceholderLength(this.getHeight(intersectable));
-            console.log("Has placeholder above/below");
-          }
+      this.placeholderClicked(intersects[ 0 ].object);
+    }
+  }
+
+  private placeholderClicked = (placeholder:THREE.Object3D):void => {
+    this.selectedPlaceholder = placeholder;
+    this.helperService.setSelectedPlaceholderWidth(this.getWidth(this.selectedPlaceholder));
+    this.helperService.setSelectedPlaceholderLength(this.getHeight(this.selectedPlaceholder));
+    // check total available space around the placeholder
+    let scaleUp:number = 0.05;
+    // Scale placeholder up by a bit and check for intersections with other placeholder
+    console.log(this.selectedPlaceholder);
+    this.selectedPlaceholder.scale.x += scaleUp;
+    this.selectedPlaceholder.scale.y += scaleUp;
+    this.intersectables = [];
+    this.intersectables = this.intersectables.concat(this.placeholdersGroup.children);
+    // get rid of the selected placeholder from intersectables list
+    this.intersectables.splice(this.intersectables.indexOf(this.selectedPlaceholder), 1);
+    // And find the nearby placeholders
+    for(let intersectable of this.intersectables){
+      if(this.intersects(this.selectedPlaceholder, intersectable)){
+        // find their position relative to the selected placeholder and
+        // put maximum available space in the service class.
+        // left or right
+        if(this.selectedPlaceholder.position.x != intersectable.position.x
+          && this.selectedPlaceholder.position.y == intersectable.position.y) {
+          this.helperService.incSelectedPlaceholderWidth(this.getWidth(intersectable));
+          console.log("Has placeholder left/right");
+        }
+        // above or below
+        if(this.selectedPlaceholder.position.x == intersectable.position.x
+          && this.selectedPlaceholder.position.y != intersectable.position.y) {
+          this.helperService.incSelectedPlaceholderLength(this.getHeight(intersectable));
+          console.log("Has placeholder above/below");
         }
       }
-      // reset the scale of the selected placeholder to the original state
-      this.selectedPlaceholder.scale.x -= scaleUp;
-      this.selectedPlaceholder.scale.y -= scaleUp;
-      // notify questionComponent about the click
-      this.onChangeMade.emit('placeholderClicked');
     }
+    // reset the scale of the selected placeholder to the original state
+    this.selectedPlaceholder.scale.x -= scaleUp;
+    this.selectedPlaceholder.scale.y -= scaleUp;
+    // notify questionComponent about the click
+    this.onChangeMade.emit('placeholderClicked');
   }
 
   updateDoorsPositionY = ():void => {
@@ -766,7 +768,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   createCupboard1 = ():THREE.Object3D => {
-    // TODO Update the size of the product
+    // TODO Update the position/rotation of the product
     let cupboardGeometry = new THREE.BoxGeometry(400,400,400);
     let cupboardMaterial = new THREE.MeshLambertMaterial({
       color: 0xFF0000,
@@ -777,7 +779,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   createCupboard2 = ():THREE.Object3D => {
-    // TODO Update the size of the product
+    // TODO Update the position/rotation of the product
     let cupboardGeometry = new THREE.BoxGeometry(500,400,400);
 
     let cupboardMaterial = new THREE.MeshLambertMaterial({
@@ -789,7 +791,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   createCupboard3 = ():THREE.Object3D => {
-    // TODO Update the size of the product
+    // TODO Update the position/rotation of the product
     let cupboardGeometry = new THREE.BoxGeometry(600,400,400);
 
     let cupboardMaterial = new THREE.MeshLambertMaterial({

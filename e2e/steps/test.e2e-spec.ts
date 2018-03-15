@@ -2,9 +2,11 @@
 import {browser, by, element} from "protractor";
 import {Given, Then, When} from "cucumber";
 import {expect} from "chai";
-import { SelectionsMadeService } from "./../../src/app/selections-made.service";
+import {SelectionsMadeService} from "../../src/app/selections-made.service";
+import {HelperService} from "../../src/app/helper.service";
 
-let selectionsMadeService = new SelectionsMadeService();
+let selectionsMadeService: SelectionsMadeService = new SelectionsMadeService();
+let helperService: HelperService = new HelperService();
 
 let target = null;
 
@@ -22,7 +24,7 @@ Given('all data is set to its default values', (callback) => {
     tubLength: 1700,
     tubPosition: 'Left Bottom'
   })
-  selectionsMadeService.setCurrentQuestionNumber(1);
+  helperService.setCurrentQuestionNumber(1);
   callback();
 })
 
@@ -46,10 +48,24 @@ When('I write {value} inside {inputBoxName} input box', (value: string, inputBox
   console.log('hello1');
 });
 
+When('I click the {buttonText} button {numberOfTimes} times', (buttonText, numberOfTimes, callback) => {
+  element(by.buttonText(buttonText)).click().then(callback);
+})
 
 When('I click the {buttonText} button', (buttonText: string, callback) => {
   element(by.buttonText(buttonText)).click().then(callback);
 })
+
+When('I select the first {string} element', function (string, callback) {
+  // Write code here that turns the phrase above into concrete actions
+  callback(null, 'pending');
+});
+
+Then('{elementsName} elements text should be {elementsValue}', (string, callback) => {
+  // Write code here that turns the phrase above into concrete actions
+  // Welcome to bathroom configurator!
+  callback(null, 'pending');
+});
 
 
 Then ('I should be on {pageName} page', (pageName: string) => {
