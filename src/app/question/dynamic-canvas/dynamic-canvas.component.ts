@@ -31,7 +31,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private selectedProductsGroup: THREE.Group;
   private controls: any;
   private currentPage: string ='';
-  private assetsFolderPath: string ='./../../../assets/';
+  private assetsFolderPath: string;
   private placeholderMaterial;
   private raycaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
@@ -39,7 +39,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private selectedPlaceholder: THREE.Object3D;
   private transparentObjectOpacity:number = 0.5;
 
-  constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {}
+  constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
+    this.assetsFolderPath = helperService.getAssetsFolderPath();
+  }
 
   ngOnInit() {
 
@@ -70,7 +72,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let floorGeometry = new THREE.PlaneGeometry(1,1);
     let floorMaterial = new THREE.MeshBasicMaterial({
       color:0xFFFFFF,
-      map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/floorTiles.png', function ( texture ) {
+      map: new THREE.TextureLoader().load(this.helperService.getAssetsFolderPath() + 'textures/floorTiles.png', function ( texture ) {
 
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
         texture.offset.set( 0, 0 );
@@ -460,6 +462,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         product.position.x = this.selectedPlaceholder.position.x;
         product.position.y = this.selectedPlaceholder.position.y;
         product.position.z = this.floor.position.z + this.getHeight(product) / 2;
+
+        // idea: if position x
+
         this.updatePlaceholders();
         break;
       default:
@@ -469,7 +474,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   updatePlaceholders = ():void => {
-    // TODO Find bug why placeholders still appear below boxes
     // reset placeholdersGroup
     this.placeholdersGroup.children = [];
     // set intersectables
@@ -783,7 +787,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     let cupboardGeometry = new THREE.BoxGeometry(500,400,400);
 
     let cupboardMaterial = new THREE.MeshLambertMaterial({
-      color: 0x00FF00,
+      color: 0x80AA80,
       //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png'),
       transparent: true
     });

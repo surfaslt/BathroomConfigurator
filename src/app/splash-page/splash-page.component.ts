@@ -8,8 +8,11 @@ import {HelperService} from "../helper.service";
 })
 export class SplashPageComponent implements OnInit {
 
+  assetsFolderPath: string;
+
   constructor(private helperService: HelperService) {
     helperService.setProgress(1);
+    this.assetsFolderPath = helperService.getAssetsFolderPath();
   }
 
   ngOnInit() {

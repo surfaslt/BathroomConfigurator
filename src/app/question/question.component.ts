@@ -15,7 +15,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   private currentQuestionNo: number = 1;
   private totalQuestionNo: number = 4;
   private pageChange: string = '';
-  private productImagesFolderPath: string ='./../../assets/productImages/';
+  private productImagesFolderPath: string;
   private messagesToDynamicCanvasComponent: string[] = ['showRoomDimensionsElements','showDoorPositionElements','showTubParametersElements','showPlaceholderElements'];
   private smallProductImagePaths: string[] = ['cupboard1.png', 'cupboard1.png', 'cupboard1.png'];
   private mediumProductImagePaths: string[] = ['cupboard2.png', 'cupboard2.png', 'cupboard2.png', 'cupboard2.png'];
@@ -26,6 +26,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
 
   constructor(private selectionsMadeService: SelectionsMadeService, private helperService:HelperService) {
     this.currentQuestionNo = helperService.getCurrentQuestionNo();
+    this.productImagesFolderPath = helperService.getAssetsFolderPath() + 'productImages/';
   }
 
   ngAfterViewInit(){

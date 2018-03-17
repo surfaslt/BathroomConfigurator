@@ -15,6 +15,7 @@ export class HelperService {
   private selectedPlaceholderWidth: number = 400;
   private selectedPlaceholderLength: number = 400;
   private selectedProduct: string;
+  private assetsFolderPath: string ='../../../assets/';
 
   constructor() { }
 
@@ -84,6 +85,10 @@ export class HelperService {
 
   getSelectedProduct = ():string => {
     return this.selectedProduct;
+  }
+
+  getAssetsFolderPath = ():string => {
+    return this.assetsFolderPath;
   }
 
 }
