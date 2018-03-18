@@ -37,6 +37,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private mouse: THREE.Vector2;
   private intersectables: THREE.Object3D[];
   private selectedPlaceholder: THREE.Object3D;
+  private showDoorsOpening: boolean = true;
   private transparentObjectOpacity:number = 0.5;
 
   constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
@@ -322,12 +323,19 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.scene.add(this.leftWall);
           this.scene.add(this.rightWall);
           this.scene.add(this.doors);
-          this.scene.add(this.doorsOpening);
+          if(this.showDoorsOpening) this.scene.add(this.doorsOpening);
           this.updateView('doorPositionChanged');
           this.scene.remove(this.roomWidthText);
           this.scene.remove(this.roomLengthText);
           this.scene.remove(this.bathTub);
         }
+        break;
+      case 'doorOpeningTypeChanged':
+        // Show doors opening object only when "inwards" door opening is selected
+        this.showDoorsOpening = this.selectionsMadeService.getDoorOpeningType() === 'Inwards';
+        // Remove doors opening object from the scene if doors are not opening inwards
+        if(this.showDoorsOpening) { this.scene.add(this.doorsOpening); }
+        else { this.scene.remove(this.doorsOpening); }
         break;
       case 'doorPositionChanged':
         switch (this.selectionsMadeService.getDoorPosition()) {
@@ -479,7 +487,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     // set intersectables
     this.intersectables = [];
     this.intersectables.push(this.bathTub);
-    this.intersectables.push(this.doorsOpening);
+    if(this.showDoorsOpening) this.intersectables.push(this.doorsOpening);
     this.intersectables = this.intersectables.concat(this.selectedProductsGroup.children);
     this.intersectables.push(this.backWall);
     // constants for further calculations

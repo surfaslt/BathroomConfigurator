@@ -12,14 +12,22 @@ export class DoorPositionPageComponent implements OnInit {
   @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
 
   private doorPositionOptions: string[] = ['Left', 'Middle', 'Right'];
+  private doorOpeningType: string;
   private doorPositionChosen: string;
 
   constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
     helperService.setProgress(3);
+    this.doorOpeningType = selectionsMadeService.getDoorOpeningType();
     this.doorPositionChosen = selectionsMadeService.getDoorPosition();
   }
 
   ngOnInit() {
+  }
+
+  doorOpeningTypeChanged = ():void => {
+    console.log(this.doorOpeningType);
+    this.selectionsMadeService.setDoorOpeningType(this.doorOpeningType);
+    this.onChangeMade.emit('doorOpeningTypeChanged');
   }
 
   doorPositionChanged = ():void => {

@@ -7,6 +7,7 @@ export class SelectionsMadeService {
     roomWidth: 2000,
     roomLength: 2000,
     doorPosition: 'Left',
+    doorOpeningType: 'Inwards',
     tubWidth: 700,
     tubLength: 1700,
     tubPosition: 'Left Bottom',
@@ -29,6 +30,10 @@ export class SelectionsMadeService {
 
   setDoorPosition = (doorPosition: string):void => {
     this.data.doorPosition = doorPosition;
+  }
+
+  setDoorOpeningType = (doorOpeningType: string):void => {
+    this.data.doorOpeningType = doorOpeningType;
   }
 
   setTubWidth = (width: number):void => {
@@ -57,6 +62,10 @@ export class SelectionsMadeService {
 
   getDoorPosition = ():string => {
     return this.data.doorPosition;
+  }
+
+  getDoorOpeningType = ():string => {
+    return this.data.doorOpeningType;
   }
 
   getTubWidth = ():number => {
