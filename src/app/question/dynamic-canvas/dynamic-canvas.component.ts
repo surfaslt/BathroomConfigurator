@@ -37,6 +37,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private mouse: THREE.Vector2;
   private intersectables: THREE.Object3D[];
   private selectedPlaceholder: THREE.Object3D;
+  private nearbyPlaceholdersToSelected: THREE.Object3D[];
   private showDoorsOpening: boolean = true;
   private transparentObjectOpacity:number = 0.5;
 
@@ -206,7 +207,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     ];
 
     let bathTub = new THREE.Mesh( bathTubGeometry, bathTubMaterials );
-    bathTub.scale.set(this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubLength(), this.helperService.getTubHeight());
+    this.bathTub = bathTub;
+    this.updateTubSize();
     bathTub.position.z = floor.position.z + bathTub.scale.z / 2;
 
     // setup placeholders group and material
@@ -227,7 +229,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.rightWall = rightWall;
     this.doors = doors;
     this.doorsOpening = doorsOpening;
-    this.bathTub = bathTub;
     this.placeholdersGroup = placeholdersGroup;
     this.placeholderMaterial = placeholderMaterial;
     this.selectedProductsGroup = new THREE.Group();
@@ -466,12 +467,50 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
             console.log('FAULT: PRODUCT NOT RECOGNISED!')
             break;
         }
-        // TODO update the placing algorithm
+
+        // Find out which wall they are ramming against and rotate accordingly
+        let scaleUp:number = 0.05;
+        // Scale placeholder up by a bit and check for intersections with other placeholder
+        console.log(this.selectedPlaceholder);
+        this.selectedPlaceholder.scale.x += scaleUp;
+        this.selectedPlaceholder.scale.y += scaleUp;
+        if(this.intersects(this.selectedPlaceholder, this.backWall)) {
+          console.log("placeholer is near the back wall");
+          product.rotation.z = THREE.Math.degToRad(0);
+        } else
+        if(this.intersects(this.selectedPlaceholder, this.leftWall)) {
+          console.log("placeholer is near the left wall");
+          product.rotation.z = THREE.Math.degToRad(90);
+        } else
+        if(this.intersects(this.selectedPlaceholder, this.rightWall)) {
+          console.log("placeholer is near the right wall");
+          product.rotation.z = THREE.Math.degToRad(-90);
+        } else {
+          console.log("placeholer is at the front");
+          product.rotation.z = THREE.Math.degToRad(180);
+        }
+        this.selectedPlaceholder.scale.x -= scaleUp;
+        this.selectedPlaceholder.scale.y -= scaleUp;
+
+        // TODO for some reason bottom right corner does not detect a nearby placeholder on the left.
+        // TODO this becomes obvious when you put a 400x400 product just above the corner and try to add smth to the corner
+        // TODO update placing position
+        // Re-position non-small products
+        if(this.getWidth(product) > this.getWidth(this.selectedPlaceholder)) {
+          if(this.nearbyPlaceholdersToSelected.length >= 1) {
+
+            product.position.x = this.selectedPlaceholder.position.x;
+            product.position.y = this.selectedPlaceholder.position.y;
+            product.position.z = this.floor.position.z + this.getHeight(product) / 2;
+          } else {
+            console.log("Error: too big product was selected for the available space");
+          }
+          // Re-position small products
+        } else {
         product.position.x = this.selectedPlaceholder.position.x;
         product.position.y = this.selectedPlaceholder.position.y;
         product.position.z = this.floor.position.z + this.getHeight(product) / 2;
-
-        // idea: if position x
+      }
 
         this.updatePlaceholders();
         break;
@@ -531,6 +570,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       for(let intersectable of this.intersectables) {
         if( this.intersects(newPlaceholder, intersectable) ) {
           let intersectableHeight = this.getHeight(intersectable);
+          // if the intersectable is rotated then its width should be used instead of height
+          if( THREE.Math.radToDeg(intersectable.rotation.z) % 180 != 0 ) {
+            intersectableHeight = this.getWidth(intersectable);
+          }
           // if the last placeholder could have been bigger - make it bigger
           if(this.placeholdersGroup.children.length != 0) {
             let lastPlaceholder = this.placeholdersGroup.children[this.placeholdersGroup.children.length - 1];
@@ -548,7 +591,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
               lastPlaceholder.position.y += difference / 2;
             }
           }
-          yCoord = intersectable.position.y + intersectableHeight / 2 + placeholdersLength / 2 + 1;
+            yCoord = intersectable.position.y + intersectableHeight / 2 + placeholdersLength / 2 + 1;
           collisionHappened = true;
           break;
         }
@@ -574,9 +617,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       for(let intersectable of this.intersectables) {
         if( this.intersects(newPlaceholder, intersectable) ) {
           let intersectableWidth = this.getWidth(intersectable);
-          // if intersectable was rotated, then its height should be taken instead of width
-          if(intersectable.rotation.z == THREE.Math.degToRad(90) ) {
-            intersectableWidth = this.getHeight(intersectable); }
+          // if intersectable was rotated, then its width should be taken instead of height
+          if( THREE.Math.radToDeg(intersectable.rotation.z) % 180 != 0 ) {
+            intersectableWidth = this.getHeight(intersectable);
+          }
           // if the last placeholder could have been bigger - make it bigger
           if(this.placeholdersGroup.children.length != 0) {
             let lastPlaceholder = this.placeholdersGroup.children[this.placeholdersGroup.children.length - 1];
@@ -698,6 +742,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
   private placeholderClicked = (placeholder:THREE.Object3D):void => {
     this.selectedPlaceholder = placeholder;
+    this.nearbyPlaceholdersToSelected = []; // reset the list of the nearby placeholders
     this.helperService.setSelectedPlaceholderWidth(this.getWidth(this.selectedPlaceholder));
     this.helperService.setSelectedPlaceholderLength(this.getHeight(this.selectedPlaceholder));
     // check total available space around the placeholder
@@ -713,6 +758,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     // And find the nearby placeholders
     for(let intersectable of this.intersectables){
       if(this.intersects(this.selectedPlaceholder, intersectable)){
+        // add the nearby placeholder objects to array for use if bigger than 400x400 product is selected
+        this.nearbyPlaceholdersToSelected.push(intersectable);
         // find their position relative to the selected placeholder and
         // put maximum available space in the service class.
         // left or right
@@ -780,38 +827,41 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   }
 
   createCupboard1 = ():THREE.Object3D => {
-    // TODO Update the position/rotation of the product
     let cupboardGeometry = new THREE.BoxGeometry(400,400,400);
-    let cupboardMaterial = new THREE.MeshLambertMaterial({
-      color: 0xFF0000,
-      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png'),
-      transparent: true
-    });
-    return new THREE.Mesh(cupboardGeometry, cupboardMaterial);
+    let cupboardMaterials = this.createCupboardsMaterials('textures/cupboard1.png', 0xB7925E);
+    return new THREE.Mesh(cupboardGeometry, cupboardMaterials);
   }
 
   createCupboard2 = ():THREE.Object3D => {
-    // TODO Update the position/rotation of the product
     let cupboardGeometry = new THREE.BoxGeometry(500,400,400);
-
-    let cupboardMaterial = new THREE.MeshLambertMaterial({
-      color: 0x80AA80,
-      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png'),
-      transparent: true
-    });
-    return new THREE.Mesh(cupboardGeometry, cupboardMaterial);
+    let cupboardMaterials = this.createCupboardsMaterials('textures/cupboard2.png', 0xECEBE9);
+    return new THREE.Mesh(cupboardGeometry, cupboardMaterials);
   }
 
   createCupboard3 = ():THREE.Object3D => {
-    // TODO Update the position/rotation of the product
     let cupboardGeometry = new THREE.BoxGeometry(600,400,400);
+    let cupboardMaterials = this.createCupboardsMaterials('textures/cupboard3.png', 0xA47041);
+    return new THREE.Mesh(cupboardGeometry, cupboardMaterials);
+  }
 
+  createCupboardsMaterials = (imagePath:string, solidColour:THREE.Color) => {
     let cupboardMaterial = new THREE.MeshLambertMaterial({
-      color: 0x0000FF,
-      //map: new THREE.TextureLoader().load(this.assetsFolderPath + 'textures/tub.png'),
+      color: solidColour,
       transparent: true
     });
-    return new THREE.Mesh(cupboardGeometry, cupboardMaterial);
+    let cupboardTextureMaterial = new THREE.MeshLambertMaterial({
+      color: 0xFFFFFF,
+      map: new THREE.TextureLoader().load(this.assetsFolderPath + imagePath),
+      transparent: true
+    });
+    return [
+      cupboardMaterial,
+      cupboardMaterial,
+      cupboardMaterial,
+      cupboardTextureMaterial,
+      cupboardMaterial,
+      cupboardMaterial
+    ];
   }
 
 }
