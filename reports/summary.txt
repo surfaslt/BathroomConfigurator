@@ -1,9 +1,10 @@
-Feature: Testing Input values
+Feature: Testing summary page getting the right info and displaying it
 
   Scenario: Testing if protractor works
-  [32m√ Given all data is set to its default values[39m
-  [33m? When I select the first H1 element[39m
-  [36m- Then H1 elements text should be Welcome to bathroom configurator![39m
+  [32m√ Given I go to splashPage[39m
+  [32m√ And all data is set to its default values[39m
+  [32m√ When I select the first H1 element[39m
+  [32m√ Then The selected elements text should be Welcome to bathroom configurator![39m
 
   Scenario: Changing Room Width changes it on Summary page as well
   [32m√ Given I go to questionPage[39m
@@ -15,8 +16,8 @@ Feature: Testing Input values
 
 Failures:
 
-1) Scenario: [1mChanging Room Width changes it on Summary page as well[22m - [90me2e\features\test.feature:9[39m
-   Step: [1mWhen I write 3000 inside roomWidth input box[22m - [90me2e\features\test.feature:12[39m
+1) Scenario: [1mChanging Room Width changes it on Summary page as well[22m - [90me2e\features\test.feature:10[39m
+   Step: [1mWhen I write 3000 inside roomWidth input box[22m - [90me2e\features\test.feature:13[39m
    Step Definition: [90mtests\MerewayBathrooms\node_modules\cucumber\lib\index.js:176[39m
    Message:
      [31mError: function timed out after 5000 milliseconds[39m[90m
@@ -25,14 +26,6 @@ Failures:
          at tryOnTimeout (timers.js:302:5)
          at Timer.listOnTimeout (timers.js:262:5)[39m
 
-Warnings:
-
-1) Scenario: [1mTesting if protractor works[22m - [90me2e\features\test.feature:4[39m
-   Step: [1mWhen I select the first H1 element[22m - [90me2e\features\test.feature:6[39m
-   Step Definition: [90mtests\MerewayBathrooms\node_modules\cucumber\lib\index.js:176[39m
-   Message:
-     [33mPending[39m
-
-2 scenarios ([31m1 failed[39m, [33m1 pending[39m)
-9 steps ([31m1 failed[39m, [33m1 pending[39m, [36m4 skipped[39m, [32m3 passed[39m)
-0m07.539s
+2 scenarios ([31m1 failed[39m, [32m1 passed[39m)
+10 steps ([31m1 failed[39m, [36m3 skipped[39m, [32m6 passed[39m)
+0m09.131s

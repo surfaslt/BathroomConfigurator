@@ -2,9 +2,10 @@
 Feature: Testing summary page getting the right info and displaying it
 
   Scenario: Testing if protractor works
-    Given all data is set to its default values
+    Given I go to splashPage
+    And all data is set to its default values
     When I select the first H1 element
-    Then H1 elements text should be Welcome to bathroom configurator!
+    Then The selected elements text should be Welcome to bathroom configurator!
 
   Scenario: Changing Room Width changes it on Summary page as well
     Given I go to questionPage

@@ -1,4 +1,4 @@
-//features/step_definitions/my_step_definitions.js
+//features/step_definitions/my_step_definitions.js.
 import {browser, by, element} from "protractor";
 import {Given, Then, When} from "cucumber";
 import {expect} from "chai";
@@ -56,15 +56,18 @@ When('I click the {buttonText} button', (buttonText: string, callback) => {
   element(by.buttonText(buttonText)).click().then(callback);
 })
 
-When('I select the first {string} element', function (string, callback) {
-  // Write code here that turns the phrase above into concrete actions
-  callback(null, 'pending');
+When('I select the first {string} element', (string: string, callback) => {
+  target = element.all(by.css('H1')).first();
+  callback();
 });
 
-Then('{elementsName} elements text should be {elementsValue}', (string, callback) => {
-  // Write code here that turns the phrase above into concrete actions
+Then('The selected elements text should be {elementsValue}', (elementsValue:string, callback) => {
+  target.getText().then( (value:string) => {
+    console.log(value);
+    expect(value).to.equals(elementsValue);
+  })
   // Welcome to bathroom configurator!
-  callback(null, 'pending');
+  callback();
 });
 
 

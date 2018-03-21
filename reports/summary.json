@@ -2,7 +2,7 @@
   {
     "keyword": "Feature",
     "line": 2,
-    "name": "Testing Input values",
+    "name": "Testing summary page getting the right info and displaying it",
     "tags": [],
     "uri": "C:\\Users\\Martynas\\Desktop\\Angular tests\\MerewayBathrooms\\e2e\\features\\test.feature",
     "elements": [
@@ -11,63 +11,17 @@
         "line": 4,
         "name": "Testing if protractor works",
         "tags": [],
-        "id": "testing-input-values;testing-if-protractor-works",
+        "id": "testing-summary-page-getting-the-right-info-and-displaying-it;testing-if-protractor-works",
         "steps": [
           {
             "arguments": [],
             "keyword": "Given ",
-            "name": "all data is set to its default values",
+            "name": "I go to splashPage",
             "result": {
               "status": "passed",
-              "duration": 0
+              "duration": 1964
             },
             "line": 5,
-            "match": {
-              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "name": "I select the first H1 element",
-            "result": {
-              "status": "pending"
-            },
-            "line": 6,
-            "match": {
-              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "name": "H1 elements text should be Welcome to bathroom configurator!",
-            "result": {
-              "status": "skipped"
-            },
-            "line": 7,
-            "match": {
-              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
-            }
-          }
-        ]
-      },
-      {
-        "keyword": "Scenario",
-        "line": 9,
-        "name": "Changing Room Width changes it on Summary page as well",
-        "tags": [],
-        "id": "testing-input-values;changing-room-width-changes-it-on-summary-page-as-well",
-        "steps": [
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "name": "I go to questionPage",
-            "result": {
-              "status": "passed",
-              "duration": 2536
-            },
-            "line": 10,
             "match": {
               "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
             }
@@ -80,7 +34,68 @@
               "status": "passed",
               "duration": 0
             },
+            "line": 6,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I select the first H1 element",
+            "result": {
+              "status": "passed",
+              "duration": 16
+            },
+            "line": 7,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "The selected elements text should be Welcome to bathroom configurator!",
+            "result": {
+              "status": "passed",
+              "duration": 3
+            },
+            "line": 8,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          }
+        ]
+      },
+      {
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "Changing Room Width changes it on Summary page as well",
+        "tags": [],
+        "id": "testing-summary-page-getting-the-right-info-and-displaying-it;changing-room-width-changes-it-on-summary-page-as-well",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I go to questionPage",
+            "result": {
+              "status": "passed",
+              "duration": 2140
+            },
             "line": 11,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "all data is set to its default values",
+            "result": {
+              "status": "passed",
+              "duration": 0
+            },
+            "line": 12,
             "match": {
               "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
             }
@@ -91,10 +106,10 @@
             "name": "I write 3000 inside roomWidth input box",
             "result": {
               "status": "failed",
-              "duration": 5003,
+              "duration": 5008,
               "error_message": "Error: function timed out after 5000 milliseconds\n    at Timeout._onTimeout (C:\\Users\\Martynas\\Desktop\\Angular tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\user_code_runner.js:91:22)\n    at ontimeout (timers.js:478:11)\n    at tryOnTimeout (timers.js:302:5)\n    at Timer.listOnTimeout (timers.js:262:5)"
             },
-            "line": 12,
+            "line": 13,
             "match": {
               "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
             }
@@ -106,7 +121,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 13,
+            "line": 14,
             "match": {
               "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
             }
@@ -118,7 +133,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 14,
+            "line": 15,
             "match": {
               "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
             }
@@ -130,7 +145,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 15,
+            "line": 16,
             "match": {
               "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
             }
@@ -138,6 +153,6 @@
         ]
       }
     ],
-    "id": "testing-input-values"
+    "id": "testing-summary-page-getting-the-right-info-and-displaying-it"
   }
 ]
