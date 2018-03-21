@@ -495,6 +495,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         // TODO for some reason bottom right corner does not detect a nearby placeholder on the left.
         // TODO this becomes obvious when you put a 400x400 product just above the corner and try to add smth to the corner
         // TODO update placing position
+        
         // Re-position non-small products
         if(this.getWidth(product) > this.getWidth(this.selectedPlaceholder)) {
           if(this.nearbyPlaceholdersToSelected.length >= 1) {

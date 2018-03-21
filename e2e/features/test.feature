@@ -1,5 +1,5 @@
 #features/test.feature
-Feature: Testing Input values
+Feature: Testing summary page getting the right info and displaying it
 
   Scenario: Testing if protractor works
     Given all data is set to its default values
