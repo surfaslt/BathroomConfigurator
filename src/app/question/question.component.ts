@@ -12,19 +12,20 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('productsModal') productsModal: ModalDirective;
 
-  private currentQuestionNo: number = 1;
-  private totalQuestionNo: number = 4;
-  private pageChange: string = '';
+  public currentQuestionNo: number = 1;
+  public totalQuestionNo: number = 4;
+  public pageChange: string = '';
+  public smallProductImagePaths: string[] = ['cupboard1.png', 'cupboard1.jpg', 'cupboard1.png'];
+  public mediumProductImagePaths: string[] = ['cupboard2.png', 'cupboard2.jpg', 'cupboard2.png', 'cupboard2.png'];
+  public largeProductImagePaths: string[] = ['cupboard3.png', 'cupboard3.jpg'];
+  public smallProductWidthNeeded: number = 400;
+  public mediumProductWidthNeeded: number = 500;
+  public largeProductWidthNeeded: number = 600;
   private productImagesFolderPath: string;
   private messagesToDynamicCanvasComponent: string[] = ['showRoomDimensionsElements','showDoorPositionElements','showTubParametersElements','showPlaceholderElements'];
-  private smallProductImagePaths: string[] = ['cupboard1.png', 'cupboard1.jpg', 'cupboard1.png'];
-  private mediumProductImagePaths: string[] = ['cupboard2.png', 'cupboard2.jpg', 'cupboard2.png', 'cupboard2.png'];
-  private largeProductImagePaths: string[] = ['cupboard3.png', 'cupboard3.jpg'];
-  private smallProductWidthNeeded: number = 400;
-  private mediumProductWidthNeeded: number = 500;
-  private largeProductWidthNeeded: number = 600;
 
-  constructor(private selectionsMadeService: SelectionsMadeService, private helperService:HelperService) {
+
+  constructor(private selectionsMadeService: SelectionsMadeService, public helperService:HelperService) {
     this.currentQuestionNo = helperService.getCurrentQuestionNo();
     this.productImagesFolderPath = helperService.getAssetsFolderPath() + 'productImages/';
   }

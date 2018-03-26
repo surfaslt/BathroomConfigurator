@@ -11,7 +11,7 @@ export class ParametersPageComponent implements OnInit {
 
   @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
+  constructor(public selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
     helperService.setProgress(2);
   }
 

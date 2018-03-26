@@ -19,7 +19,7 @@
             "name": "I go to splashPage",
             "result": {
               "status": "passed",
-              "duration": 1964
+              "duration": 3956
             },
             "line": 5,
             "match": {
@@ -45,7 +45,7 @@
             "name": "I select the first H1 element",
             "result": {
               "status": "passed",
-              "duration": 16
+              "duration": 0
             },
             "line": 7,
             "match": {
@@ -58,7 +58,7 @@
             "name": "The selected elements text should be Welcome to bathroom configurator!",
             "result": {
               "status": "passed",
-              "duration": 3
+              "duration": 0
             },
             "line": 8,
             "match": {
@@ -79,8 +79,9 @@
             "keyword": "Given ",
             "name": "I go to questionPage",
             "result": {
-              "status": "passed",
-              "duration": 2140
+              "status": "failed",
+              "duration": 5012,
+              "error_message": "Error: function timed out after 5000 milliseconds\n    at Timeout._onTimeout (C:\\Users\\Martynas\\Desktop\\Angular tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\user_code_runner.js:91:22)\n    at ontimeout (timers.js:478:11)\n    at tryOnTimeout (timers.js:302:5)\n    at Timer.listOnTimeout (timers.js:262:5)"
             },
             "line": 11,
             "match": {
@@ -92,8 +93,7 @@
             "keyword": "And ",
             "name": "all data is set to its default values",
             "result": {
-              "status": "passed",
-              "duration": 0
+              "status": "skipped"
             },
             "line": 12,
             "match": {
@@ -105,9 +105,7 @@
             "keyword": "When ",
             "name": "I write 3000 inside roomWidth input box",
             "result": {
-              "status": "failed",
-              "duration": 5008,
-              "error_message": "Error: function timed out after 5000 milliseconds\n    at Timeout._onTimeout (C:\\Users\\Martynas\\Desktop\\Angular tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\user_code_runner.js:91:22)\n    at ontimeout (timers.js:478:11)\n    at tryOnTimeout (timers.js:302:5)\n    at Timer.listOnTimeout (timers.js:262:5)"
+              "status": "skipped"
             },
             "line": 13,
             "match": {

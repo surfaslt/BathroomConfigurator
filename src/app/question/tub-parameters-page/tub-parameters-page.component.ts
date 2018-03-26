@@ -13,7 +13,7 @@ export class TubParametersPageComponent implements OnInit {
   tubPositionOptions: string[] = ['Left Bottom','Left Top','Top Left','Top Right','Right Top', 'Right Bottom', 'Bottom Right', 'Bottom Left'];
   tubPositionChosen: string;
 
-  constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
+  constructor(public selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
     helperService.setProgress(4);
     this.tubPositionChosen = selectionsMadeService.getTubPosition();
   }

@@ -9,7 +9,7 @@ import {SelectionsMadeService} from "../selections-made.service";
 })
 export class SummaryPageComponent implements OnInit {
 
-  private data: object;
+  public data: object;
   constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
     this.helperService.setProgress(6);
     this.data = this.selectionsMadeService.getData();

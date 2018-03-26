@@ -11,9 +11,9 @@ export class DoorPositionPageComponent implements OnInit {
 
   @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
 
-  private doorPositionOptions: string[] = ['Left', 'Middle', 'Right'];
-  private doorOpeningType: string;
-  private doorPositionChosen: string;
+  public doorPositionOptions: string[] = ['Left', 'Middle', 'Right'];
+  public doorOpeningType: string;
+  public doorPositionChosen: string;
 
   constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
     helperService.setProgress(3);
