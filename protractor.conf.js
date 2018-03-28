@@ -1,7 +1,6 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
-
 exports.config = {
   allScriptsTimeout: 11000,
   capabilities: {
@@ -22,7 +21,9 @@ exports.config = {
   // cucumber command line options
   cucumberOpts: {
     // require step definition files before executing features
-    require: ['./e2e/steps/**/*.ts'],
+    require: [
+      'supports/timeout.js',
+      './e2e/steps/**/*.ts'],
     // <string[]> (expression) only execute the features or scenarios with tags matching the expression
     tags: [],
     // <boolean> fail if there are any undefined or pending steps

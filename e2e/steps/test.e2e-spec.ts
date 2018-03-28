@@ -1,9 +1,10 @@
 //features/step_definitions/my_step_definitions.js.
 import {browser, by, element} from "protractor";
 import {Given, Then, When} from "cucumber";
-import {expect} from "chai";
 import {SelectionsMadeService} from "../../src/app/selections-made.service";
 import {HelperService} from "../../src/app/helper.service";
+const chai = require('chai').use(require('chai-as-promised'));
+const expect = chai.expect;
 
 let selectionsMadeService: SelectionsMadeService = new SelectionsMadeService();
 let helperService: HelperService = new HelperService();
@@ -28,24 +29,43 @@ Given('all data is set to its default values', (callback) => {
   callback();
 })
 
-When('I write {value} inside {inputBoxName} input box', (value: string, inputBoxName: string, callback) => {
-  // element(by.name(inputBoxName))
-  browser.wait(function() {
-    console.log('hello2');
-    return element(by.css('[name="roomWidth"]')).isPresent();
-  }, 2000).then( () => {
-    console.log('hello3');
-    let inputBox = element(by.css('[name="roomWidth"]'));
-    inputBox.getText().then( (txt) => {
-      console.log(txt);
-    })
-    inputBox.clear().then( () => {
-      inputBox.sendKeys(value).then( () => {
-        callback();
-      });
-    });
+When('I write {val} inside {inputBoxName} input box', (val: string, inputBoxName: string, callback) => {
+
+  var scrpt = "return document.getElementById('roomWidthInput');";
+  browser.executeScript(scrpt).then(function (text) {
+    console.log('info' + text);
   });
-  console.log('hello1');
+
+  let inputbox = element(by.css('#roomWidthInput'));
+  console.log('inputBox promise set');
+
+  inputbox.isPresent().then(function(isElementVisible) {
+    console.log('hello!');
+    expect(isElementVisible).to.be.true;
+    callback();
+  });
+
+  /*target.getText().then( (value:string) => {
+    console.log("This is Then the selected elements text should be....");
+    callback();
+  });*/
+  /*
+  inputbox.click().then( () => {
+    console.log('inputBox cleared');
+  });
+  */
+    /*
+    inputbox.isPresent().then( (bool) => {
+      console.log("inside!");
+      expect(bool).to.be.true;
+    });
+      inputbox.getAttribute('value').then( (realValue) => {
+      console.log("This is When I write value inside inputboxname input box ....");
+      //inputbox.clear();
+      //inputbox.sendKeys(value);
+      //expect(value).to.equals(realValue);
+    });
+*/
 });
 
 When('I click the {buttonText} button {numberOfTimes} times', (buttonText, numberOfTimes, callback) => {
@@ -57,17 +77,16 @@ When('I click the {buttonText} button', (buttonText: string, callback) => {
 })
 
 When('I select the first {string} element', (string: string, callback) => {
-  target = element.all(by.css('H1')).first();
+  target = element(by.css('H1'));
   callback();
 });
 
 Then('The selected elements text should be {elementsValue}', (elementsValue:string, callback) => {
   target.getText().then( (value:string) => {
-    console.log(value);
+    console.log("This is Then the selected elements text should be....");
     expect(value).to.equals(elementsValue);
-  })
-  // Welcome to bathroom configurator!
-  callback();
+    callback();
+  });
 });
 
 

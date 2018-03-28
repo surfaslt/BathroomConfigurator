@@ -2,8 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DynamicCanvasComponent } from './dynamic-canvas.component';
 
-/*
+
 describe('DynamicCanvasComponent', () => {
+
+  it('IMPLEMENT THIS', () => {
+
+  expect(true).toBeFalsy();
+})
+
+  /*
   let component: DynamicCanvasComponent;
   let fixture: ComponentFixture<DynamicCanvasComponent>;
 

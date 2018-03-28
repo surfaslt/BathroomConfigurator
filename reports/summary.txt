@@ -7,25 +7,5 @@ Feature: Testing summary page getting the right info and displaying it
   [32m√ Then The selected elements text should be Welcome to bathroom configurator![39m
 
   Scenario: Changing Room Width changes it on Summary page as well
-  [31m× Given I go to questionPage[39m
-  [36m- And all data is set to its default values[39m
-  [36m- When I write 3000 inside roomWidth input box[39m
-  [36m- And I click the Next Page button 4 times[39m
-  [36m- Then I should be on summaryPage page[39m
-  [36m- And I should see roomWidth: 3000 in the list[39m
-
-Failures:
-
-1) Scenario: [1mChanging Room Width changes it on Summary page as well[22m - [90me2e\features\test.feature:10[39m
-   Step: [1mGiven I go to questionPage[22m - [90me2e\features\test.feature:11[39m
-   Step Definition: [90mtests\MerewayBathrooms\node_modules\cucumber\lib\index.js:176[39m
-   Message:
-     [31mError: function timed out after 5000 milliseconds[39m[90m
-         at Timeout._onTimeout (C:\Users\Martynas\Desktop\Angular tests\MerewayBathrooms\node_modules\cucumber\lib\user_code_runner.js:91:22)
-         at ontimeout (timers.js:478:11)
-         at tryOnTimeout (timers.js:302:5)
-         at Timer.listOnTimeout (timers.js:262:5)[39m
-
-2 scenarios ([31m1 failed[39m, [32m1 passed[39m)
-10 steps ([31m1 failed[39m, [36m5 skipped[39m, [32m4 passed[39m)
-0m08.968s
+  [32m√ Given I go to questionPage[39m
+  [32m√ And all data is set to its default values[39m

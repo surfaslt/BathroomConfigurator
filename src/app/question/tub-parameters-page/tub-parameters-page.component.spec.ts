@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TubParametersPageComponent } from './tub-parameters-page.component';
 
+/*
 describe('TubParametersComponent', () => {
   let component: TubParametersPageComponent;
   let fixture: ComponentFixture<TubParametersPageComponent>;
@@ -23,3 +24,4 @@ describe('TubParametersComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+*/
