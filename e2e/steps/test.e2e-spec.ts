@@ -42,30 +42,16 @@ When('I write {val} inside {inputBoxName} input box', (val: string, inputBoxName
   inputbox.isPresent().then(function(isElementVisible) {
     console.log('hello!');
     expect(isElementVisible).to.be.true;
-    callback();
   });
 
-  /*target.getText().then( (value:string) => {
-    console.log("This is Then the selected elements text should be....");
+  inputbox.clear();
+  inputbox.sendKeys(val);
+
+  inputbox.getAttribute('value').then( (realValue) => {
+    console.log("This is When I write value inside inputboxname input box ....");
+    expect(val).to.equals(realValue);
     callback();
-  });*/
-  /*
-  inputbox.click().then( () => {
-    console.log('inputBox cleared');
   });
-  */
-    /*
-    inputbox.isPresent().then( (bool) => {
-      console.log("inside!");
-      expect(bool).to.be.true;
-    });
-      inputbox.getAttribute('value').then( (realValue) => {
-      console.log("This is When I write value inside inputboxname input box ....");
-      //inputbox.clear();
-      //inputbox.sendKeys(value);
-      //expect(value).to.equals(realValue);
-    });
-*/
 });
 
 When('I click the {buttonText} button {numberOfTimes} times', (buttonText, numberOfTimes, callback) => {

@@ -2,7 +2,8 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 exports.config = {
-  allScriptsTimeout: 11000,
+  // set allScriptsTimeout to fix asynchronous Angular tasks to finish after 11 seconds
+  allScriptsTimeout: 600 * 1000,
   capabilities: {
     'browserName': 'chrome'
   },
@@ -45,5 +46,7 @@ exports.config = {
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
     });
+    // add this when page opened by browser.get() is not angular page
+    browser.ignoreSynchronization = true;
   }
 };
