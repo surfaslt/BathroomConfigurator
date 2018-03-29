@@ -31,11 +31,6 @@ Given('all data is set to its default values', (callback) => {
 
 When('I write {val} inside {inputBoxName} input box', (val: string, inputBoxName: string, callback) => {
 
-  var scrpt = "return document.getElementById('roomWidthInput');";
-  browser.executeScript(scrpt).then(function (text) {
-    console.log('info' + text);
-  });
-
   let inputbox = element(by.css('#roomWidthInput'));
   console.log('inputBox promise set');
 
