@@ -16,20 +16,20 @@
     <a class="float-left" routerLink="/splashPage">Previous Page</a>
   </div>
   <div class="col-6">
-    <p class="float-right clickable" (click)="nextQuestion()">Next Page</p>
+    <a class="float-right clickable" (click)="nextQuestion()">Next Page</a>
   </div>
 </div>
 <div class="row" *ngIf="currentQuestionNo > 1 && currentQuestionNo < totalQuestionNo">
   <div class="col-6">
-    <p class="float-left clickable" (click)="previousQuestion()">Previous Page</p>
+    <a class="float-left clickable" (click)="previousQuestion()">Previous Page</a>
   </div>
   <div class="col-6">
-    <p class="float-right clickable" (click)="nextQuestion()">Next Page</p>
+    <a class="float-right clickable" (click)="nextQuestion()">Next Page</a>
   </div>
 </div>
 <div class="row" *ngIf="currentQuestionNo == totalQuestionNo">
   <div class="col-6">
-    <p class="float-left clickable" (click)="previousQuestion()">Previous Page</p>
+    <a class="float-left clickable" (click)="previousQuestion()">Previous Page</a>
   </div>
   <div class="col-6">
     <a class="float-right" routerLink="/summaryPage">Next Page</a>

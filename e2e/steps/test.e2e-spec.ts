@@ -1,5 +1,5 @@
 //features/step_definitions/my_step_definitions.js.
-import {browser, by, element} from "protractor";
+import {browser, by, element, protractor} from "protractor";
 import {Given, Then, When} from "cucumber";
 import {SelectionsMadeService} from "../../src/app/selections-made.service";
 import {HelperService} from "../../src/app/helper.service";
@@ -30,27 +30,22 @@ Given('all data is set to its default values', (callback) => {
 })
 
 When('I write {val} inside {inputBoxName} input box', (val: string, inputBoxName: string, callback) => {
-
-  let inputbox = element(by.css('#roomWidthInput'));
-  console.log('inputBox promise set');
-
-  inputbox.isPresent().then(function(isElementVisible) {
-    console.log('hello!');
-    expect(isElementVisible).to.be.true;
-  });
-
+  let inputbox = element(by.name(inputBoxName));
   inputbox.clear();
-  inputbox.sendKeys(val);
-
+  inputbox.sendKeys(protractor.Key.BACK_SPACE + val);
   inputbox.getAttribute('value').then( (realValue) => {
-    console.log("This is When I write value inside inputboxname input box ....");
     expect(val).to.equals(realValue);
     callback();
   });
 });
 
-When('I click the {buttonText} button {numberOfTimes} times', (buttonText, numberOfTimes, callback) => {
-  element(by.buttonText(buttonText)).click().then(callback);
+When('I click the {buttonText} hyperlink {numberOfTimes} times', (buttonText, numberOfTimes, callback) => {
+  for( let i = 0; i < numberOfTimes; i++) {
+    element(by.cssContainingText('a', buttonText)).click().then( () => {
+      if( i == numberOfTimes - 1) callback();
+    });
+    browser.waitForAngular();
+  }
 })
 
 When('I click the {buttonText} button', (buttonText: string, callback) => {
@@ -64,7 +59,6 @@ When('I select the first {string} element', (string: string, callback) => {
 
 Then('The selected elements text should be {elementsValue}', (elementsValue:string, callback) => {
   target.getText().then( (value:string) => {
-    console.log("This is Then the selected elements text should be....");
     expect(value).to.equals(elementsValue);
     callback();
   });
@@ -73,9 +67,12 @@ Then('The selected elements text should be {elementsValue}', (elementsValue:stri
 
 Then ('I should be on {pageName} page', (pageName: string) => {
   let url = browser.getCurrentUrl();
-  expect(url).to.contain(pageName);
+  expect(url).to.eventually.contain(pageName);
 });
 
-Then ('I should see {text} in the list', (text: string) => {
-  expect(element(by.cssContainingText(".summaryElement", text)).isPresent()).to.be.true;
+Then ('I should see {text} in the list', (text: string, callback) => {
+  element(by.cssContainingText("li", text)).isPresent().then( (present) => {
+    expect(present).to.be.true;
+    callback();
+  });
 });

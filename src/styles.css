@@ -24,10 +24,10 @@ app-root {
 
 .clickable{
   cursor: pointer;
-  color: #007bff;;
+  color: #007bff!important;
 }
 
 .clickable:hover{
-  color: #0056b3;
-  text-decoration: underline;
+  color: #0056b3!important;
+  text-decoration: underline!important;
 }

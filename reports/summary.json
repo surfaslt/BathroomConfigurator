@@ -1,0 +1,334 @@
+[
+  {
+    "keyword": "Feature",
+    "line": 2,
+    "name": "Testing summary page getting the right info and displaying it",
+    "tags": [],
+    "uri": "C:\\Users\\Martynas\\Desktop\\Angular tests\\MerewayBathrooms\\e2e\\features\\test.feature",
+    "elements": [
+      {
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Testing if protractor works",
+        "tags": [],
+        "id": "testing-summary-page-getting-the-right-info-and-displaying-it;testing-if-protractor-works",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I go to splashPage",
+            "result": {
+              "status": "passed",
+              "duration": 1866
+            },
+            "line": 5,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "all data is set to its default values",
+            "result": {
+              "status": "passed",
+              "duration": 1
+            },
+            "line": 6,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I select the first H1 element",
+            "result": {
+              "status": "passed",
+              "duration": 1
+            },
+            "line": 7,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "The selected elements text should be Welcome to bathroom configurator!",
+            "result": {
+              "status": "passed",
+              "duration": 49
+            },
+            "line": 8,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          }
+        ]
+      },
+      {
+        "keyword": "Scenario",
+        "line": 19,
+        "name": "Changing Room Width changes it on Summary page as well",
+        "tags": [],
+        "id": "testing-summary-page-getting-the-right-info-and-displaying-it;changing-room-width-changes-it-on-summary-page-as-well",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I go to questionPage",
+            "result": {
+              "status": "passed",
+              "duration": 2068
+            },
+            "line": 11,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "all data is set to its default values",
+            "result": {
+              "status": "passed",
+              "duration": 0
+            },
+            "line": 12,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I write 3000 inside roomWidth input box",
+            "result": {
+              "status": "passed",
+              "duration": 152
+            },
+            "line": 13,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I click the Next Page hyperlink 4 times",
+            "result": {
+              "status": "passed",
+              "duration": 477
+            },
+            "line": 14,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "I should be on summaryPage page",
+            "result": {
+              "status": "passed",
+              "duration": 1
+            },
+            "line": 15,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I should see roomWidth: 3000 in the list",
+            "result": {
+              "status": "passed",
+              "duration": 35
+            },
+            "line": 16,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          }
+        ]
+      },
+      {
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "Changing Room Width changes it on Summary page as well",
+        "tags": [],
+        "id": "testing-summary-page-getting-the-right-info-and-displaying-it;changing-room-width-changes-it-on-summary-page-as-well",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I go to questionPage",
+            "result": {
+              "status": "passed",
+              "duration": 1099
+            },
+            "line": 11,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "all data is set to its default values",
+            "result": {
+              "status": "passed",
+              "duration": 1
+            },
+            "line": 12,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I write 2500 inside roomWidth input box",
+            "result": {
+              "status": "passed",
+              "duration": 137
+            },
+            "line": 13,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I click the Next Page hyperlink 4 times",
+            "result": {
+              "status": "passed",
+              "duration": 416
+            },
+            "line": 14,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "I should be on summaryPage page",
+            "result": {
+              "status": "passed",
+              "duration": 1
+            },
+            "line": 15,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I should see roomWidth: 2500 in the list",
+            "result": {
+              "status": "passed",
+              "duration": 31
+            },
+            "line": 16,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          }
+        ]
+      },
+      {
+        "keyword": "Scenario",
+        "line": 21,
+        "name": "Changing Room Width changes it on Summary page as well",
+        "tags": [],
+        "id": "testing-summary-page-getting-the-right-info-and-displaying-it;changing-room-width-changes-it-on-summary-page-as-well",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I go to questionPage",
+            "result": {
+              "status": "passed",
+              "duration": 1091
+            },
+            "line": 11,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "all data is set to its default values",
+            "result": {
+              "status": "passed",
+              "duration": 0
+            },
+            "line": 12,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I write 2250 inside roomWidth input box",
+            "result": {
+              "status": "passed",
+              "duration": 130
+            },
+            "line": 13,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I click the Next Page hyperlink 4 times",
+            "result": {
+              "status": "passed",
+              "duration": 427
+            },
+            "line": 14,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "I should be on summaryPage page",
+            "result": {
+              "status": "passed",
+              "duration": 1
+            },
+            "line": 15,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I should see roomWidth: 2250 in the list",
+            "result": {
+              "status": "passed",
+              "duration": 30
+            },
+            "line": 16,
+            "match": {
+              "location": "tests\\MerewayBathrooms\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "testing-summary-page-getting-the-right-info-and-displaying-it"
+  }
+]

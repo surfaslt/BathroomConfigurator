@@ -2,7 +2,7 @@
   <div class="col-12">
     <p>What is the room width and room length of your bathroom?</p>
     <p>Room width: <br>
-      <input (change)="setRoomWidth($event)" id="roomWidthInput" [value]="selectionsMadeService.getRoomWidth()" type="number" name="roomWidth"> mm</p>
+      <input (change)="setRoomWidth($event)" [value]="selectionsMadeService.getRoomWidth()" type="number" name="roomWidth"> mm</p>
     <p>Room length: <br>
       <input (change)="setRoomLength($event)" [value]="selectionsMadeService.getRoomLength()" type="number" name="roomLength"> mm</p>
   </div>

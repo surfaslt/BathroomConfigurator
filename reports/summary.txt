@@ -9,3 +9,27 @@ Feature: Testing summary page getting the right info and displaying it
   Scenario: Changing Room Width changes it on Summary page as well
   [32m√ Given I go to questionPage[39m
   [32m√ And all data is set to its default values[39m
+  [32m√ When I write 3000 inside roomWidth input box[39m
+  [32m√ And I click the Next Page hyperlink 4 times[39m
+  [32m√ Then I should be on summaryPage page[39m
+  [32m√ And I should see roomWidth: 3000 in the list[39m
+
+  Scenario: Changing Room Width changes it on Summary page as well
+  [32m√ Given I go to questionPage[39m
+  [32m√ And all data is set to its default values[39m
+  [32m√ When I write 2500 inside roomWidth input box[39m
+  [32m√ And I click the Next Page hyperlink 4 times[39m
+  [32m√ Then I should be on summaryPage page[39m
+  [32m√ And I should see roomWidth: 2500 in the list[39m
+
+  Scenario: Changing Room Width changes it on Summary page as well
+  [32m√ Given I go to questionPage[39m
+  [32m√ And all data is set to its default values[39m
+  [32m√ When I write 2250 inside roomWidth input box[39m
+  [32m√ And I click the Next Page hyperlink 4 times[39m
+  [32m√ Then I should be on summaryPage page[39m
+  [32m√ And I should see roomWidth: 2250 in the list[39m
+
+4 scenarios ([32m4 passed[39m)
+22 steps ([32m22 passed[39m)
+0m08.014s

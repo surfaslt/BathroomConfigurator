@@ -8,11 +8,10 @@ import {SelectionsMadeService} from "../selections-made.service";
   styleUrls: ['./summary-page.component.css']
 })
 export class SummaryPageComponent implements OnInit {
-
-  public data: object;
+  public data;
   constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
     this.helperService.setProgress(6);
-    this.data = this.selectionsMadeService.getData();
+    this.data = this.generateArray(this.selectionsMadeService.getData());
   }
 
   ngOnInit() {  }
