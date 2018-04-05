@@ -16,10 +16,10 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "name": "I go to splashPage",
+            "name": "user is on splashPage",
             "result": {
               "status": "passed",
-              "duration": 1866
+              "duration": 1943
             },
             "line": 5,
             "match": {
@@ -45,7 +45,7 @@
             "name": "I select the first H1 element",
             "result": {
               "status": "passed",
-              "duration": 1
+              "duration": 2
             },
             "line": 7,
             "match": {
@@ -58,7 +58,7 @@
             "name": "The selected elements text should be Welcome to bathroom configurator!",
             "result": {
               "status": "passed",
-              "duration": 49
+              "duration": 47
             },
             "line": 8,
             "match": {
@@ -77,10 +77,10 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "name": "I go to questionPage",
+            "name": "user is on questionPage",
             "result": {
               "status": "passed",
-              "duration": 2068
+              "duration": 1991
             },
             "line": 11,
             "match": {
@@ -106,7 +106,7 @@
             "name": "I write 3000 inside roomWidth input box",
             "result": {
               "status": "passed",
-              "duration": 152
+              "duration": 147
             },
             "line": 13,
             "match": {
@@ -119,7 +119,7 @@
             "name": "I click the Next Page hyperlink 4 times",
             "result": {
               "status": "passed",
-              "duration": 477
+              "duration": 458
             },
             "line": 14,
             "match": {
@@ -132,7 +132,7 @@
             "name": "I should be on summaryPage page",
             "result": {
               "status": "passed",
-              "duration": 1
+              "duration": 2
             },
             "line": 15,
             "match": {
@@ -164,10 +164,10 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "name": "I go to questionPage",
+            "name": "user is on questionPage",
             "result": {
               "status": "passed",
-              "duration": 1099
+              "duration": 1073
             },
             "line": 11,
             "match": {
@@ -180,7 +180,7 @@
             "name": "all data is set to its default values",
             "result": {
               "status": "passed",
-              "duration": 1
+              "duration": 0
             },
             "line": 12,
             "match": {
@@ -193,7 +193,7 @@
             "name": "I write 2500 inside roomWidth input box",
             "result": {
               "status": "passed",
-              "duration": 137
+              "duration": 127
             },
             "line": 13,
             "match": {
@@ -206,7 +206,7 @@
             "name": "I click the Next Page hyperlink 4 times",
             "result": {
               "status": "passed",
-              "duration": 416
+              "duration": 396
             },
             "line": 14,
             "match": {
@@ -232,7 +232,7 @@
             "name": "I should see roomWidth: 2500 in the list",
             "result": {
               "status": "passed",
-              "duration": 31
+              "duration": 29
             },
             "line": 16,
             "match": {
@@ -251,10 +251,10 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "name": "I go to questionPage",
+            "name": "user is on questionPage",
             "result": {
               "status": "passed",
-              "duration": 1091
+              "duration": 1059
             },
             "line": 11,
             "match": {
@@ -280,7 +280,7 @@
             "name": "I write 2250 inside roomWidth input box",
             "result": {
               "status": "passed",
-              "duration": 130
+              "duration": 127
             },
             "line": 13,
             "match": {
@@ -293,7 +293,7 @@
             "name": "I click the Next Page hyperlink 4 times",
             "result": {
               "status": "passed",
-              "duration": 427
+              "duration": 416
             },
             "line": 14,
             "match": {
@@ -306,7 +306,7 @@
             "name": "I should be on summaryPage page",
             "result": {
               "status": "passed",
-              "duration": 1
+              "duration": 0
             },
             "line": 15,
             "match": {
@@ -319,7 +319,7 @@
             "name": "I should see roomWidth: 2250 in the list",
             "result": {
               "status": "passed",
-              "duration": 30
+              "duration": 31
             },
             "line": 16,
             "match": {

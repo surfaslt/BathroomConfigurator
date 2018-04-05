@@ -11,8 +11,8 @@ let helperService: HelperService = new HelperService();
 
 let target = null;
 
-Given('I go to {string}', (string: string, callback) => {
-  browser.get(string)
+Given('user is on {string}', (url: string, callback) => {
+  browser.get(url)
     .then(callback);
 });
 
