@@ -1,14 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DynamicCanvasComponent } from './dynamic-canvas.component';
 import * as THREE from 'three';
 import { SelectionsMadeService } from "../../selections-made.service";
 import { HelperService } from "../../helper.service";
 
 describe('DynamicCanvasComponent', () => {
-
-  let expected: boolean;
-  let notExpected: boolean;
 
   let component: DynamicCanvasComponent;
   let fixture: ComponentFixture<DynamicCanvasComponent>;
