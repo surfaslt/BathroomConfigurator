@@ -451,23 +451,20 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           case 'cupboard1':
             product = this.createCupboard1();
             this.selectedProductsGroup.add(product);
-            this.selectionsMadeService.addSelectedProduct(product);
             console.log('Selected item was: cupboard1!');
             break;
           case 'cupboard2':
             product = this.createCupboard2();
             this.selectedProductsGroup.add(product);
-            this.selectionsMadeService.addSelectedProduct(product);
             console.log('Selected item was: cupboard2!');
             break;
           case 'cupboard3':
             product = this.createCupboard3();
             this.selectedProductsGroup.add(product);
-            this.selectionsMadeService.addSelectedProduct(product);
             console.log('Selected item was: cupboard3!');
             break;
           default:
-            console.log('FAULT: PRODUCT NOT RECOGNISED!')
+            console.log('FAULT: PRODUCT NOT RECOGNISED!');
             break;
         }
 
