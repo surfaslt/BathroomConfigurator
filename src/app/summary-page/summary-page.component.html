@@ -1,6 +1,7 @@
 <h1>Summary</h1>
 <p>User's choices:</p>
 <li *ngFor="let item of data" class="summaryElement">{{item.key}}: {{item.value}}</li>
-
+<p *ngFor="let product of selectedProductDescriptions">{{product}}</p>
+<button class="btn btn-primary" (click)="printPage()">Print</button>
 
 <app-navigation previousPage="/questionPage">Loading...</app-navigation>
