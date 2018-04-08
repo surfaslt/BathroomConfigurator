@@ -232,7 +232,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.placeholdersGroup = placeholdersGroup;
     this.placeholderMaterial = placeholderMaterial;
     this.selectedProductsGroup = new THREE.Group();
-
+    this.selectedProductsGroup.children = this.selectionsMadeService.getSelectedProducts();
     // Define other parameters
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
@@ -451,16 +451,19 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           case 'cupboard1':
             product = this.createCupboard1();
             this.selectedProductsGroup.add(product);
+            this.selectionsMadeService.addSelectedProduct(product);
             console.log('Selected item was: cupboard1!');
             break;
           case 'cupboard2':
             product = this.createCupboard2();
             this.selectedProductsGroup.add(product);
+            this.selectionsMadeService.addSelectedProduct(product);
             console.log('Selected item was: cupboard2!');
             break;
           case 'cupboard3':
             product = this.createCupboard3();
             this.selectedProductsGroup.add(product);
+            this.selectionsMadeService.addSelectedProduct(product);
             console.log('Selected item was: cupboard3!');
             break;
           default:
@@ -495,7 +498,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         // TODO for some reason bottom right corner does not detect a nearby placeholder on the left.
         // TODO this becomes obvious when you put a 400x400 product just above the corner and try to add smth to the corner
         // TODO update placing position
-        
+
         // Re-position non-small products
         if(this.getWidth(product) > this.getWidth(this.selectedPlaceholder)) {
           if(this.nearbyPlaceholdersToSelected.length >= 1) {

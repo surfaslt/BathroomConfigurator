@@ -48,6 +48,10 @@ export class SelectionsMadeService {
     this.data.tubPosition = tubPosition;
   }
 
+  setSelectedProducts = (products):void => {
+    this.data.selectedProducts = products;
+  }
+
   getData = ():object => {
     return this.data;
   }
@@ -80,4 +84,16 @@ export class SelectionsMadeService {
     return this.data.tubPosition;
   }
 
+  getSelectedProducts = () => {
+    return this.data.selectedProducts;
+  }
+
+  addSelectedProduct = (product):void => {
+    this.data.selectedProducts.push(product);
+  }
+
+  removeSelectedProduct = (product):void => {
+    let prodIndex: number = this.data.selectedProducts.findIndex(product);
+    this.data.selectedProducts = this.data.selectedProducts.splice(prodIndex, 1);
+  }
 }
