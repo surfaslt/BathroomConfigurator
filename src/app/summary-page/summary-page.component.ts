@@ -20,25 +20,24 @@ export class SummaryPageComponent implements OnInit {
   ngOnInit() {  }
 
   // turns object into array
-  generateArray(obj){
+  generateArray(obj):object[] {
     return Object.keys(obj).map((key)=>{ return {key:key, value:obj[key]}});
   }
 
-  printPage = () => {
+  printPage = ():void => {
     window.print();
   }
 
-  generateProductDescriptions = ( arr ) => {
+  generateProductDescriptions = ( arr ):string[] => {
     let descriptions = [];
-    debugger;
     if( arr.length != 0 ) descriptions.push('Products:');
     for( let product of arr ) {
-      descriptions.push('Cupboard:');
-      descriptions.push('Params: width: ' + product.geometry.parameters.width + 'mm '
+      descriptions.push('Cupboard - '
+        + 'Params: width: ' + product.geometry.parameters.width + 'mm '
         + 'height: ' + product.geometry.parameters.height + 'mm, '
         + 'depth: ' + product.geometry.parameters.depth + 'mm, '
-        + 'Mid point: x: ' + product.geometry.parameters.depth + 'mm, '
-        + 'y: ' + product.geometry.parameters.depth + 'mm');
+        + 'Mid point: x: ' + product.position.x + 'mm, '
+        + 'y: ' + product.position.y + 'mm');
     }
     return descriptions;
   }
