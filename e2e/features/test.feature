@@ -12,8 +12,7 @@ Feature: Testing summary page getting the right info and displaying it
     And all data is set to its default values
     When I write <roomWidth> inside roomWidth input box
     And I click the Next Page hyperlink 4 times
-    Then I should be on summaryPage page
-    And I should see roomWidth: <roomWidth> in the list
+    Then I should see roomWidth: <roomWidth> in the list
     Examples:
       | roomWidth |
       | 3000 |

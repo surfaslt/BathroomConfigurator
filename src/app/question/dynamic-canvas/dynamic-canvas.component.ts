@@ -494,7 +494,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
         // TODO for some reason bottom right corner does not detect a nearby placeholder on the left.
         // TODO this becomes obvious when you put a 400x400 product just above the corner and try to add smth to the corner
-        // TODO update placing position
+        // TODO update product positioning algorithm
 
         // Re-position non-small products
         if(this.getWidth(product) > this.getWidth(this.selectedPlaceholder)) {
@@ -514,6 +514,20 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       }
 
         this.updatePlaceholders();
+        break;
+      case 'showSummaryElements':
+        console.log("Switch went to showTubParametersElements!");
+        this.updateCameraPosition(1.25);
+        if (!isNullOrUndefined(this.doors) && !isNullOrUndefined(this.doorsOpening)
+          && !isNullOrUndefined(this.bathTub) && !isNullOrUndefined(this.placeholdersGroup)
+          && !isNullOrUndefined(this.selectedProductsGroup)) {
+          this.doors.material.opacity = this.transparentObjectOpacity;
+          this.doorsOpening.material.opacity = this.transparentObjectOpacity;
+          this.scene.remove(this.placeholdersGroup);
+          for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 1.0; }
+          this.scene.add(this.bathTub);
+        }
+
         break;
       default:
         console.log("Switch went to default!");
