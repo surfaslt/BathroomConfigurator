@@ -6,7 +6,7 @@ import {HelperService} from "../../helper.service";
   templateUrl: './placeholders-page.component.html',
   styleUrls: ['./placeholders-page.component.css']
 })
-export class FirstQuestionPageComponent implements OnInit {
+export class PlaceholdersPageComponent implements OnInit {
 
   @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
 

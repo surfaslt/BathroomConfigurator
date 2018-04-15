@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FirstQuestionPageComponent } from './placeholders-page.component';
+import { PlaceholdersPageComponent } from './placeholders-page.component';
 
 /*
-describe('FirstQuestionPageComponent', () => {
-  let component: FirstQuestionPageComponent;
-  let fixture: ComponentFixture<FirstQuestionPageComponent>;
+describe('placeholdersPage', () => {
+  let component: placeholdersPage;
+  let fixture: ComponentFixture<placeholdersPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FirstQuestionPageComponent ]
+      declarations: [ placeholdersPage ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FirstQuestionPageComponent);
+    fixture = TestBed.createComponent(placeholdersPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
