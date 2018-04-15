@@ -13,7 +13,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   @ViewChild('productsModal') productsModal: ModalDirective;
 
   public currentQuestionNo: number = 1;
-  public totalQuestionNo: number = 4;
+  public totalQuestionNo: number = 5;
   public pageChange: string = '';
   public smallProductImagePaths: string[] = ['cupboard1.png', 'cupboard1.jpg', 'cupboard1.png'];
   public mediumProductImagePaths: string[] = ['cupboard2.png', 'cupboard2.jpg', 'cupboard2.png', 'cupboard2.png'];
@@ -22,7 +22,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   public mediumProductWidthNeeded: number = 500;
   public largeProductWidthNeeded: number = 600;
   private productImagesFolderPath: string;
-  private messagesToDynamicCanvasComponent: string[] = ['showRoomDimensionsElements','showDoorPositionElements','showTubParametersElements','showPlaceholderElements'];
+  private messagesToDynamicCanvasComponent: string[] = ['showRoomDimensionsElements','showDoorPositionElements','showTubParametersElements','showPlaceholderElements','showSummaryElements'];
 
 
   constructor(private selectionsMadeService: SelectionsMadeService, public helperService:HelperService) {
@@ -40,8 +40,6 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
   }
 
   canvasChangeMade = (changedName: string): void => {
-    console.log("maximum available space: ", this.helperService.getSelectedPlaceholderWidth(), this.helperService.getSelectedPlaceholderLength());
-    // TODO pre-populate modal with images of stuff available to be put in the selected placeholder
     this.showProductModal();
   }
 

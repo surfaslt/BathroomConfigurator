@@ -4,6 +4,7 @@
     <app-door-position-page *ngIf="currentQuestionNo == 2" (onChangeMade)="pageChangeMade($event)">Loading...</app-door-position-page>
     <app-tub-parameters-page *ngIf="currentQuestionNo == 3" (onChangeMade)="pageChangeMade($event)">Loading...</app-tub-parameters-page>
     <app-placeholders-page *ngIf="currentQuestionNo == 4" (onChangeMade)="pageChangeMade($event)">Loading...</app-placeholders-page>
+    <app-summary-page *ngIf="currentQuestionNo == 5">Loading...</app-summary-page>
   </div>
   <div class="col- col-sm col-md">
     <app-dynamic-canvas [changeMade]="pageChange" (onChangeMade)="canvasChangeMade($event)"></app-dynamic-canvas>
@@ -19,24 +20,16 @@
     <a class="float-right clickable" (click)="nextQuestion()">Next Page</a>
   </div>
 </div>
-<div class="row" *ngIf="currentQuestionNo > 1 && currentQuestionNo < totalQuestionNo">
+<div class="row" *ngIf="currentQuestionNo > 1">
   <div class="col-6">
     <a class="float-left clickable" (click)="previousQuestion()">Previous Page</a>
   </div>
   <div class="col-6">
-    <a class="float-right clickable" (click)="nextQuestion()">Next Page</a>
-  </div>
-</div>
-<div class="row" *ngIf="currentQuestionNo == totalQuestionNo">
-  <div class="col-6">
-    <a class="float-left clickable" (click)="previousQuestion()">Previous Page</a>
-  </div>
-  <div class="col-6">
-    <a class="float-right" routerLink="/summaryPage">Next Page</a>
+    <a class="float-right clickable" *ngIf="currentQuestionNo < totalQuestionNo" (click)="nextQuestion()">Next Page</a>
   </div>
 </div>
 
-<!-- Modal window that comes up when placeholder is selected -->
+<!-- Modal window that comes up when placeholder is clicked -->
 <div bsModal #productsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">

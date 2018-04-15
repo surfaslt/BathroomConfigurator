@@ -18,7 +18,7 @@ import { ParametersPageComponent } from './question/parameters-page/parameters-p
 import { DoorPositionPageComponent } from './question/door-position-page/door-position-page.component';
 import { TubParametersPageComponent } from './question/tub-parameters-page/tub-parameters-page.component';
 import { PlaceholdersPageComponent } from './question/placeholders-page/placeholders-page.component';
-import { SummaryPageComponent } from './summary-page/summary-page.component';
+import { SummaryPageComponent } from './question/summary-page/summary-page.component';
 
 
 @NgModule({

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {HelperService} from "../helper.service";
-import {SelectionsMadeService} from "../selections-made.service";
+import {HelperService} from "../../helper.service";
+import {SelectionsMadeService} from "../../selections-made.service";
 
 @Component({
   selector: 'app-summary-page',
