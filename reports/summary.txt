@@ -29,4 +29,4 @@ Feature: Testing summary page getting the right info and displaying it
 
 4 scenarios ([32m4 passed[39m)
 19 steps ([32m19 passed[39m)
-0m07.654s
+0m07.905s

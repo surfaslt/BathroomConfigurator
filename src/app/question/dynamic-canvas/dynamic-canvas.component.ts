@@ -1,3 +1,6 @@
+/**
+ * 3D component in this application responsible for creating and showing dynamic 3D view replicating the users choices made
+ */
 import {Component, Input, OnInit, OnChanges, EventEmitter, Output} from '@angular/core';
 import * as THREE from 'three';
 import * as OrbitControls from 'three-orbitcontrols';
@@ -12,8 +15,8 @@ import { HelperService } from "../../helper.service";
 })
 export class DynamicCanvasComponent implements OnInit, OnChanges {
 
-  @Input() changeMade: string;
-  @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>();
+  @Input() changeMade: string; // gets notified about events happened by question component
+  @Output() onChangeMade: EventEmitter<string> = new EventEmitter<string>(); // notifies question component about change made
 
   private renderer: THREE.Object3D;
   private camera: THREE.Object3D;
@@ -22,24 +25,24 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private backWall: THREE.Object3D;
   private leftWall: THREE.Object3D;
   private rightWall: THREE.Object3D;
-  private roomWidthText: THREE.Object3D;
-  private roomLengthText: THREE.Object3D;
+  private roomWidthText: THREE.Object3D; // used in parameters page
+  private roomLengthText: THREE.Object3D; // used in parameters page
   private doors: THREE.Object3D;
   private doorsOpening: THREE.Object3D;
   private bathTub: THREE.Object3D;
   private placeholdersGroup: THREE.Group;
-  private selectedProductsGroup: THREE.Group;
-  private controls: any;
-  private currentPage: string ='';
-  private assetsFolderPath: string;
-  private placeholderMaterial;
-  private raycaster: THREE.Raycaster;
-  private mouse: THREE.Vector2;
-  private intersectables: THREE.Object3D[];
-  private selectedPlaceholder: THREE.Object3D;
-  private nearbyPlaceholdersToSelected: THREE.Object3D[];
-  private showDoorsOpening: boolean = true;
-  private transparentObjectOpacity:number = 0.5;
+  private selectedProductsGroup: THREE.Group; // holds all furniture products selected by the user
+  private controls: any; // allows users to control the view with the mouse
+  private currentPage: string =''; // holds value of current question page
+  private assetsFolderPath: string; // shortcut for assets folder path
+  private placeholderMaterial; // the pattern of placeholder
+  private raycaster: THREE.Raycaster; // used for picking
+  private mouse: THREE.Vector2; // reference of mouse click
+  private intersectables: THREE.Object3D[]; // group of objects that are being tested for intersecting
+  private selectedPlaceholder: THREE.Object3D; // the placeholder that was clicked by the user
+  private nearbyPlaceholdersToSelected: THREE.Object3D[]; // group of nearbly placeholders to the selected placeholder
+  private showDoorsOpening: boolean = true; // toggles display of door opening
+  private transparentObjectOpacity:number = 0.5; // constant for opacity of furniture when its made transparent
 
   constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
     this.assetsFolderPath = helperService.getAssetsFolderPath();
@@ -218,7 +221,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
       transparent: true
     });
 
-    // Assign local variables to globals so the shapes become accessible in other methods
+    // Assign local variables to globals so that the objects become accessible in other methods
     this.renderer = renderer;
     this.camera = camera;
     this.controls = controls;
@@ -243,30 +246,38 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.updateView('tubPositionChanged');
 
     // Add listeners for clickable elements
-    //document.getElementById('myCanvas')
-
     renderer.context.canvas.addEventListener( 'mousedown', this.onDocumentMouseDown, false );
     renderer.context.canvas.addEventListener( 'touchstart', this.onDocumentTouchStart, false );
     this.animate();
   }
 
+  /**
+   * 3D animation loop method
+   * ran automatically
+   */
   animate = ():void => {
     requestAnimationFrame( this.animate );
     this.render();
   }
 
+  /**
+   * rendering loop method
+   * at the moment just keeps periodically changing the opacity of all placeholders to create glowing effect
+   */
   render = ():void => {
     let timer = 0.002 * Date.now();
     for(let placeholder of this.placeholdersGroup.children){
       placeholder.material.opacity = 0.5 + Math.abs(0.5 * Math.sin(timer));
     }
-
     // required if controls.enableDamping or controls.autoRotate are set to true
     //this.controls.update();
-
     this.renderer.render(this.scene, this.camera);
   }
 
+  /**
+   * gets triggered when a change happens in input variable which means that it
+   * catches and deals with events received from parent component (question page component)
+   */
   ngOnChanges() {
     if(this.scene !== undefined) {
       let changeName: string = this.changeMade.indexOf('1') == -1 ? this.changeMade : this.changeMade.slice(0, -1);
@@ -278,12 +289,18 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * makes the initial update of the 3D world after all objects are defined
+   */
   ngAfterViewInit(){
     this.scene.add(this.floor);
-    console.log("DynamicCanvas afterViewInit:", this.currentPage);
     this.updateView(this.currentPage);
   }
 
+  /**
+   * adds/removes/updates objects that are (not) needed for the current page
+   * @param {string} stageName
+   */
   updateView(stageName:string):void {
     console.log("hello from dynamic-canvas switch! stageName: ", stageName);
     switch (stageName) {
@@ -379,42 +396,42 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         console.log('Switch went to tubPositionChanged!');
         switch (this.selectionsMadeService.getTubPosition()) {
           case 'Left Bottom':
-            this.bathTub.rotation.z = THREE.Math.degToRad(0);
+            this.bathTub.rotation.z = THREE.Math.degToRad(0); // reset bathtub rotation to appear in the view vertically
             this.bathTub.position.x = this.floor.position.x - this.getWidth(this.floor) / 2 + this.getWidth(this.bathTub) / 2;
             this.bathTub.position.y = this.floor.position.y - this.getHeight(this.floor) / 2 + this.getHeight(this.bathTub) / 2;
             break;
           case 'Left Top':
-            this.bathTub.rotation.z = THREE.Math.degToRad(0);
+            this.bathTub.rotation.z = THREE.Math.degToRad(0); // reset bathtub rotation to appear in the view vertically
             this.bathTub.position.x = this.floor.position.x - this.getWidth(this.floor) / 2 + this.getWidth(this.bathTub) / 2;
             this.bathTub.position.y = this.floor.position.y + this.getHeight(this.floor) / 2 - this.getHeight(this.bathTub) / 2;
             break;
           case 'Top Left':
-            this.bathTub.rotation.z = THREE.Math.degToRad(90);
+            this.bathTub.rotation.z = THREE.Math.degToRad(90); // reset bathtub rotation to appear in the view horizontally
             this.bathTub.position.x = this.floor.position.x - this.getWidth(this.floor) / 2 + this.getHeight(this.bathTub) / 2;
             this.bathTub.position.y = this.floor.position.y + this.getHeight(this.floor) / 2 - this.getWidth(this.bathTub) / 2;
             break;
           case 'Top Right':
-            this.bathTub.rotation.z = THREE.Math.degToRad(90);
+            this.bathTub.rotation.z = THREE.Math.degToRad(90); // reset bathtub rotation to appear in the view horizontally
             this.bathTub.position.x = this.floor.position.x + this.getWidth(this.floor) / 2 - this.getHeight(this.bathTub) / 2;
             this.bathTub.position.y = this.floor.position.y + this.getHeight(this.floor) / 2 - this.getWidth(this.bathTub) / 2;
             break;
           case 'Right Top':
-            this.bathTub.rotation.z = THREE.Math.degToRad(0);
+            this.bathTub.rotation.z = THREE.Math.degToRad(0); // reset bathtub rotation to appear in the view vertically
             this.bathTub.position.x = this.floor.position.x + this.getWidth(this.floor) / 2 - this.getWidth(this.bathTub) / 2;
             this.bathTub.position.y = this.floor.position.y + this.getHeight(this.floor) / 2 - this.getHeight(this.bathTub) / 2;
             break;
           case 'Right Bottom':
-            this.bathTub.rotation.z = THREE.Math.degToRad(0);
+            this.bathTub.rotation.z = THREE.Math.degToRad(0); // reset bathtub rotation to appear in the view vertically
             this.bathTub.position.x = this.floor.position.x + this.getWidth(this.floor) / 2 - this.getWidth(this.bathTub) / 2;
             this.bathTub.position.y = this.floor.position.y - this.getHeight(this.floor) / 2 + this.getHeight(this.bathTub) / 2;
             break;
           case 'Bottom Right':
-            this.bathTub.rotation.z = THREE.Math.degToRad(90);
+            this.bathTub.rotation.z = THREE.Math.degToRad(90); // reset bathtub rotation to appear in the view horizontally
             this.bathTub.position.x = this.floor.position.x + this.getWidth(this.floor) / 2 - this.getHeight(this.bathTub) / 2;
             this.bathTub.position.y = this.floor.position.y - this.getHeight(this.floor) / 2 + this.getWidth(this.bathTub) / 2;
             break;
           case 'Bottom Left':
-            this.bathTub.rotation.z = THREE.Math.degToRad(90);
+            this.bathTub.rotation.z = THREE.Math.degToRad(90); // reset bathtub rotation to appear in the view horizontally
             this.bathTub.position.x = this.floor.position.x - this.getWidth(this.floor) / 2 + this.getHeight(this.bathTub) / 2;
             this.bathTub.position.y = this.floor.position.y - this.getHeight(this.floor) / 2 + this.getWidth(this.bathTub) / 2;
             break;
@@ -441,7 +458,6 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.scene.add(this.selectedProductsGroup);
 
           this.updatePlaceholders();
-
         }
         break;
       case 'productForPlaceholderSelected':
@@ -470,7 +486,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
 
         // Find out which wall they are ramming against and rotate accordingly
         let scaleUp:number = 0.05;
-        // Scale placeholder up by a bit and check for intersections with other placeholder
+        // Scale placeholder up by a bit and check for intersections with other placeholder to find out if there is
+        // any space nearby that can be borrowed and used to place bigger furniture
         console.log(this.selectedPlaceholder);
         this.selectedPlaceholder.scale.x += scaleUp;
         this.selectedPlaceholder.scale.y += scaleUp;
@@ -492,8 +509,8 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
         this.selectedPlaceholder.scale.x -= scaleUp;
         this.selectedPlaceholder.scale.y -= scaleUp;
 
-        // TODO for some reason bottom right corner does not detect a nearby placeholder on the left.
-        // TODO this becomes obvious when you put a 400x400 product just above the corner and try to add smth to the corner
+        // TODO for some reason bottom right corner does not detect a nearby placeholder on the left. This becomes
+        // TODO obvious when you put a 400x400 product just above the corner and try to add something to the corner
         // TODO update product positioning algorithm
 
         // Re-position non-small products
@@ -527,10 +544,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 1.0; }
           this.scene.add(this.bathTub);
         }
-
         break;
       default:
-        console.log("Switch went to default!");
+        console.log("Fault: switch went to default!");
         break;
     }
   }
