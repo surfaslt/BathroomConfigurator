@@ -551,6 +551,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * recalculates the available space in the room and puts placeholders where furniture product would fit
+   */
   updatePlaceholders = ():void => {
     // reset placeholdersGroup
     this.placeholdersGroup.children = [];
@@ -587,6 +590,14 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.addPlaceholdersHorizontally(yCoord, zCoord, placeholdersWidth, placeholdersLength);
   }
 
+  /**
+   * traverses through the vertical space (y position) in the room from the bottom to the top on x and z positions until
+   * the top part of the floor and puts placeholders where possible
+   * @param {number} xCoord
+   * @param {number} zCoord
+   * @param {number} placeholdersWidth
+   * @param {number} placeholdersLength
+   */
   addPlaceholdersVertically = (xCoord:number, zCoord:number, placeholdersWidth:number, placeholdersLength:number):void => {
     let yCoordFloorBottom = this.floor.position.y - this.getHeight(this.floor) / 2;
     let yCoordFloorTop = this.floor.position.y + this.getHeight(this.floor) / 2;
@@ -634,6 +645,14 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * traverses through the horizontal space (x position) in the room from the left to the right on y and z positions
+   * until the right-most part of the floor and puts placeholders where possible
+   * @param {number} yCoord
+   * @param {number} zCoord
+   * @param {number} placeholdersWidth
+   * @param {number} placeholdersLength
+   */
   addPlaceholdersHorizontally = (yCoord:number, zCoord:number, placeholdersWidth:number, placeholdersLength:number):void => {
     let xCoordFloorLeft = this.floor.position.x - this.getWidth(this.floor) / 2;
     let xCoordFloorRight = this.floor.position.x + this.getWidth(this.floor) / 2;
@@ -685,24 +704,41 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * does bounding box collision detection on two objects
+   * @param {THREE.Object3D} firstObject
+   * @param {THREE.Object3D} secondObject
+   * @returns {boolean}
+   */
   intersects = (firstObject: THREE.Object3D, secondObject: THREE.Object3D):boolean => {
     let firstBB: THREE.Box3 = new THREE.Box3().setFromObject(firstObject);
     let secondBB: THREE.Box3 = new THREE.Box3().setFromObject(secondObject);
     let collision: boolean = firstBB.intersectsBox(secondBB);
     return collision;
-}
+  }
 
+  /**
+   * creates placeholder object by parameters supplied
+   * @param {number} width
+   * @param {number} length
+   * @returns {THREE.Object3D}
+   */
   createPlaceholderObject = ( width: number, length: number):THREE.Object3D => {
     let placeholderGeometry: THREE.Object3D = new THREE.PlaneGeometry(width, length);
     let placeholder:THREE.Object3D = new THREE.Mesh(placeholderGeometry, this.placeholderMaterial);
     return placeholder;
   }
 
+  /**
+   * updates the size of the floor
+   * @param {THREE.Object3D} floor
+   */
   updateFloorSize = ( floor?: THREE.Object3D ):void => {
     floor = floor ? floor : this.floor;
     floor.scale.set( this.selectionsMadeService.getRoomWidth(), this.selectionsMadeService.getRoomLength(), 1 );
   }
 
+  // updates the size of all the walls
   updateWallsSize = ( floor?: THREE.Object3D, backWall?: THREE.Object3D, leftWall?: THREE.Object3D, rightWall?: THREE.Object3D ):void => {
     // check if parameters were supplied
     // if not, use global variables instead
@@ -729,6 +765,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     rightWall.position.y = floor.position.y;
   }
 
+  /**
+   * changes the distance between the camera and the room
+   * @param {number} multiplier
+   */
   updateCameraPosition = (multiplier?:number):void => {
     multiplier = multiplier ? multiplier : 1;
 
@@ -737,6 +777,9 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.controls.update(); // controls need to be updated after every manual camera's transform
   }
 
+  /**
+   * Resizes and repositions the "room width" and the "room length" text elements
+   */
   resizeAndRepositionRoomDimensionTexts = ():void => {
     let fontSize:number = Math.max(this.floor.scale.y, this.floor.scale.x) / 15;
     this.roomWidthText.scale.set(fontSize, fontSize, 1);
@@ -750,6 +793,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.roomLengthText.position.z = this.floor.position.z + 1;
   }
 
+  /**
+   * adds support for touch screens
+   * @param event
+   */
   onDocumentTouchStart = ( event ):void => {
     event.preventDefault();
     event.clientX = event.touches[0].clientX;
@@ -757,6 +804,10 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.onDocumentMouseDown( event );
   }
 
+  /**
+   * catches the event of mouse clicking on 3D canvas and checks if placeholder was clicked
+   * @param event
+   */
   onDocumentMouseDown = ( event ):void => {
     event.preventDefault();
     let canvasBounds = this.renderer.context.canvas.getBoundingClientRect();
@@ -771,6 +822,11 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * checks if clicked placeholder has any nearby placeholders thus calculating the available space for furniture
+   * products to be put in. Notifies question component that placeholder was clicked.
+   * @param {THREE.Object3D} placeholder
+   */
   private placeholderClicked = (placeholder:THREE.Object3D):void => {
     this.selectedPlaceholder = placeholder;
     this.nearbyPlaceholdersToSelected = []; // reset the list of the nearby placeholders
@@ -814,15 +870,26 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     this.onChangeMade.emit('placeholderClicked');
   }
 
+  /**
+   * updates the doors position to appear at the bottom of the room
+   */
   updateDoorsPositionY = ():void => {
     this.doors.position.y = this.floor.position.y - this.floor.scale.y / 2;
     this.doorsOpening.position.y = this.doors.position.y + this.getWidth(this.doorsOpening) / 2;
   }
 
+  /**
+   * updates the size of the tub
+   */
   updateTubSize = ():void => {
     this.bathTub.scale.set( this.selectionsMadeService.getTubWidth(), this.selectionsMadeService.getTubLength(), this.helperService.getTubHeight());
   }
 
+  /**
+   * calculates objects real width by combining both width and scale parameters
+   * @param {THREE.Object3D} object
+   * @returns {number}
+   */
   getWidth = ( object: THREE.Object3D ):number => {
     let scaleWidth:number = object.scale.x;
     let geometryWidth:number = object.geometry.parameters.width;
@@ -830,22 +897,40 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     return scaleWidth * geometryWidth;
   }
 
+  /**
+   * calculates what should be the scale of the object to make it look like it has the specified width
+   * @param {THREE.Object3D} object
+   * @param {number} newWidth
+   */
   setWidth = ( object: THREE.Object3D, newWidth: number):void => {
     object.scale.x = newWidth / object.geometry.parameters.width;
   }
 
+  /**
+   * calculates objects real height by combining both its height and its scale parameters
+   * @param {THREE.Object3D} object
+   * @returns {number}
+   */
   getHeight = ( object: THREE.Object3D ):number => {
-
     let scaleHeight:number = object.scale.y;
     let geometryHeight:number = object.geometry.parameters.height;
-
     return scaleHeight * geometryHeight;
   }
 
+  /**
+   * calculates what should be the scale of the object to make it look like it has the specified height
+   * @param {THREE.Object3D} object
+   * @param {number} newHeight
+   */
   setHeight = ( object: THREE.Object3D, newHeight: number):void => {
     object.scale.y = newHeight / object.geometry.parameters.height;
   }
 
+  /**
+   * calculates objects real depth by combining both its depth and its scale parameters
+   * @param {THREE.Object3D} object
+   * @returns {number}
+   */
   getDepth = ( object: THREE.Object3D ):number => {
     let scaleDepth:number = object.scale.z;
     let geometryDepth:number = object.geometry.parameters.depth;
@@ -853,28 +938,51 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
     return scaleDepth * geometryDepth;
   }
 
+  /**
+   * calculates what should be the scale of the object to make it look like it has the specified depth
+   * @param {THREE.Object3D} object
+   * @param {number} newDepth
+   */
   setDepth = ( object: THREE.Object3D, newDepth: number):void => {
     object.scale.y = newDepth / object.geometry.parameters.depth;
   }
 
+  /**
+   * creates small cupboard furniture object of type "cupboard1"
+   * @returns {THREE.Object3D}
+   */
   createCupboard1 = ():THREE.Object3D => {
     let cupboardGeometry = new THREE.BoxGeometry(400,400,400);
     let cupboardMaterials = this.createCupboardsMaterials('textures/cupboard1.png', 0xB7925E);
     return new THREE.Mesh(cupboardGeometry, cupboardMaterials);
   }
 
+  /**
+   * creates medium cupboard furniture object of type "cupboard2"
+   * @returns {THREE.Object3D}
+   */
   createCupboard2 = ():THREE.Object3D => {
     let cupboardGeometry = new THREE.BoxGeometry(500,400,400);
     let cupboardMaterials = this.createCupboardsMaterials('textures/cupboard2.png', 0xECEBE9);
     return new THREE.Mesh(cupboardGeometry, cupboardMaterials);
   }
 
+  /**
+   * creates large cupboard furniture object of type "cupboard3"
+   * @returns {THREE.Object3D}
+   */
   createCupboard3 = ():THREE.Object3D => {
     let cupboardGeometry = new THREE.BoxGeometry(600,400,400);
     let cupboardMaterials = this.createCupboardsMaterials('textures/cupboard3.png', 0xA47041);
     return new THREE.Mesh(cupboardGeometry, cupboardMaterials);
   }
 
+  /**
+   * a shortcut function for creating materials for cupboards
+   * @param {string} imagePath
+   * @param {THREE.Color} solidColour
+   * @returns {THREE.MeshLambertMaterial[]}
+   */
   createCupboardsMaterials = (imagePath:string, solidColour:THREE.Color) => {
     let cupboardMaterial = new THREE.MeshLambertMaterial({
       color: solidColour,
