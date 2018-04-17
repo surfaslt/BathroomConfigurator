@@ -1,3 +1,6 @@
+/**
+ * this file managed all the library and component insertions along with routing paths
+ */
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-bootstrap';

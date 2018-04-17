@@ -1,17 +1,21 @@
+/**
+ * This service holds all the selections made by the user.
+ * This data is used by components that depend on previous users choices and the summary page component
+ */
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SelectionsMadeService {
 
   private data = {
-    roomWidth: 2000,
-    roomLength: 2000,
-    doorPosition: 'Left',
-    doorOpeningType: 'Inwards',
-    tubWidth: 700,
-    tubLength: 1700,
-    tubPosition: 'Left Bottom',
-    selectedProducts: []
+    roomWidth: 2000, // users bathroom width
+    roomLength: 2000, // users bathroom length
+    doorPosition: 'Left', // users selected door position
+    doorOpeningType: 'Inwards', // users selected door opening type
+    tubWidth: 700, // users selected tub width
+    tubLength: 1700, // users selected tub length
+    tubPosition: 'Left Bottom', // users selected tub position
+    selectedProducts: [] // list of all furniture products selected by the user
   }
 
   constructor() { }

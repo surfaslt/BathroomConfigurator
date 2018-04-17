@@ -1,21 +1,24 @@
+/**
+ * This service holds values that helps system to do message passing.
+ * Its purpose is to store data that needs to be accessed/shared by multiple components.
+ */
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class HelperService {
 
-  // Values that are NOT chosen by user - globally accessible file storage for program to work
-  private currentQuestion: number = 1;
-  private progress: number = 25;
-  private numberOfPages: number = 6;
-  private doorWidth: number = 762;
-  private doorHeight: number = 1981;
-  private tubHeight: number = 510;
-  private placeholderMinWidth: number = 400;
-  private placeholderMinLength: number = 400;
-  private selectedPlaceholderWidth: number = 400;
-  private selectedPlaceholderLength: number = 400;
-  private selectedProduct: string;
-  private assetsFolderPath: string ='../../../assets/';
+  private currentQuestion: number = 1; // used by questionComponent to know which question to show
+  private progress: number = 25; // progressBar uses this to set progress
+  private numberOfPages: number = 6; // total number of pages in the application
+  private doorWidth: number = 762; // constant
+  private doorHeight: number = 1981; // constant
+  private tubHeight: number = 510; // constant
+  private placeholderMinWidth: number = 400; // constant
+  private placeholderMinLength: number = 400; // constant
+  private selectedPlaceholderWidth: number = 400; // used for calculation of available space to put furniture in
+  private selectedPlaceholderLength: number = 400; // used for calculation of available space to put furniture in
+  private selectedProduct: string; // product that has been selected in question component modal and should appear in 3D view
+  private assetsFolderPath: string ='../../../assets/'; // shortcut for assets folder
 
   constructor() { }
 
