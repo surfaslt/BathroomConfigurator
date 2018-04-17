@@ -1,4 +1,4 @@
-//features/step_definitions/my_step_definitions.js.
+// This file defines system tests in features/test.feature file
 import {browser, by, element, protractor} from "protractor";
 import {Given, Then, When} from "cucumber";
 import {SelectionsMadeService} from "../../src/app/selections-made.service";

@@ -1,4 +1,4 @@
-#features/test.feature
+#System tests
 Feature: Testing summary page getting the right info and displaying it
 
   Scenario: Testing if protractor works
