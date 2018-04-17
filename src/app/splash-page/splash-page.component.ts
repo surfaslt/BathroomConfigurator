@@ -1,3 +1,6 @@
+/**
+ * This is the first page in the application which shows general company/product description
+ */
 import { Component, OnInit } from '@angular/core';
 import {HelperService} from "../helper.service";
 
