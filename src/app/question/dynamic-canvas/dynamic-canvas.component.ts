@@ -43,7 +43,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
   private nearbyPlaceholdersToSelected: THREE.Object3D[]; // group of nearbly placeholders to the selected placeholder
   private showDoorsOpening: boolean = true; // toggles display of door opening
   private transparentObjectOpacity:number = 0.5; // constant for opacity of furniture when its made transparent
-
+  private placeholdersClickable:boolean = false;
   constructor(private selectionsMadeService: SelectionsMadeService, private helperService: HelperService) {
     this.assetsFolderPath = helperService.getAssetsFolderPath();
   }
@@ -381,6 +381,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.doors.material.opacity = this.transparentObjectOpacity;
           this.doorsOpening.material.opacity = this.transparentObjectOpacity;
           this.scene.remove(this.placeholdersGroup);
+          this.placeholdersClickable = false;
           this.scene.remove(this.selectedProductsGroup);
           for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 1.0; }
           this.scene.add(this.bathTub);
@@ -456,6 +457,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.scene.add(this.doors);
           this.scene.add(this.placeholdersGroup);
           this.scene.add(this.selectedProductsGroup);
+          this.placeholdersClickable = true;
 
           this.updatePlaceholders();
         }
@@ -541,6 +543,7 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
           this.doors.material.opacity = this.transparentObjectOpacity;
           this.doorsOpening.material.opacity = this.transparentObjectOpacity;
           this.scene.remove(this.placeholdersGroup);
+          this.placeholdersClickable = false;
           for( let bathMaterial of this.bathTub.material ) { bathMaterial.opacity = 1.0; }
           this.scene.add(this.bathTub);
         }
@@ -810,15 +813,17 @@ export class DynamicCanvasComponent implements OnInit, OnChanges {
    */
   onDocumentMouseDown = ( event ):void => {
     event.preventDefault();
-    let canvasBounds = this.renderer.context.canvas.getBoundingClientRect();
-    this.mouse.x = ( ( event.clientX - canvasBounds.left ) / ( canvasBounds.right - canvasBounds.left ) ) * 2 - 1;
-    this.mouse.y = - ( ( event.clientY - canvasBounds.top ) / ( canvasBounds.bottom - canvasBounds.top) ) * 2 + 1;
-    this.raycaster.setFromCamera( this.mouse, this.camera );
-    // check if the thing clicked was a placeholder
-    let intersects = this.raycaster.intersectObjects( this.placeholdersGroup.children );
-    console.log(this.mouse.x, this.mouse.y, intersects);
-    if ( intersects.length > 0 ) {
-      this.placeholderClicked(intersects[ 0 ].object);
+    if( this.placeholdersClickable ) {
+      let canvasBounds = this.renderer.context.canvas.getBoundingClientRect();
+      this.mouse.x = ((event.clientX - canvasBounds.left) / (canvasBounds.right - canvasBounds.left)) * 2 - 1;
+      this.mouse.y = -((event.clientY - canvasBounds.top) / (canvasBounds.bottom - canvasBounds.top)) * 2 + 1;
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+      // check if the thing clicked was a placeholder
+      let intersects = this.raycaster.intersectObjects(this.placeholdersGroup.children);
+      console.log(this.mouse.x, this.mouse.y, intersects);
+      if (intersects.length > 0) {
+        this.placeholderClicked(intersects[0].object);
+      }
     }
   }
 

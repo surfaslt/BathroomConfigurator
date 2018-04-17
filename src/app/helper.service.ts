@@ -7,7 +7,8 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class HelperService {
 
-  private currentQuestion: number = 1; // used by questionComponent to know which question to show
+  private currentQuestionNo: number = 1; // used by questionComponent to know which question to show
+  private totalQuestionNo: number = 5; // Used to toggle "next page" button in the view
   private progress: number = 25; // progressBar uses this to set progress
   private numberOfPages: number = 6; // total number of pages in the application
   private doorWidth: number = 762; // constant
@@ -23,7 +24,11 @@ export class HelperService {
   constructor() { }
 
   setCurrentQuestionNumber = ( questionNo:number ):void => {
-    this.currentQuestion = Number(questionNo);
+    this.currentQuestionNo = Number(questionNo);
+  }
+
+  setTotalQuestionNumber = ( questionNo:number ):void => {
+    this.totalQuestionNo = Number(questionNo);
   }
 
   setProgress = ( pageNo:number ):void => {
@@ -51,7 +56,11 @@ export class HelperService {
   }
 
   getCurrentQuestionNo = ():number => {
-    return this.currentQuestion;
+    return this.currentQuestionNo;
+  }
+
+  getTotalQuestionNo = ():number => {
+    return this.totalQuestionNo;
   }
 
   getProgress = ():number => {

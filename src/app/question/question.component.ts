@@ -33,6 +33,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
 
   constructor(private selectionsMadeService: SelectionsMadeService, public helperService:HelperService) {
     this.currentQuestionNo = helperService.getCurrentQuestionNo();
+    this.totalQuestionNo = this.helperService.getTotalQuestionNo();
     this.productImagesFolderPath = helperService.getAssetsFolderPath() + 'productImages/';
   }
 
@@ -89,6 +90,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
    */
   nextQuestion = (): void => {
     this.currentQuestionNo++;
+    this.helperService.setCurrentQuestionNumber(this.currentQuestionNo);
     this.pageChangeMade(this.messagesToDynamicCanvasComponent[this.currentQuestionNo-1]);
   }
 
@@ -97,6 +99,7 @@ export class QuestionComponent implements AfterViewInit, OnDestroy {
    */
   previousQuestion = ():void => {
     this.currentQuestionNo--;
+    this.helperService.setCurrentQuestionNumber(this.currentQuestionNo);
     this.pageChangeMade(this.messagesToDynamicCanvasComponent[this.currentQuestionNo-1]);
   }
 
